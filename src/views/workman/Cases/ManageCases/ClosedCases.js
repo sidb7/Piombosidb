@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Trash2} from 'react-feather'
+import {CheckCircle, Trash2} from 'react-feather'
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button,
   Modal, ModalHeader, ModalBody, ModalFooter, Toast} from "reactstrap";
 const ClosedCases = (args) => {
@@ -46,7 +46,7 @@ const ClosedCases = (args) => {
               <div className="col-11 ">
             <Accordion flush open={open} toggle={toggle}>
       <AccordionItem>
-      <AccordionHeader  style={{boxShadow:"1px 1px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}> <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
+      <AccordionHeader  style={{boxShadow:"1px 1px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><CheckCircle size={25} color="lightgreen"/>&nbsp; &nbsp; <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
         
         <AccordionBody style={{boxShadow:"1px 1px 8px rgba(128, 128, 128, 0.577)"}} accordionId={e.id}>
           <div className="row " style={{color:"gray"}}>
