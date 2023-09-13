@@ -5,7 +5,7 @@ import { Button, Col, Form, FormGroup, FormText, Input, Label } from "reactstrap
 const CreateCases = () => {
 
   const [check,setCheck] = useState()
-  const [CaseData,SetCaseData] = useState(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+  const [CaseData,SetCaseData] = useState(JSON.parse(localStorage.getItem("WorkmanFirmCaseSet")))
   const [CaseSet,setCase] = useState({
     id:"",
     Title:"",
@@ -34,13 +34,13 @@ const CreateCases = () => {
         if(Array.isArray(prev))
         {
             const List =[...prev,CaseSet]
-            localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+            localStorage.setItem("WorkmanFirmCaseSet",JSON.stringify(List));
            return List; 
         }
         else
         {
             const List =[CaseSet]
-            localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+            localStorage.setItem("WorkmanFirmCaseSet",JSON.stringify(List));
            return List; 
         }
       

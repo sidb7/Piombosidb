@@ -153,7 +153,7 @@ const Login = () => {
                       children
                       onClick={() => {
                         setstakeholderName("WorkMan (Firm)");
-                        setPathFromLogin("/workman-Firm/dashboard");
+                        setPathFromLogin("/workmanFirm/dashboard");
                       }}
                     >
                       WorkMan (Firm)
@@ -179,6 +179,7 @@ const Login = () => {
                       Customer
                     </DropdownItem>
 
+                      
                   </DropdownMenu>
                 </Dropdown>
               </div>

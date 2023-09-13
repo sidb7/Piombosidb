@@ -1,13 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Shield,Bell,DollarSign, Settings } from 'react-feather';
-import {CardTitle,Button,} from "reactstrap";
-
+import {
+    Row,
+    Col,
+    CardTitle,
+    CardText,
+    Form,
+    Label,
+    Input,
+    Button,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+  } from "reactstrap";
 import Security from './AccountSettingscomponents/Security';
 import Notification from './AccountSettingscomponents/Notification';
 import Billing from './AccountSettingscomponents/Billing';
 
 
-export default function CustomerAccountSettings() {
+export default function WorkmanAccountSettings() {
 
     const [Setting, setSetting] =useState("Security")
 

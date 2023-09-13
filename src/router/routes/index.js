@@ -7,7 +7,7 @@ import VerticalLayout from "@src/layouts/VerticalLayout";
 import WorkmanVerticalLayout from "@src/layouts/WorkmanVerticalLayout";
 import HorizontalLayout from "@src/layouts/HorizontalLayout";
 import LayoutWrapper from "@src/@core/layouts/components/layout-wrapper";
-
+const Calendar = lazy(() => import('../../views/apps/calendar'))
 // ** Route Components
 import PublicRoute from "@components/routes/PublicRoute";
 
@@ -20,7 +20,8 @@ import HowItWorks from "../../views/FooterLinks/HowItWorks";
 import Services from "../../views/FooterLinks/Services";
 import SupportLibrary from "../../views/FooterLinks/SupportLibrary";
 
-let work = "workmannn"
+
+
 const getLayout = {
   blank: <BlankLayout />,
   vertical: <VerticalLayout />,
@@ -80,6 +81,10 @@ const Routes = [
     meta: {
       layout: "blank",
     },
+  },
+  {
+    element: <Calendar />,
+    path: '/apps/calendar'
   },
   {
     path: "/piombo/support-library",

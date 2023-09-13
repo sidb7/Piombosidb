@@ -4,13 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { Button, Col, Form, FormGroup, FormText, Input, Label } from "reactstrap";
 const CreateCases = () => {
 
-
+  const [check,setCheck] = useState()
   const [CaseData,SetCaseData] = useState(JSON.parse(localStorage.getItem("WorkmanCaseSet")))
   const [CaseSet,setCase] = useState({
     id:"",
     Title:"",
     Desc:"",
-    Summary:""
+    Summary:"",
+   
   })
   
   const handleChange=(e)=>
@@ -19,7 +20,8 @@ const CreateCases = () => {
   setCase({
     ...CaseSet,
     id:uuidv4(),
-    [e.target.name]: value
+    [e.target.name]: value,
+
   });
   }
 
@@ -44,21 +46,24 @@ const CreateCases = () => {
       
     })
 
-    
+    setCheck("")
     setCase({
 
       id:"",
       Title:"",
       Desc:"",
-      Summary:""
+      Summary:"",
+    
     });
   }
+ 
 
   
   return (
     <div className="container-lg">
-
-<Form onSubmit={e=>handleCaseSubmit(e)}>
+<h3>Create a Case </h3>
+<hr />
+<Form className="mt-2 mb-3" onSubmit={e=>handleCaseSubmit(e)}>
   <FormGroup row>
     <Label
       for="Title"
@@ -74,6 +79,7 @@ const CreateCases = () => {
         value={CaseSet.Title}
         placeholder="Enter case Title"
         type="text"
+        required
       />
     </Col>
   </FormGroup>
@@ -92,6 +98,7 @@ const CreateCases = () => {
         value={CaseSet.Desc}
         placeholder="Enter description for the case"
         type="text"
+        required
       />
     </Col>
   </FormGroup>
@@ -111,6 +118,7 @@ const CreateCases = () => {
         value={CaseSet.Summary}
         name="Summary"
         type="textarea"
+        required
       />
     </Col>
   </FormGroup>
@@ -127,9 +135,7 @@ const CreateCases = () => {
         name="file"
         type="file"
       />
-      <FormText>
-        This is some placeholder block-level help text for the above input. It‘s a bit lighter and easily wraps to a new line.
-      </FormText>
+     
     </Col>
   </FormGroup>
   {/* <FormGroup
@@ -193,6 +199,8 @@ const CreateCases = () => {
           id="checkbox2"
           type="checkbox"
           required
+          onClick={e=>setCheck(!check)}
+          checked = {check}
         />
         {' '}
         <Label check>

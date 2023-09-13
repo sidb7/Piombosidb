@@ -26,7 +26,7 @@ const getLayout = {
   blank: <BlankLayout />,
   vertical: <VerticalLayout />,
   horizontal: <HorizontalLayout />,
-  customerVertical: <CustomerVerticalLayout />,
+  customerVertical: <CustomerVerticalLayout  site="customer" />,
 };
 
 // ** Document title

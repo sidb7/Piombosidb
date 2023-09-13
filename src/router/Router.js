@@ -8,6 +8,7 @@ import { getSupplierRoutes } from "./routes/supplier";
 import { getCustomerRoutes } from "./routes/customer";
 // ** Hooks Imports
 import { useLayout } from "@hooks/useLayout";
+import { getWorkmanFirmRoutes } from "./routes/workmanFirm";
 
 const Router = () => {
   // ** Hooks
@@ -17,9 +18,10 @@ const Router = () => {
   const workmanRoutes = getWorkmanRoutes(layout);
   const supplierRoutes = getSupplierRoutes(layout);
   const customerRoutes = getCustomerRoutes(layout);
+  const workmanFirmRoutes = getWorkmanFirmRoutes(layout);
   // const allRoutes = getRoutes(layout);
 
-  const routes = useRoutes([...allRoutes, ...workmanRoutes,...supplierRoutes,...customerRoutes]);
+  const routes = useRoutes([...allRoutes, ...workmanRoutes,...supplierRoutes,...customerRoutes,...workmanFirmRoutes]);
 
   return routes;
 };
