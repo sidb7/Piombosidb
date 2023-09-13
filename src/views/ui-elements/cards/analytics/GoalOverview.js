@@ -11,12 +11,12 @@ import { Card, CardHeader, CardTitle, CardBody, CardText, Row, Col } from 'react
 
 const GoalOverview = props => {
   // ** State
-  const [data, setData] = useState(null)
+  const [data, setData] = useState()
 
-  useEffect(() => {
-    axios.get('/card/card-analytics/goal-overview').then(res => setData(res.data))
-    return () => setData(null)
-  }, [])
+  // useEffect(() => {
+  //   axios.get('/card/card-analytics/goal-overview').then(res => setData(res.data))
+  //   return () => setData(null)
+  // }, [])
 
   const options = {
       chart: {
@@ -93,11 +93,11 @@ const GoalOverview = props => {
       <Row className='border-top text-center mx-0'>
         <Col xs='6' className='border-end py-1'>
           <CardText className='text-muted mb-0'>Completed</CardText>
-          <h3 className='fw-bolder mb-0'>{data.completed}</h3>
+          <h3 className='fw-bolder mb-0'>{52}</h3>
         </Col>
         <Col xs='6' className='py-1'>
           <CardText className='text-muted mb-0'>In Progress</CardText>
-          <h3 className='fw-bolder mb-0'>{data.inProgress}</h3>
+          <h3 className='fw-bolder mb-0'>{13}</h3>
         </Col>
       </Row>
     </Card>

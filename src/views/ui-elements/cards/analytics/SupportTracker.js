@@ -24,10 +24,10 @@ const SupportTracker = props => {
   // ** State
   const [data, setData] = useState(null)
 
-  useEffect(() => {
-    axios.get('/card/card-analytics/support-tracker').then(res => setData(res.data))
-    return () => setData(null)
-  }, [])
+  // useEffect(() => {
+  //   axios.get('/card/card-analytics/support-tracker').then(res => setData(res.data))
+  //   return () => setData(null)
+  // }, [])
 
   const options = {
       plotOptions: {
@@ -78,27 +78,27 @@ const SupportTracker = props => {
     },
     series = [83]
 
-  return data !== null ? (
+  return  (
     <Card>
       <CardHeader className='pb-0'>
-        <CardTitle tag='h4'>{data.title}</CardTitle>
+        <CardTitle tag='h4'>Support Tracker</CardTitle>
         <UncontrolledDropdown className='chart-dropdown'>
-          <DropdownToggle color='' className='bg-transparent btn-sm border-0 p-50'>
+          <DropdownToggle color=''   className='bg-transparent btn-sm border-0 p-50'>
             Last 7 days
           </DropdownToggle>
-          <DropdownMenu end>
-            {data.last_days.map(item => (
-              <DropdownItem className='w-100' key={item}>
-                {item}
+           <DropdownMenu end>
+            
+              <DropdownItem className='w-100' >
+                last 28 days
               </DropdownItem>
-            ))}
-          </DropdownMenu>
+            
+          </DropdownMenu> 
         </UncontrolledDropdown>
       </CardHeader>
       <CardBody>
         <Row>
           <Col sm='2' className='d-flex flex-column flex-wrap text-center'>
-            <h1 className='font-large-2 fw-bolder mt-2 mb-0'>{data.totalTicket}</h1>
+            <h1 className='font-large-2 fw-bolder mt-2 mb-0'>{122}</h1>
             <CardText>Tickets</CardText>
           </Col>
           <Col sm='10' className='d-flex justify-content-center'>
@@ -108,19 +108,19 @@ const SupportTracker = props => {
         <div className='d-flex justify-content-between mt-1'>
           <div className='text-center'>
             <CardText className='mb-50'>New Tickets</CardText>
-            <span className='font-large-1 fw-bold'>{data.newTicket}</span>
+            <span className='font-large-1 fw-bold'>{44}</span>
           </div>
           <div className='text-center'>
             <CardText className='mb-50'>Open Tickets</CardText>
-            <span className='font-large-1 fw-bold'>{data.openTicket}</span>
+            <span className='font-large-1 fw-bold'>{66}</span>
           </div>
           <div className='text-center'>
             <CardText className='mb-50'>Response Time</CardText>
-            <span className='font-large-1 fw-bold'>{data.responseTime}d</span>
+            <span className='font-large-1 fw-bold'>{1}d</span>
           </div>
         </div>
       </CardBody>
     </Card>
-  ) : null
+  ) 
 }
 export default SupportTracker
