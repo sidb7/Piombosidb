@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {Trash2,CheckSquare} from 'react-feather'
+import { MdOutlinePendingActions } from "react-icons/md";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button,
    Modal, ModalHeader, ModalBody, ModalFooter, Toast} from "reactstrap";
 
@@ -105,7 +106,7 @@ const OpenCases = (args) => {
              <div className="col-11  ">
             <Accordion flush open={open} toggle={toggle}>
       <AccordionItem>
-        <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}> <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
+        <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><MdOutlinePendingActions size={25} color="orange"/>&nbsp; &nbsp; <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
       
         <AccordionBody style={{boxShadow:"1px 1px 8px rgba(128, 128, 128, 0.577)"}} accordionId={e.id}>
         <div className="row " style={{color:"gray"}}>
@@ -120,7 +121,7 @@ const OpenCases = (args) => {
       </div> 
 
             <div className="col-1  d-flex justify-content-center align-items-center">
-            <Button onClick={toggle1} className="d-flex justify-content-center align-items-center"  color="" ><CheckSquare size={20}/></Button> 
+            <Button onClick={toggle1} className="d-flex justify-content-center align-items-center"  color="" ><CheckSquare/></Button> 
             </div>
 
             </div >
