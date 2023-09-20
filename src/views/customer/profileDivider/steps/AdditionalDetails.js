@@ -1,0 +1,615 @@
+// ** React Imports
+import { Fragment } from "react";
+
+// ** Third Party Components
+import Select from "react-select";
+import { useState } from "react";
+
+import {
+  ArrowLeft,
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  X,
+  Plus,
+} from "react-feather";
+
+// ** Utils
+import { selectThemeColors } from "@utils";
+
+// ** Custom Components
+import Repeater from "@components/repeater";
+
+// ** Reactstrap Imports
+import {
+  Label,
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  Card,
+  CardTitle,
+  CardHeader,
+  CardBody,
+} from "reactstrap";
+
+// ** Styles
+import "@styles/react/libs/react-select/_react-select.scss";
+
+const AdditionalDetails = ({ stepper, type }) => {
+  const [cin, setCin] = useState(false);
+  const [msme, setMsme] = useState(false);
+  const [pf, setPf] = useState(false);
+  const [esic, setEsic] = useState(false);
+
+  const [aadharNumber, setAadharNumber] = useState("");
+  //handle aadhar number
+  const handleAadharFormat = (val) => {
+    setAadharNumber(val);
+    let i = 4;
+    while (i < val.length) {
+      if (val[i] != "-") {
+        setAadharNumber(val.slice(0, i).concat("-", val.slice(i, val.length)));
+      }
+      i += 5;
+    }
+  };
+
+  const [showReg, setShowReg] = useState(true);
+  const [showBank, setShowBank] = useState(true);
+  const [showPin, setShowPin] = useState(true);
+
+  const [count, setCount] = useState(1);
+
+  const increaseCount = () => {
+    setCount(count + 1);
+  };
+
+  const deleteForm = (e) => {
+    e.preventDefault();
+    e.target.closest("form").remove();
+  };
+
+  return (
+    <div>
+      <Card>
+        <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
+          <Row>
+            <Col xs="10" md="11">
+              <div className="content-header">
+                <h3 className="mb-0">Registration Details</h3>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" md="1">
+              {showReg ? (
+                <ChevronUp
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowReg(!showReg)}
+                ></ChevronUp>
+              ) : (
+                <ChevronDown
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowReg(!showReg)}
+                ></ChevronDown>
+              )}
+            </Col>
+          </Row>
+        </CardHeader>
+        {showReg ? (
+          <CardBody>
+            <Form onSubmit={(e) => e.preventDefault()}>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-mobile">
+                    Pan Card Number
+                  </Label>
+                  <Input
+                    type="Number"
+                    id="register-mobile"
+                    placeholder="XXXXXXXX"
+                    // onChange={(e) => handleEmail(e.target.value)}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label
+                    className="form-label"
+                    for="signup-details-pan-card-copy"
+                  >
+                    PAN Card
+                  </Label>
+                  <Input
+                    type="file"
+                    id="signup-details-pan-card-copy"
+                    placeholder=""
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-mobile">
+                    GST Registration Number
+                  </Label>
+                  <Input
+                    type="Number"
+                    id="register-mobile"
+                    placeholder="XXXXXXX"
+                    // onChange={(e) => handleEmail(e.target.value)}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label
+                    className="form-label"
+                    for="signup-details-GST-card-copy"
+                  >
+                    GST certificate
+                  </Label>
+                  <Input
+                    type="file"
+                    id="signup-details-GST-card-copy"
+                    placeholder=""
+                  />
+                </Col>
+              </Row>
+              {cin ? (
+                <Row>
+                  <Col xs="12" sm="4" md="2" className="mb-1">
+                    <Label className="form-label" for={`city-${type}`}>
+                      CIN Registration
+                    </Label>
+                    <div
+                      className="demo-inline-spacing"
+                      style={{ marginTop: "-1rem" }}
+                    >
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex0-active"
+                          name="ex0"
+                          checked={cin}
+                          onClick={() => {
+                            if (!cin) {
+                              setCin(!cin);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex0-active">
+                          Yes
+                        </Label>
+                      </div>
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex0-active"
+                          name="ex0"
+                          checked={!cin}
+                          onClick={() => {
+                            if (cin) {
+                              setCin(!cin);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex0-active">
+                          No
+                        </Label>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col xs="12" md="4" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                      CIN
+                    </Label>
+                    <Input
+                      type="Number"
+                      id="register-mobile"
+                      placeholder="9875461258"
+                    />
+                  </Col>
+                  <Col xs="12" md="6" className="mb-1">
+                    <Label
+                      className="form-label"
+                      for="signup-details-photo-copy"
+                    >
+                      CIN Document
+                    </Label>
+                    <Input
+                      type="file"
+                      id="signup-details-photo-copy"
+                      placeholder=""
+                    />
+                  </Col>
+                </Row>
+              ) : (
+                <Row>
+                  <Col xs="12" className="mb-1">
+                    <Label className="form-label" for={`city-${type}`}>
+                      CIN Registration
+                    </Label>
+                    <div
+                      className="demo-inline-spacing"
+                      style={{ marginTop: "-1rem" }}
+                    >
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex0-active"
+                          name="ex0"
+                          checked={cin}
+                          onClick={() => {
+                            if (!cin) {
+                              setCin(!cin);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex0-active">
+                          Yes
+                        </Label>
+                      </div>
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex0-active"
+                          name="ex0"
+                          checked={!cin}
+                          onClick={() => {
+                            if (cin) {
+                              setCin(!cin);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex0-active">
+                          No
+                        </Label>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              )}
+              {msme ? (
+                <Row>
+                  <Col xs="12" sm="4" md="2" className="mb-1">
+                    <Label className="form-label" for={`city-${type}`}>
+                      MSME Registration
+                    </Label>
+                    <div
+                      className="demo-inline-spacing"
+                      style={{ marginTop: "-1rem" }}
+                    >
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex1-active"
+                          name="ex1"
+                          checked={msme}
+                          onClick={() => {
+                            if (!msme) {
+                              setMsme(!msme);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex1-active">
+                          Yes
+                        </Label>
+                      </div>
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex1-active"
+                          name="ex1"
+                          checked={!msme}
+                          onClick={() => {
+                            if (msme) {
+                              setMsme(!msme);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex1-active">
+                          No
+                        </Label>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col xs="12" md="4" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                      MSME
+                    </Label>
+                    <Input
+                      type="Number"
+                      id="register-mobile"
+                      placeholder="9875461258"
+                    />
+                  </Col>
+                  <Col xs="12" md="6" className="mb-1">
+                    <Label
+                      className="form-label"
+                      for="signup-details-photo-copy"
+                    >
+                      MSME Document
+                    </Label>
+                    <Input
+                      type="file"
+                      id="signup-details-photo-copy"
+                      placeholder=""
+                    />
+                  </Col>
+                </Row>
+              ) : (
+                <Row>
+                  <Col xs="12" className="mb-1">
+                    <Label className="form-label" for={`city-${type}`}>
+                      MSME Registration
+                    </Label>
+                    <div
+                      className="demo-inline-spacing"
+                      style={{ marginTop: "-1rem" }}
+                    >
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex1-active"
+                          name="ex1"
+                          checked={msme}
+                          onClick={() => {
+                            if (!msme) {
+                              setMsme(!msme);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex1-active">
+                          Yes
+                        </Label>
+                      </div>
+                      <div className="form-check">
+                        <Input
+                          type="radio"
+                          id="ex1-active"
+                          name="ex1"
+                          checked={!msme}
+                          onClick={() => {
+                            if (msme) {
+                              setMsme(!msme);
+                            }
+                          }}
+                        />
+                        <Label className="form-label" for="ex1-active">
+                          No
+                        </Label>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+              )}
+            </Form>
+          </CardBody>
+        ) : (
+          <p />
+        )}
+      </Card>
+      <Card>
+        <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
+          <Row>
+            <Col xs="10" md="11">
+              <div className="content-header">
+                <h3 className="mb-0">Bank Details</h3>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" md="1">
+              {showBank ? (
+                <ChevronUp
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowBank(!showBank)}
+                ></ChevronUp>
+              ) : (
+                <ChevronDown
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowBank(!showBank)}
+                ></ChevronDown>
+              )}
+            </Col>
+          </Row>
+        </CardHeader>
+        {showBank ? (
+          <CardBody>
+            <Form onSubmit={(e) => e.preventDefault()}>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-name">
+                    Bank Name
+                  </Label>
+                  <Input
+                    type="text"
+                    id="register-name"
+                    placeholder="bank name"
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-name">
+                    Branch Detail
+                  </Label>
+                  <Input
+                    type="text"
+                    id="register-name"
+                    placeholder="branch name"
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-email">
+                    Account number
+                  </Label>
+                  <Input
+                    type="number"
+                    id="register-email"
+                    placeholder="XXXXXXX"
+                    // onChange={(e) => handleEmail(e.target.value)}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-email">
+                    IFSC Code
+                  </Label>
+                  <Input
+                    type="text"
+                    id="register-email"
+                    placeholder="XXXXXX"
+                    // onChange={(e) => handleEmail(e.target.value)}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-name">
+                    MICR Code
+                  </Label>
+                  <Input
+                    type="text"
+                    id="register-name"
+                    placeholder="XXXXXXXXXXXX"
+                    value={aadharNumber}
+                    onChange={(e) => handleAadharFormat(e.target.value)}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="signup-details-photo-copy">
+                    Cancelled Cheque
+                  </Label>
+                  <Input
+                    type="file"
+                    id="signup-details-photo-copy"
+                    placeholder=""
+                  />
+                </Col>
+              </Row>
+            </Form>
+          </CardBody>
+        ) : (
+          <p />
+        )}
+      </Card>
+      <Card>
+        <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
+          <Row>
+            <Col xs="10" md="11">
+              <div className="content-header">
+                <h3 className="mb-0">Service Pincodes</h3>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" md="1">
+              {showPin ? (
+                <ChevronUp
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowPin(!showPin)}
+                ></ChevronUp>
+              ) : (
+                <ChevronDown
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowPin(!showPin)}
+                ></ChevronDown>
+              )}
+            </Col>
+          </Row>
+        </CardHeader>
+        {showPin ? (
+          <CardBody>
+            <Repeater count={count}>
+              {(i) => (
+                <Form key={i}>
+                  <Row className="justify-content-between align-items-center">
+                    <Col md={5} className="mb-md-0 mb-1">
+                      <Label className="form-label" for={`quantity-${i}`}>
+                        Pincode
+                      </Label>
+                      <Input
+                        type="number"
+                        id={`quantity-${i}`}
+                        placeholder="400058"
+                      />
+                    </Col>
+                    <Col md={5} className="mb-md-0 mb-1">
+                      <Label className="form-label" for={`item-name-${i}`}>
+                        Area/Locality
+                      </Label>
+                      <Input
+                        type="text"
+                        id={`item-area-${i}`}
+                        placeholder="Munshi Nagar"
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        color="danger"
+                        className="text-nowrap px-1 mt-2"
+                        onClick={deleteForm}
+                        outline
+                      >
+                        <X size={14} className="me-50" />
+                        <span>Delete</span>
+                      </Button>
+                    </Col>
+                    <Col sm={12}>
+                      <hr />
+                    </Col>
+                  </Row>
+                </Form>
+              )}
+            </Repeater>
+            <Button
+              className="btn-icon"
+              color="primary"
+              onClick={increaseCount}
+            >
+              <Plus size={14} />
+              <span className="align-middle ms-25">Add New</span>
+            </Button>
+          </CardBody>
+        ) : (
+          <p />
+        )}
+      </Card>
+      <Row>
+        <Col xs="12">
+          <div className="d-flex justify-content-between">
+            <Button
+              color="primary"
+              className="btn-prev"
+              onClick={() => stepper.previous()}
+            >
+              <ArrowLeft
+                size={14}
+                className="align-middle me-sm-25 me-0"
+              ></ArrowLeft>
+              <span className="align-middle d-sm-inline-block d-none">
+                Previous
+              </span>
+            </Button>
+            <Button
+              color="primary"
+              className="btn-next"
+              onClick={() => stepper.next()}
+            >
+              <span className="align-middle d-sm-inline-block d-none">
+                Next
+              </span>
+              <ArrowRight
+                size={14}
+                className="align-middle ms-sm-25 ms-0"
+              ></ArrowRight>
+            </Button>
+          </div>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
+export default AdditionalDetails;

@@ -24,7 +24,7 @@ const getLayout = {
   blank: <BlankLayout />,
   vertical: <VerticalLayout />,
   horizontal: <HorizontalLayout />,
-  workmanVertical: <WorkmanVerticalLayout site="workman" />,
+  workmanVertical: <WorkmanVerticalLayout site="workman-Individual" />,
 };
 
 // ** Document title
@@ -66,7 +66,7 @@ const Routes = [
   //     element: <Navigate replace to={DefaultRoute} />,
   //   },
   {
-    path: "/workman/dashboard",
+    path: "/workman-Individual/dashboard",
     element: <WorkmanDashboard />,
     meta: {
       layout: "workmanVertical",
@@ -74,14 +74,14 @@ const Routes = [
   },
   
   {
-    path: "/workman/ProfileEdit",
+    path: "/workman-Individual/Profile-Completion",
     element: <WorkmanProfileCompletion />,
     meta: {
-      layout: "workmanVertical",
+      layout: "blank",
     },
   },
   {
-    path: "/workman/manageSubAccounts",
+    path: "/workman-Individual/manageSubAccounts",
     element: <WorkmanSubaccount />,
     meta: {
       layout: "workmanVertical",
@@ -90,7 +90,7 @@ const Routes = [
  
 
   {
-    path: "/workman/browseCases",
+    path: "/workman-Individual/browseCases",
     element: <ManageCases />,
     meta: {
       layout: "workmanVertical",
@@ -98,14 +98,14 @@ const Routes = [
   },
   
   {
-    path: "/workman/cases",
+    path: "/workman-Individual/cases",
     element: <CreateCases />,
     meta: {
       layout: "workmanVertical",
     },
   },
   {
-    path: "/workman/manageCases",
+    path: "/workman-Individual/manageCases",
     element: <ManageCases />,
     meta: {
       layout: "workmanVertical",
@@ -113,7 +113,7 @@ const Routes = [
   },
   
   {
-    path: "/workman/lms/about",
+    path: "/workman-Individual/lms/about",
     element: <WorkmanLMS />,
     meta: {
       layout: "workmanVertical",
@@ -123,7 +123,7 @@ const Routes = [
   
  
   {
-    path: "/workman/account-settings",
+    path: "/workman-Individual/account-settings",
     element: <AccountSettings />,
     meta: {
       layout: "workmanVertical",
@@ -131,7 +131,7 @@ const Routes = [
   },
 
   {
-    path: "/workman/lms/current-grade",
+    path: "/workman-Individual/lms/current-grade",
     element: <CurrentGrade />,
     meta: {
       layout: "workmanVertical",
@@ -139,14 +139,14 @@ const Routes = [
   },
 
   {
-    path: "/workman/lms/next-level",
+    path: "/workman-Individual/lms/next-level",
     element: <NextLevel />,
     meta: {
       layout: "workmanVertical",
     },
   },
   {
-    path: "/workman/lms/upcoming-events",
+    path: "/workman-Individual/lms/upcoming-events",
     element: <UpcomingEvents />,
     meta: {
       layout: "workmanVertical",

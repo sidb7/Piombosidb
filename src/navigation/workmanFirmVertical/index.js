@@ -16,7 +16,7 @@ import {
       id: "Dashboard",
       title: "Dashboard",
       icon: <Home size={20} />,
-      navLink: "/workmanFirm/dashboard",
+      navLink: "/workman-Firm/dashboard",
     },
     {
       id: "workmanFirmProfile",
@@ -28,13 +28,13 @@ import {
           id: "workmanFirmProfileCompletion",
           title: "Edit Profile",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/ProfileEdit",
+          navLink: "/workman-Firm/ProfileEdit",
         },
         {
           id: "workmanFirmManageSubaccounts",
           title: "Sub Accounts",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/manageSubAccounts",
+          navLink: "/workman-Firm/manageSubAccounts",
         },
       ],
     },
@@ -49,7 +49,7 @@ import {
               id: "WorkmanFirmCreateCase",
               title: "Create",
               icon: <CornerDownRight size={20} />,
-              navLink: "/workmanFirm/cases",
+              navLink: "/workman-Firm/cases",
         },
             
          
@@ -58,7 +58,7 @@ import {
           id: "WorkmanFirmManageCase",
           title: "Manage",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/manageCases",
+          navLink: "/workman-Firm/manageCases",
         },
       ],
     },
@@ -66,7 +66,7 @@ import {
       id: "WorkmanFirmBrowseCases",
       title: "Browse Cases",
       icon: <Globe size={20} />,
-      navLink: "/workmanFirm/browseCases",
+      navLink: "/workman-Firm/browseCases",
     },
 
     {
@@ -80,7 +80,7 @@ import {
               id: "WorkmanFirmAddWorkmen",
               title: "Add workmen",
               icon: <CornerDownRight size={20} />,
-              navLink: "/workmanFirm/add-workmen",
+              navLink: "/workman-Firm/add-workmen",
         },
             
          
@@ -89,7 +89,7 @@ import {
           id: "WorkmanFirmManageWorkmen",
           title: "Manage workmen",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/manage-workmen",
+          navLink: "/workman-Firm/manage-workmen",
         },
       ],
     },
@@ -105,7 +105,7 @@ import {
               id: "WorkmanFirmCreateCase",
               title: "What is LMS ?",
               icon: <CornerDownRight size={20} />,
-              navLink: "/workmanFirm/lms/about",
+              navLink: "/workman-Firm/lms/about",
         },
             
          
@@ -114,21 +114,21 @@ import {
           id: "WorkmanFirmCurrentGrade",
           title: "Current Grade",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/lms/current-grade",
+          navLink: "/workman-Firm/lms/current-grade",
         },
   
         {
           id: "WorkmanFirmManageCase",
           title: "Next Level",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/lms/next-level",
+          navLink: "/workman-Firm/lms/next-level",
         },
   
         {
           id: "WorkmanFirmManageCase",
           title: "Upcoming events",
           icon: <CornerDownRight size={20} />,
-          navLink: "/workmanFirm/lms/upcoming-events",
+          navLink: "/workman-Firm/lms/upcoming-events",
         },
       ],
     },

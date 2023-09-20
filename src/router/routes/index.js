@@ -13,12 +13,16 @@ import PublicRoute from "@components/routes/PublicRoute";
 
 // ** Utils
 import { isObjEmpty } from "@utils";
-import SupplierVerticalLayout from "../../layouts/SupplierVerticalLayout";
-import CustomerVerticalLayout from "../../layouts/CustomerVericalLayout";
+
 import AboutUs from "../../views/FooterLinks/AboutUs";
 import HowItWorks from "../../views/FooterLinks/HowItWorks";
 import Services from "../../views/FooterLinks/Services";
 import SupportLibrary from "../../views/FooterLinks/SupportLibrary";
+import LoginBasic from "../../views/common/LoginBasic";
+import RegisterBasic from "../../views/common/RegisterBasic";
+import LoginWorkman from "../../views/common/workmanLogin/LoginWorkman";
+import RegisterWorkman from "../../views/common/workmanLogin/RegisterWorkman";
+import LandingPage from "../../views/LandingPage";
 
 
 
@@ -27,15 +31,15 @@ const getLayout = {
   vertical: <VerticalLayout />,
   horizontal: <HorizontalLayout />,
   workmanVertical: <WorkmanVerticalLayout  />,
-  supplierVertical:<SupplierVerticalLayout/>,
-  customerVertical:<CustomerVerticalLayout/>
+  // supplierVertical:<SupplierVerticalLayout/>,
+  // customerVertical:<CustomerVerticalLayout/>
 };
 
 // ** Document title
 const TemplateTitle = "%s - Vuexy React Admin Template";
 
 // ** Default Route
-const DefaultRoute = "/register";
+const DefaultRoute = "/landing-page";
 
 const Login = lazy(() => import("../../views/Login"));
 const Register = lazy(() => import("../../views/Register"));
@@ -46,6 +50,14 @@ const Routes = [
     path: "/",
     index: true,
     element: <Navigate replace to={DefaultRoute} />,
+  },
+  {
+    path: "/landing-page",
+
+    element: <LandingPage/>,
+    meta: {
+      layout: "blank",
+    },
   },
   {
     path: "/login",
@@ -83,8 +95,33 @@ const Routes = [
     },
   },
   {
-    element: <Calendar />,
-    path: '/apps/calendar'
+    path: "/loginbasic",
+    element: <LoginBasic />,
+    meta: {
+      layout: "blank",
+    },
+  },
+ 
+  {
+    path: "/registerbasic",
+    element: <RegisterBasic />,
+    meta: {
+      layout: "blank",
+    },
+  },
+  {
+    path: "/login-workman",
+    element: <LoginWorkman />,
+    meta: {
+      layout: "blank",
+    },
+  },
+  {
+    path: "/register-workman",
+    element: <RegisterWorkman />,
+    meta: {
+      layout: "blank",
+    },
   },
   {
     path: "/piombo/support-library",

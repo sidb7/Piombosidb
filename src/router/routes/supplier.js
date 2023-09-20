@@ -21,6 +21,7 @@ import SupplierAccountSettings from "../../views/supplier/SupplierAccountSetting
 
 import ManageEnquiresOpen from "../../views/supplier/ManageEnquries/ManageEnquiresOpen";
 import ManageEnquiresClosed from "../../views/supplier/ManageEnquries/ManageEnquiresClosed";
+import SupplierProfileCompletion from "../../views/supplier/SupplierProfileCompletion";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -65,6 +66,13 @@ const Routes = [
     element: <SupplierProfileEdit />,
     meta: {
       layout: "supplierVertical",
+    },
+  },
+  {
+    path: "/supplier/Profile-Completion",
+    element: <SupplierProfileCompletion site="supplier"/>,
+    meta: {
+      layout: "blank",
     },
   },
   {

@@ -21,6 +21,7 @@ import CreateCases from "../../views/customer/Cases/CreateCases";
 import CustomerVerticalLayout from "../../layouts/CustomerVericalLayout";
 import CustomerAccountSettings from "../../views/customer/CustomerAccountSettings";
 import SupplierDashboard from "../../views/supplier/SupplierDashboard";
+import CustomerProfileCompletion from "../../views/customer/CustomerProfileCompletion";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -63,6 +64,14 @@ const Routes = [
     element: <ProfileEdit/>,
     meta: {
       layout: "customerVertical",
+    },
+  },
+
+  {
+    path: "/customer/Profile-Completion",
+    element: <CustomerProfileCompletion site="customer"/>,
+    meta: {
+      layout: "blank",
     },
   },
   

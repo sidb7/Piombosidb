@@ -27,7 +27,7 @@ const getLayout = {
   blank: <BlankLayout />,
   vertical: <VerticalLayout />,
   horizontal: <HorizontalLayout />,
-  workmanFirmVertical: <WorkmanFirmVerticalLayout site="workmanFirm" />,
+  workmanFirmVertical: <WorkmanFirmVerticalLayout site="workman-Firm" />,
 };
 
 // ** Document title
@@ -69,7 +69,7 @@ const Routes = [
   //     element: <Navigate replace to={DefaultRoute} />,
   //   },
   {
-    path: "/workmanFirm/dashboard",
+    path: "/workman-Firm/dashboard",
     element: <WorkmanDashboard />,
     meta: {
       layout: "workmanFirmVertical",
@@ -77,14 +77,14 @@ const Routes = [
   },
   
   {
-    path: "/workmanFirm/ProfileEdit",
+    path: "/workman-Firm/Profile-Completion",
     element: <WorkmanProfileCompletion />,
     meta: {
-      layout: "workmanFirmVertical",
+      layout: "blank",
     },
   },
   {
-    path: "/workmanFirm/manageSubAccounts",
+    path: "/workman-Firm/manageSubAccounts",
     element: <WorkmanSubaccount />,
     meta: {
       layout: "workmanFirmVertical",
@@ -93,7 +93,7 @@ const Routes = [
  
 
   {
-    path: "/workmanFirm/browseCases",
+    path: "/workman-Firm/browseCases",
     element: <ManageCases />,
     meta: {
       layout: "workmanFirmVertical",
@@ -101,14 +101,14 @@ const Routes = [
   },
   
   {
-    path: "/workmanFirm/cases",
+    path: "/workman-Firm/cases",
     element: <CreateCases />,
     meta: {
       layout: "workmanFirmVertical",
     },
   },
   {
-    path: "/workmanFirm/manageCases",
+    path: "/workman-Firm/manageCases",
     element: <ManageCases />,
     meta: {
       layout: "workmanFirmVertical",
@@ -116,7 +116,7 @@ const Routes = [
   },
   
   {
-    path: "/workmanFirm/lms/about",
+    path: "/workman-Firm/lms/about",
     element: <WorkmanLMS />,
     meta: {
       layout: "workmanFirmVertical",
@@ -126,7 +126,7 @@ const Routes = [
   
  
   {
-    path: "/workmanFirm/account-settings",
+    path: "/workman-Firm/account-settings",
     element: <AccountSettings />,
     meta: {
       layout: "workmanFirmVertical",
@@ -134,14 +134,14 @@ const Routes = [
   },
 
   {
-    path: "/workmanFirm/add-workmen",
+    path: "/workman-Firm/add-workmen",
     element: <AddWorkmen />,
     meta: {
       layout: "workmanFirmVertical",
     },
   },
   {
-    path: "/workmanFirm/manage-workmen",
+    path: "/workman-Firm/manage-workmen",
     element: <ManageWorkmen />,
     meta: {
       layout: "workmanFirmVertical",
@@ -149,7 +149,7 @@ const Routes = [
   },
 
   {
-    path: "/workmanFirm/lms/current-grade",
+    path: "/workman-Firm/lms/current-grade",
     element: <CurrentGrade />,
     meta: {
       layout: "workmanFirmVertical",
@@ -157,14 +157,14 @@ const Routes = [
   },
 
   {
-    path: "/workmanFirm/lms/next-level",
+    path: "/workman-Firm/lms/next-level",
     element: <NextLevel />,
     meta: {
       layout: "workmanFirmVertical",
     },
   },
   {
-    path: "/workmanFirm/lms/upcoming-events",
+    path: "/workman-Firm/lms/upcoming-events",
     element: <UpcomingEvents />,
     meta: {
       layout: "workmanFirmVertical",

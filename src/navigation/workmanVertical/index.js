@@ -15,7 +15,7 @@ export default [
     id: "Dashboard",
     title: "Dashboard",
     icon: <Home size={20} />,
-    navLink: "/workman/dashboard",
+    navLink: "/workman-Individual/dashboard",
   },
   {
     id: "workmanProfile",
@@ -27,13 +27,13 @@ export default [
         id: "workmanProfileCompletion",
         title: "Edit Profile",
         icon: <CornerDownRight size={20} />,
-        navLink: "/workman/ProfileEdit",
+        navLink: "/workman-Individual/ProfileEdit",
       },
       {
         id: "workmanManageSubaccounts",
         title: "Sub Accounts",
         icon: <CornerDownRight size={20} />,
-        navLink: "/workman/manageSubAccounts",
+        navLink: "/workman-Individual/manageSubAccounts",
       },
     ],
   },
@@ -48,7 +48,7 @@ export default [
             id: "WorkmanCreateCase",
             title: "Create",
             icon: <CornerDownRight size={20} />,
-            navLink: "/workman/cases",
+            navLink: "/workman-Individual/cases",
       },
           
        
@@ -57,7 +57,7 @@ export default [
         id: "WorkmanManageCase",
         title: "Manage",
         icon: <CornerDownRight size={20} />,
-        navLink: "/workman/manageCases",
+        navLink: "/workman-Individual/manageCases",
       },
     ],
   },
@@ -65,7 +65,7 @@ export default [
     id: "WorkmanBrowseCases",
     title: "Browse Cases",
     icon: <Globe size={20} />,
-    navLink: "/workman/browseCases",
+    navLink: "/workman-Individual/browseCases",
   },
   
   {
@@ -79,7 +79,7 @@ export default [
             id: "WorkmanCreateCase",
             title: "What is LMS ?",
             icon: <CornerDownRight size={20} />,
-            navLink: "/workman/lms/about",
+            navLink: "/workman-Individual/lms/about",
       },
           
        
@@ -88,21 +88,21 @@ export default [
         id: "WorkmanCurrentGrade",
         title: "Current Grade",
         icon: <CornerDownRight size={20} />,
-        navLink: "/workman/lms/current-grade",
+        navLink: "/workman-Individual/lms/current-grade",
       },
 
       {
         id: "WorkmanManageCase",
         title: "Next Level",
         icon: <CornerDownRight size={20} />,
-        navLink: "/workman/lms/next-level",
+        navLink: "/workman-Individual/lms/next-level",
       },
 
       {
         id: "WorkmanManageCase",
         title: "Upcoming events",
         icon: <CornerDownRight size={20} />,
-        navLink: "/workman/lms/upcoming-events",
+        navLink: "/workman-Individual/lms/upcoming-events",
       },
     ],
   },
