@@ -7,11 +7,12 @@ const Wizard = lazy(() => import("./profileDivider"));
 
 const ProfileCompletion = () => {
   return (
-    <div className="container-lg mt-3">
+    <div>
       <Row xs="1">
         <Col>
-          <CardTitle tag="h2" className="fw-bold mb-1">
-            Welcome to Piombo. Please fill in the empty fields!
+          <CardTitle tag="h2" className="fw-bold ">
+          Complete your profile to become the future of service mobility.
+          
           </CardTitle>
         </Col>
       </Row>

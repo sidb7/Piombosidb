@@ -103,7 +103,7 @@ const Earnings = ({ success }) => {
             </CardText>
           </Col>
           <Col xs='6'>
-            <Chart options={options} series={[53, 16, 31]} type='donut' height={120} />
+            <Chart options={options} series={[53, 16, 31]} type='donut' height={160} />
           </Col>
         </Row>
       </CardBody>

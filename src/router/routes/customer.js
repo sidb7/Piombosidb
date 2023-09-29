@@ -25,7 +25,7 @@ import CustomerProfileCompletion from "../../views/customer/CustomerProfileCompl
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site="customer" />,
   horizontal: <HorizontalLayout />,
   customerVertical: <CustomerVerticalLayout  site="customer" />,
 };
@@ -60,7 +60,7 @@ const Routes = [
   },
   
   {
-    path: "/customer/ProfileEdit",
+    path: "/customer/Edit-Profile",
     element: <ProfileEdit/>,
     meta: {
       layout: "customerVertical",
@@ -69,9 +69,9 @@ const Routes = [
 
   {
     path: "/customer/Profile-Completion",
-    element: <CustomerProfileCompletion site="customer"/>,
+    element: <CustomerProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
     },
   },
   

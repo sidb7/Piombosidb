@@ -77,7 +77,7 @@ const Affiliation = ({ stepper, type }) => {
   const navigate = useNavigate();
   const redirect = () => {
     toast.success("Submitted Successfully")
-    navigate(`/designContract/dashboard`)
+    navigate(`/designContract/Edit-Profile`)
   }
   const companyActOptions = [
     { value: "Interior Contractor", label: "Interior Contractor" },
@@ -337,6 +337,8 @@ const Affiliation = ({ stepper, type }) => {
                   <Label className="form-label" for="register-name">
                     Business Association
                   </Label>
+                  <Button color="" className="border-0" style={{fontSize:"0.9rem"}}  onClick={()=>setProductSelected([])}> Clear all</Button>
+
                   <Row
                     xs="2"
                     sm="3"
@@ -403,16 +405,7 @@ const Affiliation = ({ stepper, type }) => {
                         ))}
                       </>
                     ) : (
-                      <h6
-                        style={{
-                          width: "fit-content",
-                          color: "black",
-                          opacity: "0.3",
-                          marginLeft: "-0.5rem",
-                        }}
-                      >
-                        Select below options...
-                      </h6>
+                     ""
                     )}
                   </Row>
                 </Col>

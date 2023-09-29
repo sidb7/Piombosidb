@@ -35,8 +35,10 @@ import {
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
+import toast from "react-hot-toast";
 
-const CompanyDetails = ({ stepper, type }) => {
+
+const ManageCompanyDetails= ({ stepper, type }) => {
   const cityOptions = [
     { value: "Mumbai", label: "Mumbai" },
     { value: "Pune", label: "Pune" },
@@ -101,6 +103,9 @@ const CompanyDetails = ({ stepper, type }) => {
   const [escMobile, setEscMobile] = useState("");
   const [escDesig, setEscDesig] = useState("");
   const [escPerson, setEscPerson] = useState([]);
+
+  const[disableCard,setDisableCard] =useState("")
+
 
   const handleNewAuth = () => {
     if (
@@ -221,13 +226,28 @@ const CompanyDetails = ({ stepper, type }) => {
       <Card>
         <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
           <Row>
-            <Col xs="10" md="11">
+               <Col xs="7"  sm="6" md="9" lg="10">
               <div className="content-header">
                 <h3 className="mb-0">Basic Details</h3>
                 {/* <small>Enter Your Company Details.</small> */}
               </div>
             </Col>
-            <Col xs="2" md="1">
+            <Col xs="3" sm="4" md="2" lg="1">
+              <div className="content-header">
+              <Button
+                color={((disableCard!="Basic")?"primary":"success")} 
+                outline
+                onClick={() => {
+                 (disableCard!="Basic")? setDisableCard("Basic"):setDisableCard("");
+                 (disableCard!="Basic")? "":toast.error("Fill all fields")
+                }}
+              >
+             {((disableCard!="Basic")?"Edit":"Save")}
+              </Button>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" sm="2"  md="1" lg="1">
               {showBasic ? (
                 <ChevronUp
                   size={20}
@@ -253,6 +273,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Company/Firm Name
                   </Label>
                   <Input
+                  disabled={disableCard!=="Basic"}
                     type="text"
                     id="register-name"
                     placeholder="Panda Corps"
@@ -263,6 +284,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Company/Firm Type
                   </Label>
                   <Select
+                   isDisabled={disableCard!=="Basic"}
                     theme={selectThemeColors}
                     isClearable={false}
                     id={`state-${type}`}
@@ -278,6 +300,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Mobile Number
                   </Label>
                   <Input
+                   disabled={disableCard!=="Basic"}
                     type="Number"
                     id="register-mobile"
                     placeholder="9875461258"
@@ -289,6 +312,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Email Id
                   </Label>
                   <Input
+                   disabled={disableCard!=="Basic"}
                     type="email"
                     id="register-email"
                     placeholder="john@example.com"
@@ -302,6 +326,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Address
                   </Label>
                   <Input
+                   disabled={disableCard!=="Basic"}
                     type="text"
                     id="register-email"
                     placeholder="711-2880 Nulla St., Mankato"
@@ -313,6 +338,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Locality/Area
                   </Label>
                   <Input
+                   disabled={disableCard!=="Basic"}
                     type="text"
                     id="register-email"
                     placeholder="Andheri east"
@@ -326,6 +352,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Landmark
                   </Label>
                   <Input
+                   disabled={disableCard!=="Basic"}
                     type="text"
                     id="register-email"
                     placeholder="Opposite Ganesh Mandir"
@@ -337,6 +364,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Pincode
                   </Label>
                   <Input
+                   disabled={disableCard!=="Basic"}
                     type="number"
                     id="register-email"
                     placeholder="400025"
@@ -350,6 +378,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     City
                   </Label>
                   <Select
+                   isDisabled={disableCard!=="Basic"}
                     theme={selectThemeColors}
                     isClearable={false}
                     id={`city-${type}`}
@@ -364,6 +393,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     State
                   </Label>
                   <Select
+                  isDisabled={disableCard!=="Basic"}
                     theme={selectThemeColors}
                     isClearable={false}
                     id={`state-${type}`}
@@ -373,21 +403,7 @@ const CompanyDetails = ({ stepper, type }) => {
                   />
                 </Col>
               </Row>
-              <Row>
-                <Col md="12" className="mb-1">
-                  <Label className="form-label" for={`state-${type}`}>
-                    Country
-                  </Label>
-                  <Select
-                    theme={selectThemeColors}
-                    isClearable={false}
-                    id={`state-${type}`}
-                    className="react-select"
-                    classNamePrefix="select"
-                    options={countryOptions}
-                  />
-                </Col>
-              </Row>
+             
             </Form>
           </CardBody>
         ) : (
@@ -397,13 +413,28 @@ const CompanyDetails = ({ stepper, type }) => {
       <Card>
         <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
           <Row>
-            <Col xs="10" md="11">
+               <Col xs="7"  sm="6" md="9" lg="10">
               <div className="content-header">
                 <h3 className="mb-0">Authorised Person</h3>
                 {/* <small>Enter Your Company Details.</small> */}
               </div>
             </Col>
-            <Col xs="2" md="1">
+            <Col xs="3" sm="4" md="2" lg="1">
+              <div className="content-header">
+              <Button
+                color={((disableCard!="Authorised")?"primary":"success")} 
+                outline
+                onClick={() => {
+                 (disableCard!="Authorised")? setDisableCard("Authorised"):setDisableCard("");
+                 (disableCard!="Authorised")? "":toast.error("Fill all fields")
+                }}
+              >
+             {((disableCard!="Authorised")?"Edit":"Save")}
+              </Button>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" sm="2"  md="1" lg="1">
               {showAuth ? (
                 <ChevronUp
                   size={20}
@@ -497,6 +528,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Name
                   </Label>
                   <Input
+                  disabled={disableCard!=="Authorised"}
                     type="text"
                     id={`item-name-`}
                     placeholder="Pranav Nair"
@@ -511,6 +543,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Email
                   </Label>
                   <Input
+                  disabled={disableCard!=="Authorised"}
                     type="email"
                     id={`email-`}
                     placeholder="panda@gmail.com"
@@ -525,6 +558,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Mobile
                   </Label>
                   <Input
+                  disabled={disableCard!=="Authorised"}
                     type="number"
                     id={`quantity-`}
                     placeholder="9876543210"
@@ -539,6 +573,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Designation
                   </Label>
                   <Input
+                  disabled={disableCard!=="Authorised"}
                     type="text"
                     id={`item-designation-`}
                     placeholder="Manager"
@@ -554,6 +589,7 @@ const CompanyDetails = ({ stepper, type }) => {
               </Row>
             </Form>
             <Button
+            disabled={disableCard!=="Authorised"}
               className="btn-icon"
               color="primary"
               onClick={() => {
@@ -571,13 +607,28 @@ const CompanyDetails = ({ stepper, type }) => {
       <Card>
         <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
           <Row>
-            <Col xs="10" md="11">
+              <Col xs="7"  sm="6" md="9" lg="10">
               <div className="content-header">
                 <h3 className="mb-0">Escalation </h3>
                 {/* <small>Enter Your Company Details.</small> */}
               </div>
             </Col>
-            <Col xs="2" md="1">
+            <Col xs="3" sm="4" md="2" lg="1">
+              <div className="content-header">
+              <Button
+                color={((disableCard!="Escalation")?"primary":"success")} 
+                outline
+                onClick={() => {
+                 (disableCard!="Escalation")? setDisableCard("Escalation"):setDisableCard("");
+                 (disableCard!="Escalation")? "":toast.error("Fill all fields")
+                }}
+              >
+             {((disableCard!="Escalation" )?"Edit":"Save")}
+              </Button>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" sm="2"  md="1" lg="1">
               {showEsc ? (
                 <ChevronUp
                   size={20}
@@ -671,6 +722,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Name
                   </Label>
                   <Input
+                   disabled={disableCard!=="Escalation"}
                     type="text"
                     id={`item-name-`}
                     placeholder="Pranav Nair"
@@ -685,6 +737,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Email
                   </Label>
                   <Input
+                  disabled={disableCard!=="Escalation"}
                     type="email"
                     id={`email-`}
                     placeholder="panda@gmail.com"
@@ -699,6 +752,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Mobile
                   </Label>
                   <Input
+                  disabled={disableCard!=="Escalation"}
                     type="number"
                     id={`quantity-`}
                     placeholder="9876543210"
@@ -713,6 +767,7 @@ const CompanyDetails = ({ stepper, type }) => {
                     Designation
                   </Label>
                   <Input
+                  disabled={disableCard!=="Escalation"}
                     type="text"
                     id={`item-designation-`}
                     placeholder="Manager"
@@ -728,6 +783,7 @@ const CompanyDetails = ({ stepper, type }) => {
               </Row>
             </Form>
             <Button
+            disabled={disableCard!=="Escalation"}
               className="btn-icon"
               color="primary"
               onClick={() => {
@@ -742,40 +798,10 @@ const CompanyDetails = ({ stepper, type }) => {
           <p />
         )}
       </Card>
-      <Row>
-        <Col xs="12">
-          <div className="d-flex justify-content-between">
-            <Button
-              color="primary"
-              className="btn-prev"
-              onClick={() => stepper.previous()}
-            >
-              <ArrowLeft
-                size={14}
-                className="align-middle me-sm-25 me-0"
-              ></ArrowLeft>
-              <span className="align-middle d-sm-inline-block d-none">
-                Previous
-              </span>
-            </Button>
-            <Button
-              color="primary"
-              className="btn-next"
-              onClick={() => stepper.next()}
-            >
-              <span className="align-middle d-sm-inline-block d-none">
-                Next
-              </span>
-              <ArrowRight
-                size={14}
-                className="align-middle ms-sm-25 ms-0"
-              ></ArrowRight>
-            </Button>
-          </div>
-        </Col>
-      </Row>
+     
+      
     </div>
   );
 };
 
-export default CompanyDetails;
+export default ManageCompanyDetails;

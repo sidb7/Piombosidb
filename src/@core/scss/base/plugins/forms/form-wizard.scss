@@ -167,9 +167,9 @@ $step-box-width: 38px;
       border: none;
     }
     .bs-stepper-content {
-      background-color: $white;
+  
       border-radius: 0.5rem;
-      box-shadow: $box-shadow;
+ 
     }
   }
 }
@@ -248,8 +248,7 @@ $step-box-width: 38px;
         border: none;
       }
       .bs-stepper-content {
-        background-color: $theme-dark-card-bg;
-        box-shadow: $theme-dark-box-shadow;
+       
       }
     }
   }

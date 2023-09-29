@@ -7,7 +7,7 @@ import VerticalLayout from "@src/layouts/VerticalLayout";
 import WorkmanVerticalLayout from "@src/layouts/WorkmanVerticalLayout";
 import HorizontalLayout from "@src/layouts/HorizontalLayout";
 import LayoutWrapper from "@src/@core/layouts/components/layout-wrapper";
-const Calendar = lazy(() => import('../../views/apps/calendar'))
+
 // ** Route Components
 import PublicRoute from "@components/routes/PublicRoute";
 
@@ -25,6 +25,7 @@ import RegisterWorkman from "../../views/common/workmanLogin/RegisterWorkman";
 import LandingPage from "../../views/LandingPage";
 
 
+import Calendarr from "../../views/apps/Calendarr";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -69,6 +70,13 @@ const Routes = [
   {
     path: "/register",
     element: <Register />,
+    meta: {
+      layout: "blank",
+    },
+  },
+  {
+    path: '/apps/calendar',
+    element: <Calendarr />,
     meta: {
       layout: "blank",
     },

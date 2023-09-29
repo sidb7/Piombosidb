@@ -22,10 +22,11 @@ import CreateCases from "../../views/developer/Cases/CreateCases";
 import DeveloperAccountSettings from "../../views/developer/DeveloperAccountSettings";
 import DeveloperProfileCompletion from "../../views/developer/DeveloperProfileCompletion";
 import DeveloperVerticalLayout from "../../layouts/DeveloperVerticalLayout";
+import DeveloperDashProf from "../../views/developer/DeveloperDashProf";
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site="developer" />,
   horizontal: <HorizontalLayout />,
  developerVertical: <DeveloperVerticalLayout  site="developer" />,
 };
@@ -58,9 +59,16 @@ const Routes = [
       layout: "developerVertical",
     },
   },
+  {
+    path: "/developer/dashboardProfileStatus",
+    element: <DeveloperDashProf/>,
+    meta: {
+      layout: "vertical",
+    },
+  },
   
   {
-    path: "/developer/ProfileEdit",
+    path: "/developer/Edit-Profile",
     element: <ProfileEdit/>,
     meta: {
       layout: "developerVertical",
@@ -69,9 +77,9 @@ const Routes = [
 
   {
     path: "/developer/Profile-Completion",
-    element: <DeveloperProfileCompletion site="developer"/>,
+    element: <DeveloperProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
     },
   },
   

@@ -4,14 +4,14 @@ import { useRef, useState } from "react";
 // ** Custom Components
 import Wizard from "@components/wizard";
 
+// ** Steps
 import CompanyDetails from "./steps/CompanyDetails";
-import Affiliation from "./steps/Affiliation";
 import AdditionalDetails from "./steps/AdditionalDetails";
 
 // ** Icons Imports
 import { FileText, User, MapPin, Link } from "react-feather";
 
-const ProfileHorizontal = (props) => {
+const ProfileHorizontal = () => {
   // ** Ref
   const ref = useRef(null);
 
@@ -20,7 +20,7 @@ const ProfileHorizontal = (props) => {
 
   const steps = [
     {
-      id: "company-details",
+      id: "Company-details",
       title: "Company/Firm Details",
       subtitle: "Enter the Details.",
       icon: <User size={18} />,
@@ -32,13 +32,6 @@ const ProfileHorizontal = (props) => {
       subtitle: "Enter the Details.",
       icon: <FileText size={18} />,
       content: <AdditionalDetails stepper={stepper} type="wizard-modern" />,
-    },
-    {
-      id: "affiliation",
-      title: "Affiliation",
-      subtitle: "Enter the Details.",
-      icon: <FileText size={18} />,
-      content: <Affiliation stepper={stepper} site={props.site} type="wizard-modern" />,
     },
   ];
 

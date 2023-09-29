@@ -22,21 +22,8 @@ import {
       id: "workmanFirmProfile",
       title: "Profile",
       icon: <User size={20} />,
-      // navLink: "/workmanFirm/ProfileCompletion",
-      children: [
-        {
-          id: "workmanFirmProfileCompletion",
-          title: "Edit Profile",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/workman-Firm/ProfileEdit",
-        },
-        {
-          id: "workmanFirmManageSubaccounts",
-          title: "Sub Accounts",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/workman-Firm/manageSubAccounts",
-        },
-      ],
+      navLink: "/workman-Firm/Edit-Profile"
+      
     },
     {
       id: "WorkmanFirmCases",

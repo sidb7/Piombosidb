@@ -1,8 +1,8 @@
+
 import React, { useEffect, useState } from "react";
-import {Trash2,CheckSquare} from 'react-feather'
-import { MdOutlinePendingActions } from "react-icons/md";
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button,
-   Modal, ModalHeader, ModalBody, ModalFooter, Toast} from "reactstrap";
+
+import { Link } from "react-router-dom";
+import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress} from "reactstrap";
 
 
 const OpenCases = (args) => {
@@ -23,11 +23,12 @@ const OpenCases = (args) => {
       setOpen(id);
     }
   };
-
+ 
   useEffect(()=>
   {
    setData1(JSON.parse(localStorage.getItem("WorkmanCaseSet")))
    setClosedCaseData(JSON.parse(localStorage.getItem("WorkmanClosedCase")))
+  
    
   },[])
 
@@ -64,7 +65,7 @@ const OpenCases = (args) => {
           Title:e.Title,
           Desc:e.Desc,
           Summary:e.Summary,
-          Status:e.Status
+          date:e.date
         }]
         localStorage.setItem("WorkmanClosedCase",JSON.stringify(list));
         return list
@@ -76,7 +77,7 @@ const OpenCases = (args) => {
           Title:e.Title,
           Desc:e.Desc,
           Summary:e.Summary,
-          Status:e.Status
+          date:e.date
         },]
         localStorage.setItem("WorkmanClosedCase",JSON.stringify(list));
         return list
@@ -91,9 +92,9 @@ const OpenCases = (args) => {
     localStorage.setItem("WorkmanCaseSet",JSON.stringify(remove));
   
   }
-  
+ 
   return (
-    <div>
+    <div className="row ">
 
       {
         (Array.isArray(data1)&&data1.length!=0)?
@@ -101,52 +102,59 @@ const OpenCases = (args) => {
         { 
           return (
             <>
-            
-            <div key={e.id} className="row mt-1 d-flex justify-content-center">
-             <div className="col-11  ">
-            <Accordion flush open={open} toggle={toggle}>
-      <AccordionItem>
-        <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><MdOutlinePendingActions size={25} color="orange"/>&nbsp; &nbsp; <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
-      
-        <AccordionBody style={{boxShadow:"1px 1px 8px rgba(128, 128, 128, 0.577)"}} accordionId={e.id}>
-        <div className="row " style={{color:"gray"}}>
-          <p className="mt-1 col-6 "><h6><b>Descriptions :</b></h6> {e.Desc}</p>
-          <p className="mt-1 col-6"><h6><b>Identification no. :</b></h6>{e.id}</p>
-          </div>
-          <hr />
-          <p style={{color:"gray"}} ><h6><b>Summary :</b></h6> {e.Summary}</p>
-        </AccordionBody>
-      </AccordionItem> </Accordion>
-            
-      </div> 
+            <div className="col-lg-3 col-md-4 col-12 " key={e.id}>
+            <Card  className="w-100"
+  style={{
+    width: '20rem'
+  }}
+>
+  <CardBody>
+    <CardTitle tag="h2">
+     <b> {(e.Title+"").charAt(0).toUpperCase()+(e.Title+"").substring(1)}</b>
+    </CardTitle>
+    <CardSubtitle
+      className="text-muted w-100"
+      tag="h5"
+    >
+     Id- {(e.id+"").substring(0,13)}
+    </CardSubtitle>
+<hr />
 
-            <div className="col-1  d-flex justify-content-center align-items-center">
-            <Button onClick={toggle1} className="d-flex justify-content-center align-items-center"  color="" ><CheckSquare /></Button> 
-            </div>
+<div className="row mb-1">
+<div className="col-6"> <b>Category:</b> sample </div>
+<div className="col-6"> <b>Worker:</b> none </div>
+</div>
+    <CardText className="mt-2">
+    <h6>Case Description:</h6>
+      Some quick example text to build on the card titleard‘s content.
+    </CardText>
+    
+    <div>
+    <div  style={{lineHeight:"2rem"}} >
+   <b > Progress - 83% </b></div>
 
-            </div >
-            
-            <div>
-            
-      <Modal isOpen={modal} toggle={toggle1} {...args}  >
-        <ModalHeader toggle={toggle1}>Confirm</ModalHeader>
-        
-        <ModalBody>
-            Do you want to close this case ?
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={m=>handleRemove(e)}>
-           Yes
-          </Button>{' '}
-          <Button color="secondary" onClick={toggle1}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
-
-
-            
+   <div > <Progress
+    className="mb-1"
+    style={{
+      height: '5px'
+    }}
+    value={83}
+    
+  > </Progress> </div> </div>
+    <CardText
+      className="text-muted"
+      tag="h6"
+    >
+    {e.date}
+    </CardText>
+    <CardLink tag={Link}  to={`/workman-Individual/CaseDetails/${e.id}`} >
+      View details
+    </CardLink>
+   
+  
+  </CardBody>
+</Card>
+</div>
             </>
           )
         })

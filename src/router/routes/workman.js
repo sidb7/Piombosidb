@@ -19,10 +19,13 @@ import NextLevel from "../../views/workman/LMS/NextLevel";
 import UpcomingEvents from "../../views/workman/LMS/UpcomingEvents";
 import ManageCases from "../../views/workman/Cases/ManageCases";
 import CreateCases from "../../views/workman/Cases/CreateCases";
+import CaseDetails from "../../views/workman/Cases/CaseDetails";
+import WorkmanEditProf from "../../views/workman/WorkmanEditProf";
+import WorkmanDashProfile from "../../views/workman/WorkmanDashProfile";
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site="workman-Individual" />,
   horizontal: <HorizontalLayout />,
   workmanVertical: <WorkmanVerticalLayout site="workman-Individual" />,
 };
@@ -72,17 +75,38 @@ const Routes = [
       layout: "workmanVertical",
     },
   },
-  
+  {
+    path: "/workman-Individual/dashboardProfileStatus",
+    element: <WorkmanDashProfile />,
+    meta: {
+      layout: "vertical",
+    },
+  },
+  {
+    path: "/workman-Individual/Edit-Profile",
+    element: <WorkmanEditProf />,
+    meta: {
+      layout: "workmanVertical",
+    },
+  },
   {
     path: "/workman-Individual/Profile-Completion",
     element: <WorkmanProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
     },
+   
   },
   {
     path: "/workman-Individual/manageSubAccounts",
     element: <WorkmanSubaccount />,
+    meta: {
+      layout: "workmanVertical",
+    },
+  },
+  {
+    path: "/workman-Individual/CaseDetails/:id",
+    element: <CaseDetails/>,
     meta: {
       layout: "workmanVertical",
     },
@@ -96,6 +120,7 @@ const Routes = [
       layout: "workmanVertical",
     },
   },
+  
   
   {
     path: "/workman-Individual/cases",

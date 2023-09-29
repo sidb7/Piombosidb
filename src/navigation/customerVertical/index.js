@@ -21,16 +21,8 @@ import {
       id: "CustomerProfile",
       title: "Profile",
       icon: <User size={20} />,
-      // navLink: "/customer/ProfileCompletion",
-      children: [
-        {
-          id: "CustomerProfileCompletion",
-          title: "Edit Profile",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/customer/ProfileEdit",
-        },
-       
-      ],
+      navLink: "/customer/Edit-Profile",
+    
     },
     {
       id: "CustomerCases",

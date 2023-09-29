@@ -742,7 +742,7 @@ const RegisterBasic = () => {
                       }}
                     />
                     <br />
-                    {(stakeholder.value!="supplier")&&
+                    {(stakeholder.value!="supplier"&&stakeholder.value!="customer")&&
                     <Select
                       theme={selectThemeColors}
                       id={`stakeholder`}

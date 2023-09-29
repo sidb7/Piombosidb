@@ -11,7 +11,7 @@ import AdditionalDetails from "./steps/AdditionalDetails";
 // ** Icons Imports
 import { FileText, User, MapPin, Link } from "react-feather";
 
-const ProfileHorizontal = () => {
+const ProfileHorizontal = (props) => {
   // ** Ref
   const ref = useRef(null);
 
@@ -24,14 +24,29 @@ const ProfileHorizontal = () => {
       title: "Company/Firm Details",
       subtitle: "Enter the Details.",
       icon: <User size={18} />,
-      content: <CompanyDetails stepper={stepper} type="wizard-modern" />,
+      content: (
+        <CompanyDetails
+          stepper={stepper}
+          type="wizard-modern"
+          contactDetails={{
+            mobile: props.mobile,
+            email: props.email,
+          }}
+        />
+      ),
     },
     {
       id: "addn-details",
-      title: "Additional Details",
+      title: "Additional Information",
       subtitle: "Enter the Details.",
       icon: <FileText size={18} />,
-      content: <AdditionalDetails stepper={stepper} type="wizard-modern" />,
+      content: (
+        <AdditionalDetails
+          stepper={stepper}
+          type="wizard-modern"
+          userid={props.userid}
+        />
+      ),
     },
   ];
 

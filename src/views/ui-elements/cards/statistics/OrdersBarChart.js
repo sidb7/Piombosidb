@@ -12,8 +12,17 @@ const OrdersBarChart = ({ warning }) => {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    axios.get('/card/card-statistics/orders-bar-chart').then(res => setData(res.data))
-    return () => setData(null)
+    setData(
+      {title:"Orders",
+    statistics:"2,34k",
+    series: [
+      {
+        data: [45, 85, 65, 45, 65],
+        name: "2020"
+      }
+    ],
+},
+    )
   }, [])
 
   const options = {

@@ -21,16 +21,7 @@ import {
       id: "DeveloperProfile",
       title: "Profile",
       icon: <User size={20} />,
-      // navLink: "/developer/ProfileCompletion",
-      children: [
-        {
-          id: "DeveloperProfileCompletion",
-          title: "Edit Profile",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/developer/ProfileEdit",
-        },
-       
-      ],
+      navLink: "/developer/Edit-Profile",
     },
     {
       id: "DeveloperCases",

@@ -12,6 +12,7 @@ import {
   ChevronUp,
   X,
   Plus,
+  Eye,
 } from "react-feather";
 
 // ** Utils
@@ -71,6 +72,11 @@ const AdditionalDetails = ({ stepper, type }) => {
     e.target.closest("form").remove();
   };
 
+    
+  const [PANPhoto, setPANPhoto] = useState("");
+  const [GSTPhoto, setGStPhoto] = useState("");
+  const [ChequePhoto, setChequePhoto] = useState("");
+
   return (
     <div>
       <Card>
@@ -114,18 +120,71 @@ const AdditionalDetails = ({ stepper, type }) => {
                     // onChange={(e) => handleEmail(e.target.value)}
                   />
                 </Col>
-                <Col md="6" className="mb-1">
+                <Col xs="7" md="4" className="mb-1">
                   <Label
-                    className="form-label"
-                    for="signup-details-pan-card-copy"
+                    className="profile-pic-upload-label"
+                    id="profile-pic-upload-label"
+                    for="profile-pic-upload"
                   >
-                    PAN Card
+                 PAN Card
                   </Label>
                   <Input
+                  
                     type="file"
-                    id="signup-details-pan-card-copy"
-                    placeholder=""
+                    accept="image/jpeg, image/png"
+                    id="profile-pic-upload3"
+                    onChange={e=>setPANPhoto(URL.createObjectURL(e.target.files[0]))}
+                      
+                    
                   />
+                </Col>
+                <Col
+                  xs="5"
+                  md="2"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "nowrap",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    <Button
+                     
+                      color="primary"
+                      outline
+                      style={{
+                        marginRight: "1rem",
+                      }}
+                      disabled={(PANPhoto==="")}
+                      onClick={() => {
+                       window.open(PANPhoto)
+                      }}
+                    >
+                      <Eye size={14} />
+                    </Button>
+                    <Button
+                   disabled={(PANPhoto==="")}
+                      color="danger"
+                      outline
+                    onClick={()=>
+                    {
+                      const fileInput =
+                      document.getElementById("profile-pic-upload3");
+                      fileInput.value = ""; // Temporarily change the type to text
+                      setPANPhoto("")
+                
+                    }}
+                      
+                    >
+                      <X size={14} />
+                    </Button>
+                  </div>
                 </Col>
               </Row>
               <Row>
@@ -140,18 +199,70 @@ const AdditionalDetails = ({ stepper, type }) => {
                     // onChange={(e) => handleEmail(e.target.value)}
                   />
                 </Col>
-                <Col md="6" className="mb-1">
+                <Col xs="7" md="4" className="mb-1">
                   <Label
-                    className="form-label"
-                    for="signup-details-GST-card-copy"
+                    className="profile-pic-upload-label"
+                    id="profile-pic-upload-label"
+                    for="profile-pic-upload"
                   >
-                    GST certificate
+                 GST certificate
                   </Label>
                   <Input
+                  
                     type="file"
-                    id="signup-details-GST-card-copy"
-                    placeholder=""
+                    accept="image/jpeg, image/png"
+                    id="profile-pic-upload3"
+                    onChange={e=>setGStPhoto(URL.createObjectURL(e.target.files[0]))}
+                      
+                    
                   />
+                </Col>
+                <Col
+                  xs="5"
+                  md="2"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "nowrap",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    <Button
+                     
+                      color="primary"
+                      outline
+                      style={{
+                        marginRight: "1rem",
+                      }}
+                      disabled={(GSTPhoto==="")}
+                      onClick={() => {
+                       window.open(GSTPhoto)
+                      }}
+                    >
+                      <Eye size={14} />
+                    </Button>
+                    <Button
+                       disabled={(GSTPhoto==="")}
+                      color="danger"
+                      outline
+                    onClick={()=>
+                    {
+                      const fileInput =
+                      document.getElementById("profile-pic-upload3");
+                    fileInput.value = ""; // Temporarily change the type to text
+                    setGStPhoto("")
+                    }}
+                      
+                    >
+                      <X size={14} />
+                    </Button>
+                  </div>
                 </Col>
               </Row>
               {cin ? (
@@ -476,15 +587,70 @@ const AdditionalDetails = ({ stepper, type }) => {
                     onChange={(e) => handleAadharFormat(e.target.value)}
                   />
                 </Col>
-                <Col md="6" className="mb-1">
-                  <Label className="form-label" for="signup-details-photo-copy">
-                    Cancelled Cheque
+                <Col xs="7" md="4" className="mb-1">
+                  <Label
+                    className="profile-pic-upload-label"
+                    id="profile-pic-upload-label"
+                    for="profile-pic-upload"
+                  >
+                Cancelled Cheque
                   </Label>
                   <Input
+                  
                     type="file"
-                    id="signup-details-photo-copy"
-                    placeholder=""
+                    accept="image/jpeg, image/png"
+                    id="profile-pic-upload3"
+                 
+                    onChange={e=>setChequePhoto(URL.createObjectURL(e.target.files[0]))}
+                    
                   />
+                </Col>
+                <Col
+                  xs="5"
+                  md="2"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "nowrap",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    <Button
+                     
+                      color="primary"
+                      outline
+                      style={{
+                        marginRight: "1rem",
+                      }}
+                      disabled={(ChequePhoto==="")}
+                      onClick={() => {
+                       window.open(ChequePhoto)
+                      }}
+                    >
+                      <Eye size={14} />
+                    </Button>
+                    <Button
+                   disabled={(ChequePhoto==="")}
+                      color="danger"
+                      outline
+                    onClick={()=>
+                    {
+                      const fileInput =
+                      document.getElementById("profile-pic-upload3");
+                    fileInput.value = ""; // Temporarily change the type to text
+                    setChequePhoto("")
+                    }}
+                      
+                    >
+                      <X size={14} />
+                    </Button>
+                  </div>
                 </Col>
               </Row>
             </Form>

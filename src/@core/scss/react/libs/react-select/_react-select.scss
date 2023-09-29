@@ -1,10 +1,17 @@
-@import '../../../base/bootstrap-extended/include';
-@import '../../../base/components/include';
+@import "../../../base/bootstrap-extended/include";
+@import "../../../base/components/include";
 
 // InValid Select
 .react-select.is-invalid {
   .select__control {
     border-color: $danger;
+  }
+}
+
+// Valid Select
+.react-select.is-valid {
+  .select__control {
+    border-color: $success;
   }
 }
 
@@ -40,7 +47,9 @@
   }
 
   .select__placeholder {
-    color: $body-color;
+    // color: $body-color;
+    color: black;
+    opacity: 0.5;
   }
 }
 
@@ -67,8 +76,79 @@
 
   .select__menu-list,
   .react-select__menu-list {
+    max-height: 12rem;
     .select__group {
       .select__group-heading {
+        margin-bottom: 0.5rem;
+        color: $headings-color;
+        font-weight: bolder;
+        font-size: inherit;
+      }
+    }
+  }
+}
+
+//select-manual
+.select-manual__menu,
+.react-select__menu {
+  .select-manual__menu-list,
+  .react-select__menu-list {
+    .select-manual__option,
+    .react-select__option {
+      cursor: pointer;
+
+      &.select-manual__option--is-focused {
+        background-color: rgba($color: $primary, $alpha: 0.12);
+        color: $primary;
+      }
+
+      &.select-manual__option--is-selected {
+        background-color: $primary;
+        color: $white;
+      }
+    }
+  }
+
+  .select-manual__menu-list,
+  .react-select__menu-list {
+    max-height: 6.5rem;
+    .select-manual__group {
+      .select-manual__group-heading {
+        margin-bottom: 0.5rem;
+        color: $headings-color;
+        font-weight: bolder;
+        font-size: inherit;
+      }
+    }
+  }
+}
+
+//select-big
+.select-big__menu,
+.react-select__menu {
+  .select-big__menu-list,
+  .react-select__menu-list {
+    .select-big__option,
+    .react-select__option {
+      cursor: pointer;
+
+      &.select-big__option--is-focused {
+        background-color: rgba($color: $primary, $alpha: 0.12);
+        color: $primary;
+      }
+
+      &.select-big__option--is-selected {
+        background-color: $primary;
+        color: $white;
+      }
+    }
+  }
+
+  .select-big__menu-list,
+  .react-select__menu-list {
+    max-height: 30rem;
+    .select-big__group {
+      .select-big__group-heading {
         margin-bottom: 0.5rem;
         color: $headings-color;
         font-weight: bolder;
@@ -85,14 +165,14 @@
   border-radius: 3px;
   margin: 0 0.7rem 0 0;
 
-  .select__multi-value__label {
+  .select_multi-value_label {
     color: $white;
     font-size: 0.85rem;
     border-radius: $border-radius;
     padding: 0.26rem 0.6rem;
   }
 
-  .select__multi-value__remove {
+  .select_multi-value_remove {
     padding-left: 0;
     padding-right: 0.5rem;
 
@@ -123,30 +203,46 @@
 
 // Dark Layout
 .dark-layout {
-  .select__control {
+  .select__control,
+  .select-manual__control,
+  .select-big__control {
     background-color: $theme-dark-input-bg;
     border-color: $theme-dark-border-color;
 
-    .select__indicator svg {
+    .select__indicator svg,
+    .select-big__indicator svg,
+    .select-manual__indicator svg {
       fill: $theme-dark-body-color;
     }
 
-    .select__input {
+    .select__input,
+    .select-manual__input,
+    .select-big__input {
       color: $theme-dark-body-color !important;
     }
 
     .select__indicator span,
-    .select__single-value {
+    .select-big__indicator span,
+    .select-manual__indicator span,
+    .select__single-value,
+    .select-big__single-value,
+    .select-manual__single-value {
       color: $theme-dark-body-color;
     }
 
-    .select__multi-value {
+    .select__multi-value,
+    .select-big__multi-value,
+    .select-manual__multi-value {
       background-color: rgba($color: $primary, $alpha: 0.12);
-      .select__multi-value__label {
+      .select_multi-value_label,
+      .select-big_multi-value_label,
+      .select-manual_multi-value_label {
         color: $primary;
       }
     }
-    .select__multi-value__remove {
+    .select_multi-value_remove,
+    .select-big_multi-value_remove,
+    .select-manual_multi-value_remove {
       svg {
         fill: $primary;
       }
@@ -155,8 +251,12 @@
       }
     }
 
-    .select__placeholder {
-      color: $theme-dark-input-placeholder-color;
+    .select__placeholder,
+    .select-big__placeholder,
+    .select-big__placeholder {
+      // color: $theme-dark-input-placeholder-color;
+      color: white;
+      opacity: 0.5;
     }
 
     &.select__control--is-disabled {
@@ -164,17 +264,26 @@
     }
   }
   .select__menu-list,
-  .react-select__menu-list {
-    .select__group {
-      .select__group-heading {
+  .select-manual__menu-list,
+  .select-big_menu-list .react-select_menu-list {
+    .select__group,
+    .select-big__group,
+    .select-manual__group {
+      .select__group-heading,
+      .select-big__group-heading,
+      .select-manual__group-heading {
         color: $theme-dark-headings-color;
       }
     }
   }
-  .select__menu {
+  .select__menu,
+  .select-big__menu,
+  .select-manual__menu {
     background-color: $theme-dark-card-bg;
   }
 }
+
+
 
 html[dir='rtl'] {
   .select__control {

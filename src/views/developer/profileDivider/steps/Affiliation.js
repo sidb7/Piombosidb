@@ -77,7 +77,7 @@ const Affiliation = ({ stepper, type }) => {
   const navigate = useNavigate();
   const redirect = () => {
     toast.success("Submitted Successfully")
-    navigate(`/developer/dashboard`)
+    navigate(`/developer/Edit-Profile`)
   }
   const companyActOptions = [
     { value: "Interior Contractor", label: "Interior Contractor" },
@@ -218,16 +218,10 @@ const Affiliation = ({ stepper, type }) => {
                 <Row>
                   <Col md="4" className="mb-1">
                     <Label className="form-label" for={`state-${type}`}>
-                      Company Activity
+                      Project location
                     </Label>
-                    <Select
-                      theme={selectThemeColors}
-                      isClearable={false}
-                      id={`state-${type}`}
-                      isMulti
-                      className="react-select"
-                      classNamePrefix="select"
-                      options={companyActOptions}
+                    <Input
+                     type="text"
                     />
                   </Col>
                   <Col md="4" className="mb-1">
@@ -292,21 +286,15 @@ const Affiliation = ({ stepper, type }) => {
                 <Row>
                   <Col md="6" className="mb-1">
                     <Label className="form-label" for={`state-${type}`}>
-                      Company Activity
+                    Project Location
                     </Label>
-                    <Select
-                      theme={selectThemeColors}
-                      isClearable={false}
-                      id={`state-${type}`}
-                      isMulti
-                      className="react-select"
-                      classNamePrefix="select"
-                      options={companyActOptions}
+                    <Input
+                    type="text"
                     />
                   </Col>
                   <Col md="6" className="mb-1">
                     <Label className="form-label" for={`state-${type}`}>
-                      Market Segment
+                     Business Segment
                     </Label>
                     <Select
                       theme={selectThemeColors}
@@ -328,6 +316,7 @@ const Affiliation = ({ stepper, type }) => {
                   <Label className="form-label" for="register-name">
                     Business Association
                   </Label>
+                  <Button color="" className="border-0" style={{fontSize:"0.9rem"}}  onClick={()=>setProductSelected([])}> Clear all</Button>
                   <Row
                     xs="2"
                     sm="3"
@@ -359,7 +348,7 @@ const Affiliation = ({ stepper, type }) => {
                           >
                             <Row>
                               <div
-                                className="d-flex flex-row"
+                                className="d-flex flex-row "
                                 // onClick={() =>
                                 //   handleRemoveProduct(item.value, item.label)
                                 // }
@@ -394,16 +383,7 @@ const Affiliation = ({ stepper, type }) => {
                         ))}
                       </>
                     ) : (
-                      <h6
-                        style={{
-                          width: "fit-content",
-                          color: "black",
-                          opacity: "0.3",
-                          marginLeft: "-0.5rem",
-                        }}
-                      >
-                        Select below options...
-                      </h6>
+                     ""
                     )}
                   </Row>
                 </Col>

@@ -25,7 +25,7 @@ import SupplierProfileCompletion from "../../views/supplier/SupplierProfileCompl
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site ="supplier" />,
   horizontal: <HorizontalLayout />,
   supplierVertical: <SupplierVerticalLayout site ="supplier" />,
 };
@@ -62,7 +62,7 @@ const Routes = [
   },
   
   {
-    path: "/supplier/ProfileEdit",
+    path: "/supplier/Edit-Profile",
     element: <SupplierProfileEdit />,
     meta: {
       layout: "supplierVertical",
@@ -70,9 +70,9 @@ const Routes = [
   },
   {
     path: "/supplier/Profile-Completion",
-    element: <SupplierProfileCompletion site="supplier"/>,
+    element: <SupplierProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
     },
   },
   {

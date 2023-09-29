@@ -22,10 +22,12 @@ import CreateCases from "../../views/workmanFirm/Cases/CreateCases";
 import WorkmanFirmVerticalLayout from "../../layouts/WorkmanFirmVerticalLayout";
 import AddWorkmen from "../../views/workmanFirm/WorkmenPanel/AddWorkmen";
 import ManageWorkmen from "../../views/workmanFirm/WorkmenPanel/ManageWorkmen";
+import WorkmanFirmEditProf from "../../views/workmanFirm/WorkmanFirmEditProf";
+import WorkmanFirmDashProfile from "../../views/workmanFirm/WorkmanFirmDashProfile";
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site="workman-Firm" />,
   horizontal: <HorizontalLayout />,
   workmanFirmVertical: <WorkmanFirmVerticalLayout site="workman-Firm" />,
 };
@@ -75,12 +77,27 @@ const Routes = [
       layout: "workmanFirmVertical",
     },
   },
+  {
+    path: "/workman-Firm/dashboardProfileStatus",
+    element: <WorkmanFirmDashProfile />,
+    meta: {
+      layout: "vertical",
+    },
+  },
+  
   
   {
     path: "/workman-Firm/Profile-Completion",
     element: <WorkmanProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
+    },
+  },
+  {
+    path: "/workman-Firm/Edit-Profile",
+    element: <WorkmanFirmEditProf />,
+    meta: {
+      layout: "workmanFirmVertical",
     },
   },
   {

@@ -63,7 +63,7 @@ const Affiliation = ({ stepper, type }) => {
   const navigate = useNavigate();
   const redirect = () => {
     toast.success("Submitted Successfully")
-    navigate(`/supplier/dashboard`)}
+    navigate(`/supplier/Edit-Profile`)}
 
   const productOptions = [
     {

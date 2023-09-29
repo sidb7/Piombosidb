@@ -1,8 +1,11 @@
 // ** React Imports
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
+
 
 // ** Third Party Components
 import Select from "react-select";
+import { toast } from "react-hot-toast";
+import validator from "validator";
 
 import {
   ArrowLeft,
@@ -35,32 +38,332 @@ import {
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
+import cityStateData from "../../../cityStateData";
 
-const CompanyDetails = ({ stepper, type }) => {
-  const cityOptions = [
-    { value: "Mumbai", label: "Mumbai" },
-    { value: "Pune", label: "Pune" },
-    { value: "Bangalore", label: "Bangalore" },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Pune", label: "Pune" },
-    { value: "Bangalore", label: "Bangalore" },
-    { value: "Delhi", label: "Delhi" },
-    { value: "Pune", label: "Pune" },
-    { value: "Bangalore", label: "Bangalore" },
-    { value: "Delhi", label: "Delhi" },
-  ];
+const verifiedMobile = "9876543212";
+const verifiedEmail = "test@gmail.com";
 
-  const countryOptions = [
-    { value: "India", label: "India" },
-    { value: "Japan", label: "Japan" },
-    { value: "Norway", label: "Norway" },
-  ];
+const CompanyDetails = ({ stepper, type, contactDetails }) => {
+  const [newMobileNumber, setNewMobileNumber] = useState("");
+  const [newEmailId, setNewEmailId] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [emailId, setEmailId] = useState("");
 
-  const stateOptions = [
-    { value: "Maharashtra", label: "Maharashtra" },
-    { value: "Kerala", label: "Kerala" },
-    { value: "Punjab", label: "Punjab" },
-  ];
+  const [companyName, setCompanyName] = useState("");
+  const [companyType, setCompanyType] = useState("");
+  const [address, setAddress] = useState("");
+  const [locality, setLocality] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+
+  const [enteredMobileOTP, setEnteredMobileOtp] = useState("");
+  const [displayMobileOTP, setDisplayMobileOTP] = useState(false);
+  const [otpMobileVerified, setOTPMobileVerified] = useState(false);
+
+  const [enteredEmailOTP, setEnteredEmailOtp] = useState("");
+  const [displayEmailOTP, setDisplayEmailOTP] = useState(false);
+  const [otpEmailVerified, setOTPEmailVerified] = useState(false);
+
+  const [otpMobile, setOTPMobile] = useState("");
+  const [otpEmail, setOTPEmail] = useState(""); // ACTUAL ANSWER OTP
+
+  const [secondsMobile, setSecondsMobile] = useState(0);
+  const [secondsEmail, setSecondsEmail] = useState(0);
+
+  const callMobileVerificationApi = async (mobileValue) => {
+    const mobile = parseInt(mobileValue);
+    const sentTimestamp = Date.now();
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        toMobile: mobile,
+        toEmail: "",
+        sentTimestamp: sentTimestamp,
+        medium: "mobile",
+      }),
+    };
+
+    // console.log(CryptoJS.AES.encrypt(code, "123").toString());
+
+    try {
+      const fetchResponse = await fetch(
+        `http://localhost:3002/api/otp/sendOTP`,
+        settings
+      );
+      // const fetchResponse = {
+      //   status: 200,
+      // };
+      if (fetchResponse.status === 200) {
+        setDisplayMobileOTP(true);
+        setOTPMobile(sentTimestamp);
+        setSecondsMobile(60);
+        toast.success(`Enter OTP (sent to ***${mobileValue.slice(6)})`);
+      } else {
+        toast.error("Something went Wrong!");
+      }
+    } catch (e) {
+      toast.error("Something went Wrong!");
+    }
+  };
+
+  const callEmailVerificationApi = async (emailValue) => {
+    const sentTimestamp = Date.now();
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        toMobile: "",
+        toEmail: emailValue,
+        sentTimestamp: sentTimestamp,
+        medium: "email",
+      }),
+    };
+
+    // console.log(CryptoJS.AES.encrypt(code, "123").toString());
+
+    try {
+      const fetchResponse = await fetch(
+        `http://localhost:3002/api/otp/sendOTP`,
+        settings
+      );
+      // const fetchResponse = {
+      //   status: 200,
+      // };
+      if (fetchResponse.status === 200) {
+        setDisplayEmailOTP(true);
+        setOTPEmail(sentTimestamp);
+        setSecondsEmail(60);
+        toast.success(
+          `Enter OTP (sent to ***${emailValue.slice(emailValue.indexOf("@"))})`
+        );
+      } else {
+        toast.error("Something went Wrong!");
+      }
+    } catch (e) {
+      toast.error("Something went Wrong!");
+    }
+  };
+
+  const handleMobileOTPview = () => {
+    if (
+      mobileNumber != "" &&
+      validator.isMobilePhone(mobileNumber) &&
+      mobileNumber.length === 10
+    ) {
+      // callMobileVerificationApi(mobileNumber);
+      setOTPMobileVerified(true);
+      setNewMobileNumber(mobileNumber);
+      setMobileNumber(mobileNumber);
+    } else toast.error("Please enter valid Mobile Number");
+  };
+
+  const handleEmailOTPview = () => {
+    if (emailId != "" && validator.isEmail(emailId)) {
+      // callEmailVerificationApi(emailId);
+      setOTPEmailVerified(true);
+      setNewEmailId(emailId);
+      setEmailId(emailId);
+    } else toast.error("Please enter valid Email Id");
+  };
+
+  const handleMobileOTP = async (value) => {
+    if (value.length === 6) {
+      const verifyTimestamp = Date.now();
+      const settings = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          enteredCode: parseInt(value),
+          id: otpMobile,
+          sentTimestamp: verifyTimestamp,
+        }),
+      };
+
+      try {
+        const fetchResponse = await fetch(
+          `http://localhost:3002/api/otp/verifyOTP`,
+          settings
+        );
+        if (fetchResponse.status === 200) {
+          const repData = await fetchResponse.json();
+          if (repData.check) {
+            setOTPMobileVerified(true);
+            setNewMobileNumber(mobileNumber);
+            toast.success("Mobile Number Verified");
+            setDisplayMobileOTP(false);
+            setEnteredMobileOtp("");
+          } else {
+            if (repData.expired) {
+              toast.error("OTP expired , Retry!!");
+              setDisplayMobileOTP(false);
+              setOTPMobileVerified(false);
+              setEnteredMobileOtp("");
+            } else {
+              toast.error("Incorrect OTP!");
+              setOTPMobileVerified(false);
+            }
+          }
+        } else {
+          toast.error("Something went Wrong!");
+        }
+      } catch (err) {
+        toast.error("Something went wrong, Retry!");
+        setDisplayMobileOTP(false);
+        setOTPMobileVerified(false);
+        setEnteredMobileOtp("");
+      }
+    } else setOTPMobileVerified(false);
+  };
+
+  const handleEmailOTP = async (value) => {
+    if (value.length === 6) {
+      const verifyTimestamp = Date.now();
+      const settings = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          enteredCode: parseInt(value),
+          id: otpEmail,
+          sentTimestamp: verifyTimestamp,
+        }),
+      };
+
+      try {
+        const fetchResponse = await fetch(
+          `http://localhost:3002/api/otp/verifyOTP`,
+          settings
+        );
+        if (fetchResponse.status === 200) {
+          const repData = await fetchResponse.json();
+          if (repData.check) {
+            setOTPEmailVerified(true);
+            setNewEmailId(emailId);
+            toast.success("Email Id Verified");
+            setDisplayEmailOTP(false);
+            setEnteredEmailOtp("");
+          } else {
+            if (repData.expired) {
+              toast.error("OTP expired , Retry!!");
+              setDisplayEmailOTP(false);
+              setOTPEmailVerified(false);
+              setEnteredEmailOtp("");
+            } else {
+              toast.error("Incorrect OTP!");
+              setOTPEmailVerified(false);
+            }
+          }
+        } else {
+          toast.error("Something went Wrong!");
+        }
+      } catch (err) {
+        toast.error("Something went wrong, Retry!");
+        setDisplayEmailOTP(false);
+        setEnteredEmailOtp("");
+        setOTPEmailVerified(false);
+      }
+    } else setOTPEmailVerified(false);
+  };
+
+  const handleResendMobileOTP = () => {
+    // callMobileVerificationApi(mobileNumber);
+    setOTPMobileVerified(true);
+    setNewMobileNumber(mobileNumber);
+  };
+  const handleResendEmailOTP = () => {
+    // callEmailVerificationApi(emailId);
+    setOTPEmailVerified(true);
+    setNewEmailId(emailId);
+  };
+
+  useEffect(() => {
+    const intervalMobile = setInterval(() => {
+      if (secondsMobile > 0) {
+        setSecondsMobile(secondsMobile - 1);
+      }
+    }, 1000);
+    const intervalEmail = setInterval(() => {
+      if (secondsEmail > 0) {
+        setSecondsEmail(secondsEmail - 1);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(intervalMobile);
+      clearInterval(intervalEmail);
+    };
+  }, [secondsMobile, secondsEmail]);
+
+  const countryOptions = [{ value: "India", label: "India" }];
+
+  const cities = cityStateData.cityList;
+  const [cityOptions, setCityOptions] = useState(cities);
+  const states = cityStateData.stateList;
+  const [stateOptions, setStateOptions] = useState(states);
+  const cityState = cityStateData.cityStateData;
+
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleCityChange = (e) => {
+    if (e !== null) {
+      setCity(e.value);
+      setSelectedCity(e);
+      setStateOptions([]);
+      let findState = cityState.filter((obj) => {
+        return obj.City == e.value;
+      })[0].State;
+      setSelectedState({ value: findState, label: findState });
+      setState(findState);
+    } else {
+      setCity("");
+      setSelectedCity(null);
+      setSelectedState(null);
+      setState("");
+      setCityOptions(cities);
+      setStateOptions(states);
+    }
+  };
+
+  const handleStateChange = (e) => {
+    if (e !== null) {
+      setState(e.value);
+      setSelectedState(e);
+
+      let findCities = [];
+      cityState
+        .filter((obj) => {
+          return obj.State == e.value;
+        })
+        .forEach((itm) => {
+          findCities.push({ value: itm.City, label: itm.City });
+        });
+
+      setCityOptions(findCities);
+    } else {
+      setCity("");
+      setSelectedCity(null);
+      setSelectedState(null);
+      setState("");
+      setCityOptions(cities);
+      setStateOptions(states);
+    }
+  };
+
   const companyTypeOptions = [
     { value: "Proprietorship", label: "Proprietorship" },
     { value: "Partnership", label: "Partnership" },
@@ -216,6 +519,87 @@ const CompanyDetails = ({ stepper, type }) => {
     setEscPerson(ar);
   };
 
+  useEffect(() => {
+    if (contactDetails.email !== "") {
+      setNewEmailId(contactDetails.email);
+      setEmailId(contactDetails.email);
+      setOTPEmailVerified(true);
+    }
+    if (contactDetails.mobile !== "") {
+      setNewMobileNumber(contactDetails.mobile);
+      setMobileNumber(contactDetails.mobile);
+      setOTPMobileVerified(true);
+    }
+    // checkFields();
+  });
+
+  const [allowNext, setAllowNext] = useState(false);
+
+  const checkFields = () => {
+    if (
+      companyName !== "" &&
+      companyType !== "" &&
+      (newMobileNumber !== "" || newEmailId !== "") &&
+      address !== "" &&
+      locality !== "" &&
+      pincode !== "" &&
+      city !== "" &&
+      state !== "" &&
+      country !== "" &&
+      authPerson.length !== 0 &&
+      escPerson.length !== 0 &&
+      (otpEmailVerified || otpMobileVerified)
+    )
+      setAllowNext(true);
+    else setAllowNext(true);
+  };
+
+  useEffect(() => {
+    checkFields();
+  });
+
+  const handleNext = () => {
+    let authorisedPerson = [];
+    authPerson.forEach((obj) => {
+      authorisedPerson.push({
+        name: obj.name,
+        contactNumber: obj.mobile,
+        emailID: obj.email,
+        designation: obj.designation,
+      });
+    });
+    let escalation = [];
+    escPerson.forEach((obj) => {
+      escalation.push({
+        name: obj.name,
+        contactNumber: obj.mobile,
+        emailID: obj.email,
+        designation: obj.designation,
+      });
+    });
+    let step1Data = {
+      personalData: {
+        companyFirmName: companyName,
+        companyFirmType: companyType,
+        contactNumber: validator.isMobilePhone(newMobileNumber)
+          ? parseInt(newMobileNumber)
+          : null,
+        emailID: newEmailId,
+        address: address,
+        localityArea: locality,
+        landmark: landmark,
+        pincode: pincode,
+        city: city,
+        state: state,
+        country: country,
+      },
+      authorisedPerson: authorisedPerson,
+      escalation: escalation,
+    };
+    localStorage.setItem("companyDetails", JSON.stringify(step1Data));
+    stepper.next();
+  };
+
   return (
     <div>
       <Card>
@@ -256,6 +640,10 @@ const CompanyDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-name"
                     placeholder="Panda Corps"
+                    value={companyName}
+                    onChange={(e) => {
+                      setCompanyName(e.target.value);
+                    }}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -269,22 +657,224 @@ const CompanyDetails = ({ stepper, type }) => {
                     className="react-select"
                     classNamePrefix="select"
                     options={companyTypeOptions}
+                    onChange={(e) => {
+                      setCompanyType(e.value);
+                    }}
                   />
                 </Col>
               </Row>
               <Row>
-                <Col md="6" className="mb-1">
-                  <Label className="form-label" for="register-mobile">
-                    Mobile Number
-                  </Label>
-                  <Input
-                    type="Number"
-                    id="register-mobile"
-                    placeholder="9875461258"
-                    // onChange={(e) => handleEmail(e.target.value)}
-                  />
-                </Col>
-                <Col md="6" className="mb-1">
+                {mobileNumber === newMobileNumber ? (
+                  <Col md="6" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                      Mobile Number
+                    </Label>
+                    <Input
+                      type="Number"
+                      id="register-mobile"
+                      placeholder="9875461258"
+                      value={mobileNumber}
+                      onChange={(e) => setMobileNumber(e.target.value)}
+                    />
+                    {newMobileNumber !== "" ? (
+                      <Label
+                        className="is-Number-Valid"
+                        style={{ color: "green" }}
+                      >
+                        Verified <span>✔️</span>
+                      </Label>
+                    ) : (
+                      <></>
+                    )}
+                  </Col>
+                ) : (
+                  <>
+                    {displayMobileOTP ? (
+                      <>
+                        <Col xs="7" md="4" className="mb-1">
+                          <Label className="form-label" for="register-mobile">
+                            {`Enter OTP (sent to ***${mobileNumber.slice(6)})`}
+                          </Label>
+                          <Input
+                            type="number"
+                            id="enter-otp"
+                            value={enteredMobileOTP}
+                            onChange={(e) => {
+                              setEnteredMobileOtp(e.target.value);
+                              handleMobileOTP(e.target.value);
+                            }}
+                          />
+                        </Col>
+                        <Col xs="5" md="2">
+                          <div
+                            className="d-flex justify-content-center"
+                            style={{
+                              marginTop: "1.7rem",
+                            }}
+                          >
+                            {secondsMobile > 0 && otpMobileVerified == false ? (
+                              <p>
+                                Time Remaining :{" "}
+                                {secondsMobile < 10
+                                  ? `0${secondsMobile}`
+                                  : secondsMobile}
+                              </p>
+                            ) : (
+                              <Button
+                                disabled={
+                                  secondsMobile > 0 || otpMobileVerified
+                                }
+                                style={{
+                                  color:
+                                    secondsMobile > 0 ? "#DFE3E8" : "#FF5630",
+                                }}
+                                onClick={handleResendMobileOTP}
+                              >
+                                Resend
+                              </Button>
+                            )}
+                          </div>
+                        </Col>
+                      </>
+                    ) : (
+                      <>
+                        <Col xs="8" md="5" className="mb-1">
+                          <Label className="form-label" for="register-mobile">
+                            Mobile Number
+                          </Label>
+                          <Input
+                            type="Number"
+                            id="register-mobile"
+                            placeholder="9875461258"
+                            autoFocus
+                            value={mobileNumber}
+                            onChange={(e) => setMobileNumber(e.target.value)}
+                          />
+                        </Col>
+                        <Col xs="4" md="1">
+                          {" "}
+                          <Button
+                            color="primary"
+                            style={{ marginTop: "1.7rem" }}
+                            disabled={mobileNumber.length !== 10}
+                            onClick={() => {
+                              handleMobileOTPview();
+                            }}
+                          >
+                            Verify
+                          </Button>
+                        </Col>
+                      </>
+                    )}
+                  </>
+                )}
+                {emailId === newEmailId ? (
+                  <Col md="6" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                      Email Id
+                    </Label>
+                    <Input
+                      type="email"
+                      id="register-email"
+                      placeholder="john@email.com"
+                      value={emailId}
+                      onChange={(e) => setEmailId(e.target.value)}
+                    />
+                    {newEmailId !== "" ? (
+                      <Label
+                        className="is-Email-Valid"
+                        style={{ color: "green" }}
+                      >
+                        Verified <span>✔️</span>
+                      </Label>
+                    ) : (
+                      <></>
+                    )}
+                  </Col>
+                ) : (
+                  <>
+                    {displayEmailOTP ? (
+                      <>
+                        <Col xs="7" md="4" className="mb-1">
+                          <Label className="form-label" for="register-mobile">
+                            {`Enter OTP (sent to ***${emailId.slice(
+                              emailId.indexOf("@")
+                            )})`}
+                          </Label>
+                          <Input
+                            type="number"
+                            id="enter-otp"
+                            value={enteredEmailOTP}
+                            onChange={(e) => {
+                              setEnteredEmailOtp(e.target.value);
+                              handleEmailOTP(e.target.value);
+                            }}
+                          />
+                        </Col>
+                        <Col xs="5" md="2">
+                          <div
+                            className="d-flex justify-content-center"
+                            style={{
+                              marginTop: "1.7rem",
+                            }}
+                          >
+                            {secondsEmail > 0 && otpEmailVerified == false ? (
+                              <p>
+                                Time Remaining :{" "}
+                                {secondsEmail < 10
+                                  ? `0${secondsEmail}`
+                                  : secondsEmail}
+                              </p>
+                            ) : (
+                              <Button
+                                disabled={secondsEmail > 0 || otpEmailVerified}
+                                style={{
+                                  color:
+                                    secondsEmail > 0 ? "#DFE3E8" : "#FF5630",
+                                }}
+                                onClick={handleResendEmailOTP}
+                              >
+                                Resend
+                              </Button>
+                            )}
+                          </div>
+                        </Col>
+                      </>
+                    ) : (
+                      <>
+                        <Col xs="8" md="5" className="mb-1">
+                          <Label className="form-label" for="register-Email">
+                            Email Id
+                          </Label>
+                          <Input
+                            type="email"
+                            id="register-Email"
+                            placeholder="john@email.com"
+                            autoFocus
+                            value={emailId}
+                            onChange={(e) => setEmailId(e.target.value)}
+                          />
+                        </Col>
+                        <Col xs="4" md="1">
+                          {" "}
+                          <Button
+                            color="primary"
+                            style={{ marginTop: "1.7rem" }}
+                            disabled={!validator.isEmail(emailId)}
+                            onClick={() => {
+                              handleEmailOTPview();
+                              // setOTPEmailVerified(true);
+                              // setNewEmailId(emailId);
+                            }}
+                          >
+                            Verify
+                          </Button>
+                        </Col>
+                      </>
+                    )}
+                  </>
+                )}
+                {/* <Col md="6" className="mb-1">
                   <Label className="form-label" for="register-email">
                     Email Id
                   </Label>
@@ -292,9 +882,19 @@ const CompanyDetails = ({ stepper, type }) => {
                     type="email"
                     id="register-email"
                     placeholder="john@example.com"
-                    // onChange={(e) => handleEmail(e.target.value)}
+                    value={emailId}
+                    onChange={(e) => setEmailId(e.target.value)}
                   />
-                </Col>
+                  <Label className="is-Email-Valid" style={{ color: "green" }}>
+                    {" "}
+                    Verified{" "}
+                    {emailId === verifiedEmail ? (
+                      <span>✔️</span>
+                    ) : (
+                      <span>❌</span>
+                    )}{" "}
+                  </Label>
+                </Col> */}
               </Row>
               <Row>
                 <Col md="6" className="mb-1">
@@ -306,6 +906,10 @@ const CompanyDetails = ({ stepper, type }) => {
                     id="register-email"
                     placeholder="711-2880 Nulla St., Mankato"
                     // onChange={(e) => handleEmail(e.target.value)}
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                    }}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -316,6 +920,10 @@ const CompanyDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-email"
                     placeholder="Andheri east"
+                    value={locality}
+                    onChange={(e) => {
+                      setLocality(e.target.value);
+                    }}
                     // onChange={(e) => handleEmail(e.target.value)}
                   />
                 </Col>
@@ -329,6 +937,10 @@ const CompanyDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-email"
                     placeholder="Opposite Ganesh Mandir"
+                    value={landmark}
+                    onChange={(e) => {
+                      setLandmark(e.target.value);
+                    }}
                     // onChange={(e) => handleEmail(e.target.value)}
                   />
                 </Col>
@@ -340,6 +952,10 @@ const CompanyDetails = ({ stepper, type }) => {
                     type="number"
                     id="register-email"
                     placeholder="400025"
+                    value={pincode}
+                    onChange={(e) => {
+                      setPincode(e.target.value);
+                    }}
                     // onChange={(e) => handleEmail(e.target.value)}
                   />
                 </Col>
@@ -351,12 +967,15 @@ const CompanyDetails = ({ stepper, type }) => {
                   </Label>
                   <Select
                     theme={selectThemeColors}
-                    isClearable={false}
+                    isClearable={true}
                     id={`city-${type}`}
                     className="react-select"
                     classNamePrefix="select"
+                    value={selectedCity}
                     options={cityOptions}
-                    defaultValue={cityOptions[0]}
+                    onChange={(e) => {
+                      handleCityChange(e);
+                    }}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -365,11 +984,15 @@ const CompanyDetails = ({ stepper, type }) => {
                   </Label>
                   <Select
                     theme={selectThemeColors}
-                    isClearable={false}
+                    isClearable={true}
                     id={`state-${type}`}
                     className="react-select"
                     classNamePrefix="select"
+                    value={selectedState}
                     options={stateOptions}
+                    onChange={(e) => {
+                      handleStateChange(e);
+                    }}
                   />
                 </Col>
               </Row>
@@ -385,6 +1008,9 @@ const CompanyDetails = ({ stepper, type }) => {
                     className="react-select"
                     classNamePrefix="select"
                     options={countryOptions}
+                    onChange={(e) => {
+                      setCountry(e.value);
+                    }}
                   />
                 </Col>
               </Row>
@@ -438,7 +1064,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 <Col md={2} className="mb-md-0 mb-1">
                   <Row>
                     <Label className="form-label" for={`cost-${i}`}>
-                      Email :
+                      Email Id:
                     </Label>
                     <h4>{item.email}</h4>
                   </Row>
@@ -446,7 +1072,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 <Col md={2} className="mb-md-0 mb-1">
                   <Row>
                     <Label className="form-label" for={`quantity-${i}`}>
-                      Mobile :
+                      Mobile Number:
                     </Label>
                     <h4>{item.mobile}</h4>
                   </Row>
@@ -508,7 +1134,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 </Col>
                 <Col md={3} className="mb-md-0 mb-1">
                   <Label className="form-label" for={`cost-`}>
-                    Email
+                    Email id
                   </Label>
                   <Input
                     type="email"
@@ -522,7 +1148,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 </Col>
                 <Col md={3} className="mb-md-0 mb-1">
                   <Label className="form-label" for={`quantity-`}>
-                    Mobile
+                    Mobile Number
                   </Label>
                   <Input
                     type="number"
@@ -612,7 +1238,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 <Col md={2} className="mb-md-0 mb-1">
                   <Row>
                     <Label className="form-label" for={`cost-${i}`}>
-                      Email :
+                      Email Id :
                     </Label>
                     <h4>{item.email}</h4>
                   </Row>
@@ -620,7 +1246,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 <Col md={2} className="mb-md-0 mb-1">
                   <Row>
                     <Label className="form-label" for={`quantity-${i}`}>
-                      Mobile :
+                      Mobile Number :
                     </Label>
                     <h4>{item.mobile}</h4>
                   </Row>
@@ -682,7 +1308,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 </Col>
                 <Col md={3} className="mb-md-0 mb-1">
                   <Label className="form-label" for={`cost-`}>
-                    Email
+                    Email Id
                   </Label>
                   <Input
                     type="email"
@@ -696,7 +1322,7 @@ const CompanyDetails = ({ stepper, type }) => {
                 </Col>
                 <Col md={3} className="mb-md-0 mb-1">
                   <Label className="form-label" for={`quantity-`}>
-                    Mobile
+                    Mobile Number
                   </Label>
                   <Input
                     type="number"
@@ -744,8 +1370,8 @@ const CompanyDetails = ({ stepper, type }) => {
       </Card>
       <Row>
         <Col xs="12">
-          <div className="d-flex justify-content-between">
-            <Button
+          <div className="d-flex justify-content-between flex-row-reverse">
+            {/* <Button
               color="primary"
               className="btn-prev"
               onClick={() => stepper.previous()}
@@ -757,11 +1383,16 @@ const CompanyDetails = ({ stepper, type }) => {
               <span className="align-middle d-sm-inline-block d-none">
                 Previous
               </span>
-            </Button>
+            </Button> */}
             <Button
               color="primary"
               className="btn-next"
-              onClick={() => stepper.next()}
+              onClick={() => {
+                // handleNext();
+                stepper.next();
+              }}
+              
+              // disabled={allowNext}
             >
               <span className="align-middle d-sm-inline-block d-none">
                 Next

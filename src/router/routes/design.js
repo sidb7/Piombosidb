@@ -25,7 +25,7 @@ import DesignVerticalLayout from "../../layouts/DesignVerticalLayout";
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site="designContract" />,
   horizontal: <HorizontalLayout />,
  designVertical: <DesignVerticalLayout  site="designContract" />,
 };
@@ -60,7 +60,7 @@ const Routes = [
   },
   
   {
-    path: "/designContract/ProfileEdit",
+    path: "/designContract/Edit-Profile",
     element: <ProfileEdit/>,
     meta: {
       layout: "designVertical",
@@ -69,9 +69,9 @@ const Routes = [
 
   {
     path: "/designContract/Profile-Completion",
-    element: <DesignProfileCompletion site="designContract"/>,
+    element: <DesignProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
     },
   },
   

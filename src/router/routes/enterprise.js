@@ -25,7 +25,7 @@ import EnterpriseVerticalLayout from "../../layouts/EnterpriseVerticalLayout";
 
 const getLayout = {
   blank: <BlankLayout />,
-  vertical: <VerticalLayout />,
+  vertical: <VerticalLayout site="enterprise"/>,
   horizontal: <HorizontalLayout />,
  enterpriseVertical: <EnterpriseVerticalLayout  site="enterprise" />,
 };
@@ -60,7 +60,7 @@ const Routes = [
   },
   
   {
-    path: "/enterprise/ProfileEdit",
+    path: "/enterprise/Edit-Profile",
     element: <ProfileEdit/>,
     meta: {
       layout: "enterpriseVertical",
@@ -69,9 +69,9 @@ const Routes = [
 
   {
     path: "/enterprise/Profile-Completion",
-    element: <EnterpriseProfileCompletion site="enterprise"/>,
+    element: <EnterpriseProfileCompletion />,
     meta: {
-      layout: "blank",
+      layout: "vertical",
     },
   },
   

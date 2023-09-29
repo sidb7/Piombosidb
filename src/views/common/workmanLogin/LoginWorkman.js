@@ -572,8 +572,8 @@ useEffect(()=>
             <div className="divider my-2">
               <div className="divider-text">Login with</div>
             </div>
-            <Row style={{ justifyContent: "center" }}>
-              <Col lg={12} style={{ paddingLeft: "82px" }}>
+            <Row sclassName="d-flex justify-content-center">
+              <Col lg={12} className="d-flex justify-content-center">
                 <ButtonGroup>
                   <Col md="12" lg="6">
                     <ButtonGroup className="mb-1">

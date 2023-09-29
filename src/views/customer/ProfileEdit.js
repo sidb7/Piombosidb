@@ -1,697 +1,1028 @@
+// ** React Imports
+import { Fragment, useState, useEffect, useRef } from "react";
+
+
+// ** Third Party Components
+  import Select from "react-select";
+
+  import validator from "validator";
+
+import {
+  ArrowLeft,
+  ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  X,
+  Plus,
+  Eye,
+} from "react-feather";
+
+// ** Utils
+import { selectThemeColors } from "@utils";
+
+// ** Custom Components
+import Repeater from "@components/repeater";
+
 // ** Reactstrap Imports
 import {
+  Label,
   Row,
   Col,
-  CardTitle,
-  CardText,
   Form,
-  Label,
   Input,
   Button,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
+  Card,
+  CardTitle,
+  CardText,
+  CardHeader,
+  CardBody,
 } from "reactstrap";
 
-import { useState } from "react";
+// ** Styles
+import "@styles/react/libs/react-select/_react-select.scss";
+const verifiedMobile = "9876543212";
+const verifiedEmail = "test@gmail.com";
+
+import cityStateData from "../cityStateData";
 import { Link } from "react-router-dom";
 
-import CardMedal from "../ui-elements/cards/advance/CardMedal";
-import UserTimeline from "../ui-elements/cards/advance/CardUserTimeline";
-import Sales2 from "../ui-elements/cards/analytics/Sales2";
+const IndividualDetails = ({ stepper, type, dataHandler, contactDetails }) => {
+  const [newMobileNumber, setNewMobileNumber] = useState("");
+  const [newEmailId, setNewEmailId] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [emailId, setEmailId] = useState("");
 
-const ProfileEdit = () => {
-  // // Field validation states
-  const [companyNumberValid, setCompanyNumberValid] = useState(false);
-  const [companyNumber, setCompanyNumber] = useState("");
-  const [gstNumberValid, setgstNumberValid] = useState(false);
-  const [gstNumber, setgstNumber] = useState("");
-  const [cityDropDown, setCityDropDown] = useState(false);
-  const [cityName, setCityName] = useState("Mumbai");
-  const [stateDropDown, setStateDropDown] = useState(false);
-  const [stateName, setStateName] = useState("Maharashtra");
-  const [servicecityDropDown, setserviceCityDropDown] = useState(false);
-  const [servicecityName, setserviceCityName] = useState([]);
-  const [skillsDropDown, setskillsDropDown] = useState(false);
-  const [skillsName, setskillsName] = useState([]);
+  const [enteredMobileOTP, setEnteredMobileOtp] = useState("");
+  const [displayMobileOTP, setDisplayMobileOTP] = useState(false);
+  const [otpMobileVerified, setOTPMobileVerified] = useState(false);
 
-  const [aadharNumber, setAadharNumber] = useState("");
+  const [enteredEmailOTP, setEnteredEmailOtp] = useState("");
+  const [displayEmailOTP, setDisplayEmailOTP] = useState(false);
+  const [otpEmailVerified, setOTPEmailVerified] = useState(false);
 
-  const [firmDropDown, setFirmDropDown] = useState(false);
-  const [firmName, setFirmName] = useState("Individual");
+  const [otpMobile, setOTPMobile] = useState("");
+  const [otpEmail, setOTPEmail] = useState("");
 
-  //handle aadhar number
-  const handleAadharFormat = (val) => {
-    setAadharNumber(val);
-    let i = 4;
-    while (i < val.length) {
-      if (val[i] != "-") {
-        setAadharNumber(val.slice(0, i).concat("-", val.slice(i, val.length)));
+  const [secondsMobile, setSecondsMobile] = useState(0);
+  const [secondsEmail, setSecondsEmail] = useState(0);
+
+  const [fullname, setFullName] = useState("");
+  const [address, setAddress] = useState("");
+  const [locality, setLocality] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [pincode, setPincode] = useState(0);
+  const [city, setCity] = useState("Mumbai");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+
+  const [fileInputs, setFileInputs] = useState([]);
+
+  const [GST,SetGst] = useState(false)
+
+  const handleEachFileUpload = (e, fileKey) => {
+    const fileEntry = {
+      fileId: fileKey,
+      file: e.target.files[0],
+    };
+    let arr = fileInputs;
+    arr.push(fileEntry);
+    setFileInputs(arr);
+  };
+
+  // const handleNextFileUpload = async () => {
+  //   const formData = new FormData();
+
+  //   fileInputs.forEach((fileInput, index) => {
+  //     formData.append(fileInput.fileId, fileInput.file);
+  //   });
+
+  //   // console.log(formData);
+  //   const uploadFiles = await fetch(
+  //     "http://localhost:3002/api/workmanIndividual/store",
+  //     {
+  //       method: "POST",
+  //       credentials: "include",
+  //       body: formData,
+  //     }
+  //   );
+  //   const uploadFilesData = await uploadFiles.json();
+  //   // console.log(uploadFilesData.Urls);
+  // };
+
+  const callMobileVerificationApi = async (mobileValue) => {
+    const mobile = parseInt(mobileValue);
+    const sentTimestamp = Date.now();
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        toMobile: mobile,
+        toEmail: "",
+        sentTimestamp: sentTimestamp,
+        medium: "mobile",
+      }),
+    };
+
+    try {
+      const fetchResponse = await fetch(
+        `http://localhost:3002/api/otp/sendOTP`,
+        settings
+      );
+      // const fetchResponse = {
+      //   status: 200,
+      // };
+      if (fetchResponse.status === 200) {
+        setDisplayMobileOTP(true);
+        setOTPMobile(sentTimestamp);
+        setSecondsMobile(60);
+        toast.success(`Enter OTP (sent to ***${mobileValue.slice(6)})`);
+      } else {
+        toast.error("Something went Wrong!");
       }
-      i += 5;
+    } catch (e) {
+      toast.error("Something went Wrong!");
     }
   };
 
-  //handle city dropdown
-  const handleserviceCityDrop = () => {
-    setserviceCityDropDown(!servicecityDropDown);
+  const callEmailVerificationApi = async (emailValue) => {
+    const sentTimestamp = Date.now();
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        toMobile: "",
+        toEmail: emailValue,
+        sentTimestamp: sentTimestamp,
+        medium: "email",
+      }),
+    };
+
+    try {
+      const fetchResponse = await fetch(
+        `http://localhost:3002/api/otp/sendOTP`,
+        settings
+      );
+      // const fetchResponse = {
+      //   status: 200,
+      // };
+      if (fetchResponse.status === 200) {
+        setDisplayEmailOTP(true);
+        setOTPEmail(sentTimestamp);
+        setSecondsEmail(60);
+        toast.success(
+          `Enter OTP (sent to ***${emailValue.slice(emailValue.indexOf("@"))})`
+        );
+      } else {
+        toast.error("Something went Wrong!");
+      }
+    } catch (e) {
+      toast.error("Something went Wrong!");
+    }
   };
 
-  //handle skills dropdown
-  const handleskillsDrop = () => {
-    setskillsDropDown(!skillsDropDown);
-  };
-
-  const handleskillsArray = (name) => {
+  const handleMobileOTPview = () => {
     if (
-      skillsName.find((skills) => {
-        return skills == name;
-      }) == undefined
+      mobileNumber != "" &&
+      validator.isMobilePhone(mobileNumber) &&
+      mobileNumber.length === 10
     ) {
-      let newArr = skillsName;
-      newArr.push(name);
-      setskillsName(newArr);
+      // callMobileVerificationApi(mobileNumber);
+      setOTPMobileVerified(true);
+      setNewMobileNumber(mobileNumber);
+      setMobileNumber(mobileNumber);
+    } else toast.error("Please enter valid Mobile Number");
+  };
+
+  const handleEmailOTPview = () => {
+    if (emailId != "" && validator.isEmail(emailId)) {
+      // callEmailVerificationApi(emailId);
+
+      setOTPEmailVerified(true);
+      setNewEmailId(emailId);
+      setEmailId(emailId);
+    } else toast.error("Please enter valid Email Id");
+  };
+
+  const handleMobileOTP = async (value) => {
+    if (value.length === 6) {
+      const verifyTimestamp = Date.now();
+      const settings = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          enteredCode: parseInt(value),
+          id: otpMobile,
+          sentTimestamp: verifyTimestamp,
+        }),
+      };
+
+      try {
+        const fetchResponse = await fetch(
+          `http://localhost:3002/api/otp/verifyOTP`,
+          settings
+        );
+        if (fetchResponse.status === 200) {
+          const repData = await fetchResponse.json();
+          if (repData.check) {
+            setOTPMobileVerified(true);
+            setNewMobileNumber(mobileNumber);
+            toast.success("Mobile Number Verified");
+            setDisplayMobileOTP(false);
+            setEnteredMobileOtp("");
+          } else {
+            if (repData.expired) {
+              toast.error("OTP expired , Retry!!");
+              setDisplayMobileOTP(false);
+              setOTPMobileVerified(false);
+              setEnteredMobileOtp("");
+            } else {
+              toast.error("Incorrect OTP!");
+              setOTPMobileVerified(false);
+            }
+          }
+        } else {
+          toast.error("Something went Wrong!");
+        }
+      } catch (err) {
+        toast.error("Something went wrong, Retry!");
+        setDisplayMobileOTP(false);
+        setOTPMobileVerified(false);
+        setEnteredMobileOtp("");
+      }
+    } else setOTPMobileVerified(false);
+  };
+
+  const handleEmailOTP = async (value) => {
+    if (value.length === 6) {
+      const verifyTimestamp = Date.now();
+      const settings = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          enteredCode: parseInt(value),
+          id: otpEmail,
+          sentTimestamp: verifyTimestamp,
+        }),
+      };
+
+      try {
+        const fetchResponse = await fetch(
+          `http://localhost:3002/api/otp/verifyOTP`,
+          settings
+        );
+        if (fetchResponse.status === 200) {
+          const repData = await fetchResponse.json();
+          if (repData.check) {
+            setOTPEmailVerified(true);
+            setNewEmailId(emailId);
+            toast.success("Email Id Verified");
+            setDisplayEmailOTP(false);
+            setEnteredEmailOtp("");
+          } else {
+            if (repData.expired) {
+              toast.error("OTP expired , Retry!!");
+              setDisplayEmailOTP(false);
+              setOTPEmailVerified(false);
+              setEnteredEmailOtp("");
+            } else {
+              toast.error("Incorrect OTP!");
+              setOTPEmailVerified(false);
+            }
+          }
+        } else {
+          toast.error("Something went Wrong!");
+        }
+      } catch (err) {
+        toast.error("Something went wrong, Retry!");
+        setDisplayEmailOTP(false);
+        setEnteredEmailOtp("");
+        setOTPEmailVerified(false);
+      }
+    } else setOTPEmailVerified(false);
+  };
+
+  const handleResendMobileOTP = () => {
+    // callMobileVerificationApi(mobileNumber);
+    setOTPMobileVerified(true);
+    setNewMobileNumber(mobileNumber);
+  };
+  const handleResendEmailOTP = () => {
+    // callEmailVerificationApi(emailId);
+    setOTPEmailVerified(true);
+    setNewEmailId(emailId);
+  };
+
+  useEffect(() => {
+    const intervalMobile = setInterval(() => {
+      if (secondsMobile > 0) {
+        setSecondsMobile(secondsMobile - 1);
+      }
+    }, 1000);
+    const intervalEmail = setInterval(() => {
+      if (secondsEmail > 0) {
+        setSecondsEmail(secondsEmail - 1);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(intervalMobile);
+      clearInterval(intervalEmail);
+    };
+  }, [secondsMobile, secondsEmail]);
+
+  const countryOptions = [{ value: "India", label: "India" }];
+
+  const cities = cityStateData.cityList;
+  const [cityOptions, setCityOptions] = useState(cities);
+  const states = cityStateData.stateList;
+  const [stateOptions, setStateOptions] = useState(states);
+  const cityState = cityStateData.cityStateData;
+
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleCityChange = (e) => {
+    if (e !== null) {
+      setCity(e.value);
+      setSelectedCity(e);
+      setStateOptions([]);
+      let findState = cityState.filter((obj) => {
+        return obj.City == e.value;
+      })[0].State;
+      setSelectedState({ value: findState, label: findState });
+      setState(findState);
     } else {
-      let newArr = skillsName.filter((skills) => {
-        return skills != name;
-      });
-      setskillsName(newArr);
+      setCity("");
+      setSelectedCity(null);
+      setSelectedState(null);
+      setState("");
+      setCityOptions(cities);
+      setStateOptions(states);
     }
   };
 
-  const handleserviceCityArray = (name) => {
+  const handleStateChange = (e) => {
+    if (e !== null) {
+      setState(e.value);
+      setSelectedState(e);
+
+      let findCities = [];
+      cityState
+        .filter((obj) => {
+          return obj.State == e.value;
+        })
+        .forEach((itm) => {
+          findCities.push({ value: itm.City, label: itm.City });
+        });
+
+      setCityOptions(findCities);
+    } else {
+      setCity("");
+      setSelectedCity(null);
+      setSelectedState(null);
+      setState("");
+      setCityOptions(cities);
+      setStateOptions(states);
+    }
+  };
+
+  const languages = [
+    { value: "English", label: "English" },
+    { value: "Hindi", label: "Hindi" },
+    { value: "Marathi", label: "Marathi" },
+  ];
+
+  const [count, setCount] = useState(1);
+
+  const increaseCount = () => {
+    setCount(count + 1);
+  };
+
+  const deleteForm = (e) => {
+    e.preventDefault();
+    e.target.closest("form").remove();
+  };
+
+  const [showPersonal, setShowPersonal] = useState(true);
+  const [showLang, setShowLang] = useState(true);
+  const [showEd, setShowEd] = useState(true);
+
+  const [work, setWork] = useState(false);
+
+  const [basiced, setBasiced] = useState("");
+  const [iti, setIti] = useState(false);
+  const [dip, setDip] = useState(false);
+  const [deg, setDeg] = useState(false);
+
+  const [qual, setQual] = useState([]);
+
+  const [diplomaCertificate, setDiplomaCertificate] = useState("");
+  const [degreeCertificate, setDegreeCertificate] = useState("");
+  const [ITICertificate, setITICertificate] = useState("");
+
+  const [langName, setLangName] = useState("");
+  const [langSpeak, setLangSpeak] = useState("None");
+  const [langWrite, setLangWrite] = useState("None");
+  const [langRead, setLangRead] = useState("None");
+  const [lang, setLang] = useState([]);
+
+  const langLevel = {
+    0: "None",
+    1: "Beginner",
+    2: "Fluent",
+  };
+
+  const handleNewLang = () => {
     if (
-      servicecityName.find((city) => {
-        return city == name;
-      }) == undefined
+      langName !== "" &&
+      (langSpeak !== "None" || langWrite !== "None" || langRead !== "None")
     ) {
-      let newArr = servicecityName;
-      newArr.push(name);
-      setserviceCityName(newArr);
+      setLang([
+        ...lang,
+        {
+          language: langName,
+          speaking: langSpeak,
+          writing: langWrite,
+          reading: langRead,
+        },
+      ]);
+      setLangName("");
+      setLangSpeak("");
+      setLangWrite("");
+      setLangRead("");
     } else {
-      let newArr = servicecityName.filter((city) => {
-        return city != name;
-      });
-      setserviceCityName(newArr);
+      alert("Enter fluency details for language!!");
     }
   };
 
-  //handle company number
-  const handleCompanyNumber = (value) => {
-    setCompanyNumber(value);
-    const alphabet = new RegExp("(?=.*[a-zA-Z])");
-    const number = new RegExp("(?=.*[0-9])");
-    const special = new RegExp("(?=.*[!@#$%^&* ])");
-    let i = 0;
-    if (alphabet.test(value)) {
-      i += 1;
-    }
-    if (number.test(value)) {
-      i += 1;
-    }
-    if (!special.test(value)) {
-      i += 1;
-    }
-    if (value.length <= 15) {
-      i += 1;
-    }
-    if (i == 4) {
-      setCompanyNumberValid(true);
+  const handleEditLang = (ind) => {
+    let langObj = lang.at(ind);
+    handleDeleteLang(ind);
+    setLangName(langObj.language);
+    setLangSpeak(langObj.speaking);
+    setLangWrite(langObj.writing);
+    setLangRead(langObj.reading);
+  };
+
+  const handleDeleteLang = (ind) => {
+    let ar = [];
+    if (lang.length <= 1) {
+      ar = [];
     } else {
-      setCompanyNumberValid(false);
+      if (ind == 0) {
+        ar = lang.slice(1);
+      } else if (ind == lang.length - 1) {
+        ar = lang.slice(0, ind);
+      } else {
+        ar = lang.slice(0, ind).concat(lang.slice(ind + 1));
+      }
     }
+    setLang(ar);
   };
 
-  //handle gst number
-  const handleGSTNumber = (value) => {
-    setgstNumber(value);
-    const alphabet = new RegExp("(?=.*[a-zA-Z])");
-    const number = new RegExp("(?=.*[0-9])");
-    const special = new RegExp("(?=.*[!@#$%^&* ])");
-    let i = 0;
-    if (alphabet.test(value)) {
-      i += 1;
-    }
-    if (number.test(value)) {
-      i += 1;
-    }
-    if (!special.test(value)) {
-      i += 1;
-    }
-    if (value.length <= 15) {
-      i += 1;
-    }
-    if (i == 4) {
-      setgstNumberValid(true);
-    } else {
-      setgstNumberValid(false);
-    }
+  const handleCertificatesRemoval = (item, fileKey) => {
+    let arr = fileInputs.filter((obj) => {
+      return obj.fileId !== fileKey;
+    });
+    const fileLabel = document.getElementById(`${item}-pic-upload-label`);
+    fileLabel.textContent = `Upload ${item} certificate`;
+
+    const fileInput = document.getElementById(`${item}-pic-upload`);
+    fileInput.type = "text"; // Temporarily change the type to text
+    fileInput.type = "file";
+
+    setFileInputs(arr);
   };
 
-  //handle firm dropdown
-  const handleFirmDrop = () => {
-    setFirmDropDown(!firmDropDown);
-  };
+  const [enableNext, setEnableNext] = useState(false);
 
-  //handle state dropdown
-  const handleStateDrop = () => {
-    setStateDropDown(!stateDropDown);
-  };
+  const [photo,setPhoto] = useState(null)
 
-  //handle city dropdown
-  const handleCityDrop = () => {
-    setCityDropDown(!cityDropDown);
-  };
 
-  // ** Hooks
-  // const { skin } = useSkin();
 
-  // const source = skin === "dark" ? illustrationsDark : illustrationsLight;
-
+  const[disableCard,setDisableCard] =useState("")
   return (
     <div>
-      <Row xs="1">
-        <Col>
-          <CardTitle tag="h2" className="fw-bold mb-1">
-            Welcome to Piombo. Please fill in the empty fields!
-          </CardTitle>
-        </Col>
-      </Row>
-      <Row md="2" sm="2" xs="1">
-        <Col>
-          <Form
-            className="auth-register-form mt-2"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                First Name
-              </Label>
-              <Input
-                type="text"
-                id="register-name"
-                placeholder="Pranav"
-                autoFocus
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Last Name
-              </Label>
-              <Input
-                type="text"
-                id="register-name"
-                placeholder="Nair"
-                autoFocus
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-email">
-                Address
-              </Label>
-              <Input
-                type="text"
-                id="register-email"
-                placeholder="john@example.com"
-                // onChange={(e) => handleEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-email">
-                Pincode
-              </Label>
-              <Input
-                type="Number"
-                id="register-email"
-                placeholder="400071"
-                // onChange={(e) => handleEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                City
-              </Label>
-              <Dropdown isOpen={cityDropDown} toggle={handleCityDrop}>
-                <DropdownToggle caret color="primary">
-                  {cityName}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setCityName("Mumbai");
-                      setStateName("Maharashtra");
-                    }}
-                  >
-                    Mumbai
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setCityName("Pune");
-                      setStateName("Maharashtra");
-                    }}
-                  >
-                    Pune
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setCityName("Kochi");
-                      setStateName("Kerala");
-                    }}
-                  >
-                    Kochi
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                State
-              </Label>
-              <Dropdown isOpen={stateDropDown} toggle={handleStateDrop}>
-                <DropdownToggle caret color="primary">
-                  {stateName}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setStateName("Maharashtra");
-                    }}
-                  >
-                    Maharashtra
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setStateName("Karnataka");
-                    }}
-                  >
-                    Karnataka
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setStateName("Kerala");
-                    }}
-                  >
-                    Kerala
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Bank Name
-              </Label>
-              <Input
-                type="text"
-                id="register-name"
-                placeholder="bank name"
-                autoFocus
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Bank Branch Name
-              </Label>
-              <Input
-                type="text"
-                id="register-name"
-                placeholder="branch name"
-                autoFocus
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-email">
-                Account number
-              </Label>
-              <Input
-                type="number"
-                id="register-email"
-                placeholder="XXXXXXX"
-                // onChange={(e) => handleEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-email">
-                IFSC Code
-              </Label>
-              <Input
-                type="text"
-                id="register-email"
-                placeholder="XXXXXX"
-                // onChange={(e) => handleEmail(e.target.value)}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Serviceable City
-              </Label>
-              <Dropdown
-                isOpen={servicecityDropDown}
-                toggle={handleserviceCityDrop}
+      <Card>
+        <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
+          <Row>
+            <Col xs="7"  sm="6" md="9" lg="10">
+              <div className="content-header">
+                <h3 className="mb-0">Personal Data</h3>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="3" sm="4" md="2" lg="1">
+              <div className="content-header">
+              <Button
+                color={((disableCard!="Basic")?"primary":"success")} 
+                outline
+                onClick={() => {
+                 (disableCard!="Basic")? setDisableCard("Basic"):setDisableCard("");
+                 (disableCard!="Basic")? "":toast.error("Fill all fields")
+                }}
               >
-                <DropdownToggle caret color="primary">
-                  {servicecityName.length} cities selected
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    children
-                    active={
-                      servicecityName.find((city) => {
-                        return city == "Mumbai";
-                      }) != undefined
-                    }
-                    onClick={() => {
-                      handleserviceCityArray("Mumbai");
-                    }}
-                  >
-                    Mumbai
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    active={
-                      servicecityName.find((city) => {
-                        return city == "Pune";
-                      }) != undefined
-                    }
-                    onClick={() => {
-                      handleserviceCityArray("Pune");
-                    }}
-                  >
-                    Pune
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    active={
-                      servicecityName.find((city) => {
-                        return city == "Delhi";
-                      }) != undefined
-                    }
-                    onClick={() => {
-                      handleserviceCityArray("Delhi");
-                    }}
-                  >
-                    Delhi
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Skill Set
-              </Label>
-              <Dropdown isOpen={skillsDropDown} toggle={handleskillsDrop}>
-                <DropdownToggle caret color="primary">
-                  {skillsName.length} skills selected
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    children
-                    active={
-                      skillsName.find((skills) => {
-                        return skills == "Skill 1";
-                      }) != undefined
-                    }
-                    onClick={() => {
-                      handleskillsArray("Skill 1");
-                    }}
-                  >
-                    Skill 1
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    active={
-                      skillsName.find((skills) => {
-                        return skills == "Skill 2";
-                      }) != undefined
-                    }
-                    onClick={() => {
-                      handleskillsArray("Skill 2");
-                    }}
-                  >
-                    Skill 2
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    active={
-                      skillsName.find((skills) => {
-                        return skills == "Skill 3";
-                      }) != undefined
-                    }
-                    onClick={() => {
-                      handleskillsArray("Skill 3");
-                    }}
-                  >
-                    Skill 3
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </Form>
-        </Col>
-
-        {/* -------------------------------------------------------------- */}
-
-        <Col>
-          <Form
-            className="auth-register-form mt-2"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Firm Status
-              </Label>
-              <Dropdown isOpen={firmDropDown} toggle={handleFirmDrop}>
-                <DropdownToggle caret color="primary">
-                  {firmName}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setFirmName("Individual");
-                    }}
-                  >
-                    Individual
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setFirmName("Partner");
-                    }}
-                  >
-                    Partner
-                  </DropdownItem>
-                  <DropdownItem
-                    children
-                    onClick={() => {
-                      setFirmName("Company");
-                    }}
-                  >
-                    Company
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            {firmName == "Partner" || firmName == "Company" ? (
-              <div className="mb-1">
-                <Label className="form-label" for="register-name">
-                  Firm Name
-                </Label>
-                <Input
-                  type="text"
-                  id="register-name"
-                  placeholder="Firm Name"
-                  autoFocus
-                />
+             {((disableCard!="Basic")?"Edit":"Save")}
+              </Button>
+                {/* <small>Enter Your Company Details.</small> */}
               </div>
-            ) : (
-              <div />
-            )}
-            {firmName == "Partner" ? (
-              <div className="mb-1">
-                <Label className="form-label" for="register-name">
-                  Firm Id
-                </Label>
-                <Input
-                  type="text"
-                  id="register-name"
-                  placeholder="Firm Name"
-                  autoFocus
-                />
-              </div>
-            ) : (
-              <div />
-            )}
-            <div className="mb-1">
-              <Label className="form-label" for="register-email">
-                Company Number
-              </Label>
-              <Input
-                type="Text"
-                id="register-email"
-                placeholder="eg : AAFCC1308K"
-                onChange={(e) => handleCompanyNumber(e.target.value)}
-              />
-            </div>
-            {companyNumber.length > 0 ? (
-              <div>
-                <Label className="is-Valid">
-                  {" "}
-                  Valid Company Number{" "}
-                  {companyNumberValid ? <span>✔️</span> : <span>❌</span>}{" "}
-                </Label>
-              </div>
-            ) : (
-              <div />
-            )}
-            <div className="mb-1">
-              <Label className="form-label" for="register-email">
-                GST Number
-              </Label>
-              <Input
-                type="Text"
-                id="register-email"
-                placeholder="XXXXXXXX"
-                onChange={(e) => handleGSTNumber(e.target.value)}
-              />
-            </div>
-            {gstNumber.length > 0 ? (
-              <div>
-                <Label className="is-Valid">
-                  {" "}
-                  GST Number{" "}
-                  {gstNumberValid ? (
-                    <span>
-                      <b>to be verified later!</b>
-                    </span>
-                  ) : (
-                    <span>❌</span>
-                  )}{" "}
-                </Label>
-              </div>
-            ) : (
-              <div />
-            )}
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Aadhar Number
-              </Label>
-              <Input
-                type="text"
-                id="register-name"
-                placeholder="XXXXXXXXXXXX"
-                value={aadharNumber}
-                autoFocus
-                onChange={(e) => handleAadharFormat(e.target.value)}
-              />
-            </div>
-            <div className="mb-1">
-              <Label className="form-label" for="register-name">
-                Pan Number
-              </Label>
-              <Input
-                type="text"
-                id="register-name"
-                placeholder="XXXXXXXXX"
-                autoFocus
-              />
-              <div className="mb-1">
-                <Label className="form-label" for="signup-details-photo-copy">
-                  Passport Photograph
-                </Label>
-                <Input
-                  type="file"
-                  id="signup-details-photo-copy"
-                  placeholder=""
-                />
-              </div>
-              <div className="mb-1">
-                <Label
-                  className="form-label"
-                  for="signup-details-aadhar-card-copy"
+            </Col>
+            <Col xs="2" sm="2"  md="1" lg="1">
+              {showPersonal ? (
+                <ChevronUp
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowPersonal(!showPersonal)}
+                ></ChevronUp>
+              ) : (
+                <ChevronDown
+                  size={20}
+                  className="align-middle ms-sm-25 ms-0"
+                  onClick={() => setShowPersonal(!showPersonal)}
+                ></ChevronDown>
+              )}
+            </Col>
+          </Row>
+        </CardHeader>
+        {showPersonal ? (
+          <CardBody className="mt-2">
+            <Form onSubmit={(e) => e.preventDefault()}>
+              <Row>
+                <Col xs="12" md="6" className="mb-1">
+                  <Label className="form-label" for="register-name">
+                    Full Name
+                  </Label>
+                  <Input
+                  disabled={(disableCard!=="Basic")}
+                    type="text"
+                    id="register-name"
+                    placeholder="Panda Corps"
+                    onChange={(e) => {
+                      setFullName(e.target.value);
+                    }}
+                  />
+                </Col>
+                <Col xs="7" md="4" className="mb-1">
+                  <Label
+                    className="profile-pic-upload-label"
+                    id="profile-pic-upload-label"
+                    for="profile-pic-upload"
+                  >
+                    Upload Photo
+                  </Label>
+                  <Input
+                   disabled={(disableCard!=="Basic")}
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    id="profile-pic-upload"
+                   onChange={e=>setPhoto(URL.createObjectURL(e.target.files[0]))}
+                  />
+                </Col>
+                <Col
+                  xs="5"
+                  md="2"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
-                  AADHAR card
-                </Label>
-                <Input
-                  type="file"
-                  id="signup-details-aadhar-card-copy"
-                  placeholder=""
-                />
-              </div>
-              <div className="mb-1">
-                <Label
-                  className="form-label"
-                  for="signup-details-pan-card-copy"
-                >
-                  PAN Card
-                </Label>
-                <Input
-                  type="file"
-                  id="signup-details-pan-card-copy"
-                  placeholder=""
-                />
-              </div>
-              <div className="mb-1">
-                <Label className="form-label" for="signup-details-Cheque-copy">
-                  Cancelled Cheque
-                </Label>
-                <Input
-                  type="file"
-                  id="signup-details-Cheque-copy"
-                  placeholder=""
-                />
-              </div>
-              <div className="mb-1">
-                <Label
-                  className="form-label"
-                  for="signup-details-GST-card-copy"
-                >
-                  GST certificate
-                </Label>
-                <Input
-                  type="file"
-                  id="signup-details-GST-card-copy"
-                  placeholder=""
-                />
-              </div>
-              <div className="mb-1">
-                <Label
-                  className="form-label"
-                  for="signup-details-Authorization-card-copy"
-                >
-                  Authorization Letter
-                </Label>
-                <Input
-                  type="file"
-                  id="signup-details-Authorization-card-copy"
-                  placeholder=""
-                />
-              </div>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-      <Row xs="1">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            // marginTop: "-8rem",
-          }}
-        >
-          <Button tag={Link} to="/notAuthorized" color="primary">
-            Finish
-          </Button>
-        </div>
-      </Row>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "nowrap",
+                      marginTop: "1rem",
+                    }}
+                  >
+                    <Button
+                  
+                      color="primary"
+                      outline
+                      style={{
+                        marginRight: "1rem",
+                      }}
+                      disabled={(photo===null)}
+                      onClick={() => {
+                       window.open(photo)
+                      }}
+                    >
+                      <Eye size={14} />
+                    </Button>
+                    <Button
+                     disabled={(disableCard!=="Basic")}
+                      color="danger"
+                      outline
+                      onClick={() => {
+                      
+                        const fileInput =
+                          document.getElementById("profile-pic-upload");
+                        fileInput.value = ""; // Temporarily change the type to text
+                    
+                        setPhoto(null);
+                      }}
+                    >
+                      <X size={14} />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                {mobileNumber === newMobileNumber ? (
+                  <Col md="6" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                      Mobile Number
+                    </Label>
+                    <Input
+                     disabled={(disableCard!=="Basic")}
+                      type="Number"
+                      id="register-mobile"
+                      placeholder="9875461258"
+                      value={mobileNumber}
+                      onChange={(e) => setMobileNumber(e.target.value)}
+                    />
+                    {newMobileNumber !== "" ? (
+                      <Label
+                        className="is-Number-Valid"
+                        style={{ color: "green" }}
+                      >
+                        Verified <span>✔️</span>
+                      </Label>
+                    ) : (
+                      <></>
+                    )}
+                  </Col>
+                ) : (
+                  <>
+                    {displayMobileOTP ? (
+                      <>
+                        <Col xs="7" md="4" className="mb-1">
+                          <Label className="form-label" for="register-mobile">
+                            {`Enter OTP (sent to ***${mobileNumber.slice(6)})`}
+                          </Label>
+                          <Input
+                           disabled={(disableCard!=="Basic")}
+                            type="number"
+                            id="enter-otp"
+                            value={enteredMobileOTP}
+                            onChange={(e) => {
+                              setEnteredMobileOtp(e.target.value);
+                              handleMobileOTP(e.target.value);
+                            }}
+                          />
+                        </Col>
+                        <Col xs="5" md="2">
+                          <div
+                            className="d-flex justify-content-center"
+                            style={{
+                              marginTop: "1.7rem",
+                            }}
+                          >
+                            {secondsMobile > 0 && otpMobileVerified == false ? (
+                              <p>
+                                Time Remaining :{" "}
+                                {secondsMobile < 10
+                                  ? `0${secondsMobile}`
+                                  : secondsMobile}
+                              </p>
+                            ) : (
+                              <Button
+                              disabled={(disableCard!=="Basic")}
+                                style={{
+                                  color:
+                                    secondsMobile > 0 ? "#DFE3E8" : "#FF5630",
+                                }}
+                                onClick={handleResendMobileOTP}
+                              >
+                                Resend
+                              </Button>
+                            )}
+                          </div>
+                        </Col>
+                      </>
+                    ) : (
+                      <>
+                        <Col xs="8" md="5" className="mb-1">
+                          <Label className="form-label" for="register-mobile">
+                            Mobile Number
+                          </Label>
+                          <Input
+                           disabled={(disableCard!=="Basic")}
+                            type="Number"
+                            id="register-mobile"
+                            placeholder="9875461258"
+                            autoFocus
+                            value={mobileNumber}
+                            onChange={(e) => setMobileNumber(e.target.value)}
+                          />
+                        </Col>
+                        <Col xs="4" md="1">
+                          {" "}
+                          <Button
+                          
+                            color="primary"
+                            style={{ marginTop: "1.7rem" }}
+                            disabled={(disableCard!=="Basic")}
+                            onClick={() => {
+                              // setOTPMobileVerified(true);
+                              // setNewMobileNumber(mobileNumber);
+                              handleMobileOTPview();
+                            }}
+                          >
+                            Verify
+                          </Button>
+                        </Col>
+                      </>
+                    )}
+                  </>
+                )}
+                {emailId === newEmailId ? (
+                  <Col md="6" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                      Email Id
+                    </Label>
+                    <Input
+                     disabled={(disableCard!=="Basic")}
+                      type="email"
+                      id="register-email"
+                      placeholder="john@email.com"
+                      value={emailId}
+                      onChange={(e) => setEmailId(e.target.value)}
+                    />
+                    {newEmailId !== "" ? (
+                      <Label
+                        className="is-Email-Valid"
+                        style={{ color: "green" }}
+                      >
+                        Verified <span>✔️</span>
+                      </Label>
+                    ) : (
+                      <></>
+                    )}
+                  </Col>
+                ) : (
+                  <>
+                    {displayEmailOTP ? (
+                      <>
+                        <Col xs="7" md="4" className="mb-1">
+                          <Label className="form-label" for="register-mobile">
+                            {`Enter OTP (sent to ***${emailId.slice(
+                              emailId.indexOf("@")
+                            )})`}
+                          </Label>
+                          <Input
+                           disabled={(disableCard!=="Basic")}
+                            type="number"
+                            id="enter-otp"
+                            value={enteredEmailOTP}
+                            onChange={(e) => {
+                              setEnteredEmailOtp(e.target.value);
+                              handleEmailOTP(e.target.value);
+                            }}
+                          />
+                        </Col>
+                        <Col xs="5" md="2">
+                          <div
+                            className="d-flex justify-content-center"
+                            style={{
+                              marginTop: "1.7rem",
+                            }}
+                          >
+                            {secondsEmail > 0 && otpEmailVerified == false ? (
+                              <p>
+                                Time Remaining :{" "}
+                                {secondsEmail < 10
+                                  ? `0${secondsEmail}`
+                                  : secondsEmail}
+                              </p>
+                            ) : (
+                              <Button
+                              disabled={(disableCard!=="Basic")}
+                                style={{
+                                  color:
+                                    secondsEmail > 0 ? "#DFE3E8" : "#FF5630",
+                                }}
+                                onClick={handleResendEmailOTP}
+                              >
+                                Resend
+                              </Button>
+                            )}
+                          </div>
+                        </Col>
+                      </>
+                    ) : (
+                      <>
+                        <Col xs="8" md="5" className="mb-1">
+                          <Label className="form-label" for="register-Email">
+                            Email Id
+                          </Label>
+                          <Input
+                           disabled={(disableCard!=="Basic")}
+                            type="email"
+                            id="register-Email"
+                            placeholder="john@email.com"
+                            autoFocus
+                            value={emailId}
+                            onChange={(e) => setEmailId(e.target.value)}
+                          />
+                        </Col>
+                        <Col xs="4" md="1">
+                          {" "}
+                          <Button
+                            color="primary"
+                            style={{ marginTop: "1.7rem" }}
+                            disabled={(disableCard!=="Basic")}
+                            onClick={() => {
+                              // setOTPEmailVerified(true);
+                              // setNewEmailId(emailId);
+                              handleEmailOTPview();
+                            }}
+                          >
+                            Verify
+                          </Button>
+                        </Col>
+                      </>
+                    )}
+                  </>
+                )}
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-email">
+                    Address
+                  </Label>
+                  <Input
+                   disabled={(disableCard!=="Basic")}
+                    type="text"
+                    id="register-email"
+                    placeholder="711-2880 Nulla St., Mankato"
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-email">
+                    Locality/Area
+                  </Label>
+                  <Input
+                   disabled={(disableCard!=="Basic")}
+                    type="text"
+                    id="register-email"
+                    placeholder="Andheri east"
+                    onChange={(e) => setLocality(e.target.value)}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-email">
+                    Landmark
+                  </Label>
+                  <Input
+                   disabled={(disableCard!=="Basic")}
+                    type="text"
+                    id="register-email"
+                    placeholder="Opposite Ganesh Mandir"
+                    onChange={(e) => setLandmark(e.target.value)}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for="register-email">
+                    Pincode
+                  </Label>
+                  <Input
+                   disabled={(disableCard!=="Basic")}
+                    type="number"
+                    id="register-email"
+                    placeholder="400025"
+                    onChange={(e) => setPincode(e.target.value)}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`city-${type}`}>
+                    City
+                  </Label>
+                  <Select
+                   isDisabled={(disableCard!=="Basic")}
+                    theme={selectThemeColors}
+                    isClearable={true}
+                    id={`city-${type}`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    value={selectedCity}
+                    options={cityOptions}
+                    onChange={(e) => {
+                      handleCityChange(e);
+                    }}
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    State
+                  </Label>
+                  <Select
+                       isDisabled={(disableCard!=="Basic")}
+                    theme={selectThemeColors}
+                    isClearable={true}
+                    id={`state-${type}`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    value={selectedState}
+                    options={stateOptions}
+                    onChange={(e) => {
+                      handleStateChange(e);
+                    }}
+                  />
+                </Col>
+              </Row>
+              <Row className="mt-1">
+                  <Col xs="12" sm="4" md="2" className="mb-1">
+                    <Label className="form-label" >
+                      GST Registeration
+                    </Label>
+                    <div
+                      className="demo-inline-spacing"
+               
+                    >
+                      <div className="form-check">
+                        <Input
+                             disabled={(disableCard!=="Basic")}
+                          type="radio"
+                          id="ex0-active"
+                          name="ex0"
+                          onClick={()=> SetGst(true)}
+                          
+                        />
+                        <Label className="form-label" for="ex0-active">
+                          Yes
+                        </Label>
+                      </div>
+                      <div className="form-check">
+                        <Input
+                          disabled={(disableCard!=="Basic")}
+                          type="radio"
+                          id="ex0-active"
+                          name="ex0"
+                          checked = {!GST}
+                        onClick={()=> SetGst(false)}
+                         
+                        />
+                        <Label className="form-label" for="ex0-active">
+                          No
+                        </Label>
+                      </div>
+                    </div>
+                  </Col>
+                    {(GST)?
+                      <>
+                  <Col xs="12" md="4" className="mb-1">
+                    <Label className="form-label" for="register-mobile">
+                     GST
+                    </Label>
+                    <Input
+                      disabled={(disableCard!=="Basic")}
+                      type="Number"
+                      id="register-mobile"
+                      placeholder="9875461258"
+                    />
+                  </Col>
+                  <Col xs="12" md="6" className="mb-1">
+                    <Label
+                      className="form-label"
+                      for="signup-details-photo-copy"
+                    >
+                      GSt Document
+                    </Label>
+                    <Input
+                      disabled={(disableCard!=="Basic")}
+                      type="file"
+                      id="signup-details-photo-copy"
+                      placeholder=""
+                    />
+                  </Col>  </> :""}
+                </Row>
+            </Form>
+          </CardBody>
+        ) : (
+          <p />
+        )}
+      </Card>
+      
+   
     </div>
   );
 };
 
-export default ProfileEdit;
+export default IndividualDetails;

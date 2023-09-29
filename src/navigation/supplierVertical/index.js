@@ -19,21 +19,8 @@ import {
       id: "supplierProfile",
       title: "Profile",
       icon: <User size={20} />,
-      // navLink: "/workman/ProfileCompletion",
-      children: [
-        {
-          id: "supplierProfileCompletion",
-          title: "Edit Profile",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/supplier/ProfileEdit",
-        },
-        {
-          id: "supplierManageSubaccounts",
-          title: "Sub Accounts",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/supplier/sub-profiles",
-        },
-      ],
+      navLink: "/supplier/Edit-Profile",
+      
     },
     {
       id: "SupplierEnquires",

@@ -21,16 +21,8 @@ import {
       id: "EnterpriseProfile",
       title: "Profile",
       icon: <User size={20} />,
-      // navLink: "/enterprise/ProfileCompletion",
-      children: [
-        {
-          id: "EnterpriseProfileCompletion",
-          title: "Edit Profile",
-          icon: <CornerDownRight size={20} />,
-          navLink: "/enterprise/ProfileEdit",
-        },
-       
-      ],
+      navLink: "/enterprise/Edit-Profile",
+     
     },
     {
       id: "EnterpriseCases",

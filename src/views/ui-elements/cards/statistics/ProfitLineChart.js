@@ -12,8 +12,16 @@ const ProfitLineChart = ({ info }) => {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    axios.get('/card/card-statistics/profit-line-chart').then(res => setData(res.data))
-    return () => setData(null)
+ setData({title:"Profit",
+    statistics:"6,44k",
+    series: [
+      {
+        data: [0, 20, 5, 30, 15, 45]
+      }
+    ],
+},
+ )
+  
   }, [])
 
   const options = {

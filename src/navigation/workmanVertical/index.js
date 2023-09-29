@@ -18,25 +18,28 @@ export default [
     navLink: "/workman-Individual/dashboard",
   },
   {
-    id: "workmanProfile",
+    id: "workmanProfileCompletion",
     title: "Profile",
     icon: <User size={20} />,
+    navLink: "/workman-Individual/Edit-Profile",
+   
     // navLink: "/workman/ProfileCompletion",
-    children: [
-      {
-        id: "workmanProfileCompletion",
-        title: "Edit Profile",
-        icon: <CornerDownRight size={20} />,
-        navLink: "/workman-Individual/ProfileEdit",
-      },
-      {
-        id: "workmanManageSubaccounts",
-        title: "Sub Accounts",
-        icon: <CornerDownRight size={20} />,
-        navLink: "/workman-Individual/manageSubAccounts",
-      },
-    ],
+    // children: [
+    //   {
+    //     id: "workmanProfileCompletion",
+    //     title: "Edit Profile",
+    //     icon: <CornerDownRight size={20} />,
+    //     navLink: "/workman-Individual/Profile-Completion",
+    //   },
+    //   {
+    //     id: "workmanManageSubaccounts",
+    //     title: "Sub Accounts",
+    //     icon: <CornerDownRight size={20} />,
+    //     navLink: "/workman-Individual/sub-accounts",
+    //   },
+    // ],
   },
+
   {
     id: "WorkmanCases",
     title: "Cases",

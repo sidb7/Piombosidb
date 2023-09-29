@@ -41,12 +41,12 @@ function getWindowSize() {
   return [innerWidth, innerHeight];
 }
 
-const Affiliation = ({ stepper, type,site }) => {
+const ManageAffiliation = ({ stepper, type }) => {
   const [showDet, setShowDet] = useState(true);
   const [newProd, setNewProd] = useState("");
 
   const [windowSize, setWindowSize] = useState(getWindowSize());
-
+  const[disableCard,setDisableCard] =useState("")
   useEffect(() => {
     function handleWindowResize() {
       setWindowSize(getWindowSize());
@@ -62,8 +62,8 @@ const Affiliation = ({ stepper, type,site }) => {
   const navigate = useNavigate();
   const redirect = () => {
     toast.success("Submitted Successfully")
-    navigate(`/${site}/dashboard`)
-  }
+    navigate(`/enterprise/Edit-Profile`)}
+
   const productOptions = [
     {
       label: "Glass",
@@ -262,13 +262,28 @@ const Affiliation = ({ stepper, type,site }) => {
       >
         <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
           <Row>
-            <Col xs="10" md="11">
+             <Col xs="7"  sm="6" md="9" lg="10">
               <div className="content-header">
                 <h3 className="mb-0">Affiliation Details</h3>
                 {/* <small>Enter Your Company Details.</small> */}
               </div>
             </Col>
-            <Col xs="2" md="1">
+            <Col xs="3" sm="4" md="2" lg="1">
+              <div className="content-header">
+              <Button
+                color={((disableCard!="Affiliation")?"primary":"success")} 
+                outline
+                onClick={() => {
+                 (disableCard!="Affiliation")? setDisableCard("Affiliation"):setDisableCard("");
+                 (disableCard!="Affiliation")? "":toast.error("Fill all fields")
+                }}
+              >
+             {((disableCard!="Affiliation")?"Edit":"Save")}
+              </Button>
+                {/* <small>Enter Your Company Details.</small> */}
+              </div>
+            </Col>
+            <Col xs="2" sm="2"  md="1" lg="1">
               {showDet ? (
                 <ChevronUp
                   size={20}
@@ -294,6 +309,7 @@ const Affiliation = ({ stepper, type,site }) => {
                     Company Activity
                   </Label>
                   <Select
+                    isDisabled={disableCard!=="Affiliation"}
                     theme={selectThemeColors}
                     // isClearable={false}
                     id={`state-${type}`}
@@ -310,6 +326,7 @@ const Affiliation = ({ stepper, type,site }) => {
                     Brand Name (only for Manufacturing)
                   </Label>
                   <Select
+                   isDisabled={disableCard!=="Affiliation"}
                     theme={selectThemeColors}
                     id={`state-${type}`}
                     value={brandSelected}
@@ -332,6 +349,7 @@ const Affiliation = ({ stepper, type,site }) => {
                   <Row>
                     <Col xs="9" className="mb-1">
                       <Input
+                       disabled={disableCard!=="Affiliation"}
                         type="text"
                         id="register-name"
                         placeholder="please specify"
@@ -341,6 +359,7 @@ const Affiliation = ({ stepper, type,site }) => {
                     </Col>
                     <Col xs="3" className="mb-1">
                       <Button
+                       disabled={disableCard!=="Affiliation"}
                         color="primary"
                         onClick={() => {
                           if (
@@ -383,212 +402,20 @@ const Affiliation = ({ stepper, type,site }) => {
                       padding: "0.5rem 0",
                     }}
                   >
-                    {productSelected.length ? (
-                      <>
-                        {productSelected.map((item, idx) => (
-                          <Card
-                            className="select__multi-value"
-                            key={idx}
-                            color="primary"
-                            style={{
-                              width: "fit-content",
-                              borderRadius: "2px",
-                              height: "23px",
-                              margin: "auto 0.5rem",
-                              marginTop: "2px",
-                              padding: "1px 8px",
-                            }}
-                          >
-                            <Row>
-                              <div
-                                className="d-flex flex-row"
-                                // onClick={() =>
-                                //   handleRemoveProduct(item.value, item.label)
-                                // }
-                              >
-                                <div
-                                  style={{
-                                    width: "fit-content",
-                                    margin: "auto 0",
-                                    marginTop: "3px",
-                                    marginRight: "1rem",
-                                    color: "white",
-                                    cursor: "context-menu",
-                                    fontSize: "85%",
-                                    userSelect: "none",
-                                  }}
-                                >
-                                  {windowSize[0] < 392 && item.value.length
-                                    ? item.value.slice(0, 9).concat("...")
-                                    : item.value}
-                                </div>
-                                <X
-                                  size={12}
-                                  cursor="pointer"
-                                  onClick={() =>
-                                    handleRemoveProduct(item.value, item.label)
-                                  }
-                                  style={{ color: "white", margin: "auto 0 " }}
-                                />
-                              </div>
-                            </Row>
-                          </Card>
-                        ))}
-                      </>
-                    ) : (
-                      <h6
-                        style={{
-                          width: "fit-content",
-                          color: "black",
-                          opacity: "0.3",
-                          marginLeft: "-0.5rem",
-                        }}
-                      >
-                        Select below options...
-                      </h6>
-                    )}
+                    
                   </Row>
                 </Col>
               </Row>
-              {productOptions.map((data, id) => (
-                <div key={id}>
-                  {productSelected.filter((x) => {
-                    return x.label == data.label;
-                  }).length <
-                    productOptions.filter((y) => {
-                      return y.label == data.label;
-                    })[0].options.length || data.label === "Others" ? (
-                    <Card>
-                      <h3
-                        style={{
-                          marginTop: "-1rem",
-                        }}
-                      >
-                        {data.label}
-                      </h3>
-                      <div className="d-flex flex-wrap">
-                        {data.options
-                          .filter((obj) => {
-                            return (
-                              productSelected.filter((i) => {
-                                return (
-                                  i.value == obj.value && i.label == data.label
-                                );
-                              }).length == 0
-                            );
-                          })
-                          .map((item, idx) => (
-                            <div>
-                              {data.label !== "Others" ? (
-                                <Card
-                                  key={idx}
-                                  color="primary"
-                                  style={{
-                                    width: "fit-content",
-                                    borderRadius: "2px",
-                                    height: "25px",
-                                    margin: "auto 0.5rem",
-                                    marginTop: "3px",
-                                    padding: "1px 8px",
-                                  }}
-                                  onClick={() =>
-                                    handleProducts(item.value, data.label)
-                                  }
-                                >
-                                  <div
-                                    style={{
-                                      color: "white",
-                                      cursor: "context-menu",
-                                      userSelect: "none",
-                                    }}
-                                  >
-                                    {windowSize[0] < 392 && item.value.length
-                                      ? item.value.slice(0, 16).concat("...")
-                                      : item.value}
-                                  </div>
-                                </Card>
-                              ) : (
-                                <Row>
-                                  <Col xs="12" md="9" className="mb-1">
-                                    <Input
-                                      type="text"
-                                      id="register-name"
-                                      placeholder="please specify"
-                                      value={newProd}
-                                      onChange={(e) =>
-                                        setNewProd(e.target.value)
-                                      }
-                                    />
-                                  </Col>
-                                  <Col xs="12" md="3">
-                                    <Button
-                                      color="primary"
-                                      onClick={() => {
-                                        setNewProd(newProd);
-                                        let isNew =
-                                          productSelected.filter((obj) => {
-                                            return obj.value === newProd.trim();
-                                          }).length == 0;
-
-                                        if (isNew && newProd.trim() !== "") {
-                                          handleProducts(
-                                            newProd.trim(),
-                                            "Others"
-                                          );
-                                        } else {
-                                          alert("Product Already Present!!");
-                                        }
-                                        setNewProd("");
-                                      }}
-                                    >
-                                      Add
-                                    </Button>
-                                  </Col>
-                                </Row>
-                              )}
-                            </div>
-                          ))}
-                      </div>
-                    </Card>
-                  ) : (
-                    <div />
-                  )}
-                </div>
-              ))}
+            
             </Form>
           </CardBody>
         ) : (
           <p />
         )}
       </Card>
-      <Row>
-        <Col xs="12">
-          <div className="d-flex justify-content-between">
-            <Button
-              color="primary"
-              className="btn-prev"
-              onClick={() => stepper.previous()}
-            >
-              <ArrowLeft
-                size={14}
-                className="align-middle me-sm-25 me-0"
-              ></ArrowLeft>
-              <span className="align-middle d-sm-inline-block d-none">
-                Previous
-              </span>
-            </Button>
-            <Button
-              color="success"
-              className="btn-submit"
-              onClick={redirect}
-            >
-              Submit
-            </Button>
-          </div>
-        </Col>
-      </Row>
+     
     </div>
   );
 };
 
-export default Affiliation;
+export default ManageAffiliation;

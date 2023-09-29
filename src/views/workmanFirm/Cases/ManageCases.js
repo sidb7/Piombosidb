@@ -19,12 +19,12 @@ export default function ManageCases() {
        <div > 
         <Button  to="/notAuthorized" className='fs-5 border-0  d-fex align-items-center justify-content-center' 
         color={(Setting=="OpenCases")?"primary":""} onClick={()=>setSetting("OpenCases")}><BookOpen size={20}
-        /> Open cases
+        /> Scheduled
         </Button>
 
         <Button  to="/notAuthorized" className='fs-5 border-0  d-fex align-items-center justify-content-center' 
         color={(Setting=="ClosedCases")?"primary":""} onClick={()=>setSetting("ClosedCases")}><Book size={20}
-        /> Closed cases
+        /> Completed
         </Button>
          
         

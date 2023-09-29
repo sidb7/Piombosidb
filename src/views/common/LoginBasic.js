@@ -402,7 +402,7 @@ const LoginBasic = () => {
     pass: "12345",
     Phone: "12345678",
     type: "enterprise"
- },
+    },
    
   ]
 
@@ -578,8 +578,8 @@ useEffect(()=>
             <div className="divider my-2">
               <div className="divider-text">Login with</div>
             </div>
-            <Row style={{ justifyContent: "center" }}>
-              <Col lg={12} style={{ paddingLeft: "82px" }}>
+            <Row className="d-flex justify-content-center">
+              <Col lg={12} className="d-flex justify-content-center" >
                 <ButtonGroup>
                   <Col md="12" lg="6">
                     <ButtonGroup className="mb-1">
@@ -588,7 +588,7 @@ useEffect(()=>
                         onClick={changeMode}
                         active={rSelected === 1}
                         outline
-                        style={{ paddingLeft: "40px", paddingRight: "40px" }}
+                     
                       >
                         OTP
                       </Button>

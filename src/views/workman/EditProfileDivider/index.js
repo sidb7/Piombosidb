@@ -5,12 +5,12 @@ import { Fragment } from "react";
 import { Row, Col } from "reactstrap";
 
 // ** Demo Components
-import ProfileHorizontal from "./profileHorizontal";
+import ProfileHorizontal from "./ProfileHorizontal";
 
 // ** Custom Components
 import BreadCrumbs from "@components/breadcrumbs";
 
-const Wizard = (props) => {
+const Wizard = () => {
   return (
     <Fragment>
       {/* <BreadCrumbs
@@ -19,7 +19,7 @@ const Wizard = (props) => {
       /> */}
       <Row>
         <Col sm="12">
-          <ProfileHorizontal site={props.site}/>
+          <ProfileHorizontal />
         </Col>
       </Row>
     </Fragment>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import CaseData from "./CaseData";
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Col, Form, FormGroup, FormText, Input, Label } from "reactstrap";
+import moment from "moment";
 const CreateCases = () => {
 
   const [check,setCheck] = useState()
@@ -11,8 +12,9 @@ const CreateCases = () => {
     Title:"",
     Desc:"",
     Summary:"",
-   
+    date: ""
   })
+  
   
   const handleChange=(e)=>
   {
@@ -21,8 +23,9 @@ const CreateCases = () => {
     ...CaseSet,
     id:uuidv4(),
     [e.target.name]: value,
-
+    date: moment(new Date()).format('DD MMMM YYYY | HH:mm ')
   });
+ 
   }
 
   const handleCaseSubmit=(e)=>
@@ -45,7 +48,7 @@ const CreateCases = () => {
         }
       
     })
-
+  
     setCheck("")
     setCase({
 
@@ -53,7 +56,7 @@ const CreateCases = () => {
       Title:"",
       Desc:"",
       Summary:"",
-    
+      date:""
     });
   }
  

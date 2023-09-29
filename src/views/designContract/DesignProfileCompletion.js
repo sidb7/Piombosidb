@@ -15,7 +15,7 @@ const Wizard = lazy(() => import("./profileDivider"));
 
 const DesignProfileCompletion = () => {
   return (
-    <div className="container-lg container-md mt-2">
+    <div >
       <Row xs="1">
         <Col>
           <CardTitle tag="h2" className="fw-bold mb-1">
