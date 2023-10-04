@@ -18,10 +18,11 @@ import CurrentGrade from "../../views/workman/LMS/CurrentGrade";
 import NextLevel from "../../views/workman/LMS/NextLevel";
 import UpcomingEvents from "../../views/workman/LMS/UpcomingEvents";
 import ManageCases from "../../views/workman/Cases/ManageCases";
-import CreateCases from "../../views/workman/Cases/CreateCases";
+
 import CaseDetails from "../../views/workman/Cases/CaseDetails";
 import WorkmanEditProf from "../../views/workman/WorkmanEditProf";
 import WorkmanDashProfile from "../../views/workman/WorkmanDashProfile";
+import CreateCase from "../../views/workman/Cases/CreateCase/CreateCase";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -124,7 +125,7 @@ const Routes = [
   
   {
     path: "/workman-Individual/cases",
-    element: <CreateCases />,
+    element: <CreateCase />,
     meta: {
       layout: "workmanVertical",
     },

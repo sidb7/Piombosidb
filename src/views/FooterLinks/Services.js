@@ -1,14 +1,19 @@
 import React from 'react'
 import themeConfig from "@configs/themeConfig";
-import FooterComponent from "../../@core/layouts/components/footer";
+import {
+  Link, useNavigate,
+} from 'react-router-dom';
+
 import { Card } from 'reactstrap';
 export default function Services() {
+  const navigate = useNavigate();
   return (
     <>
  <div className='d-flex m-2 align-items-center'>
     <img src={themeConfig.app.appLogoImage} alt="logo" height="40" />
   <img
-  
+  onClick={() => navigate(-1)}
+  style={{cursor:"pointer"}}
               src={themeConfig.app.appNameImage}
               className="ms-1"
               alt="Piombo"

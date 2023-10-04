@@ -22,6 +22,9 @@ import CustomerVerticalLayout from "../../layouts/CustomerVericalLayout";
 import CustomerAccountSettings from "../../views/customer/CustomerAccountSettings";
 import SupplierDashboard from "../../views/supplier/SupplierDashboard";
 import CustomerProfileCompletion from "../../views/customer/CustomerProfileCompletion";
+import CaseDetails from "../../views/customer/Cases/CaseDetails";
+import CreateCase from "../../views/customer/Cases/CreateCase/CreateCase";
+import ProgressDetails from "../../views/customer/Cases/CaseDetailsData/ProgressDetails";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -84,10 +87,24 @@ const Routes = [
       layout: "customerVertical",
     },
   },
+  {
+    path: "/customer/ProgressDetails/:id",
+    element: <ProgressDetails />,
+    meta: {
+      layout: "customerVertical",
+    },
+  },
   
   {
     path: "/customer/cases",
-    element: <CreateCases />,
+    element: <CreateCase />,
+    meta: {
+      layout: "customerVertical",
+    },
+  },
+  {
+    path: "/customer/CaseDetails/:id",
+    element: <CaseDetails />,
     meta: {
       layout: "customerVertical",
     },

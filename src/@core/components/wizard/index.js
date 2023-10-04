@@ -213,7 +213,7 @@ const Wizard = forwardRef((props, ref) => {
             })}
             data-target={`#${step.id}`}
           >
-            <button type="button" className="step-trigger" disabled={true}>
+            <button type="button" className="step-trigger" disabled={false}>
               <span className="bs-stepper-box">
                 {step.icon ? step.icon : index + 1}
               </span>

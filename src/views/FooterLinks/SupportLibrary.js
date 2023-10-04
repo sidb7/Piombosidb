@@ -6,6 +6,9 @@ import { Button, Card, CardBody,
   DropdownItem, } from 'reactstrap'
 
   import FooterComponent from "../../@core/layouts/components/footer";
+  import {
+    Link, useNavigate,
+  } from 'react-router-dom';
 
 import themeConfig from "@configs/themeConfig";
 import Connect from './SupportLibraryLinks/Connect';
@@ -16,7 +19,7 @@ import Privacy from './SupportLibraryLinks/Privacy';
 import PLCpolicy from './SupportLibraryLinks/PLCpolicy';
 import TermsCon from './SupportLibraryLinks/TermsCon';
 export default function SupportLibrary({ direction, ...args }) {
-  
+  const navigate = useNavigate();
   const[width,setWidth] = useState(screen.width)
   const[tabs,setTabs] = useState("connect")
   window.onresize=()=>
@@ -32,8 +35,8 @@ export default function SupportLibrary({ direction, ...args }) {
     <>
     <div className='d-flex m-2 align-items-center'>
     <img src={themeConfig.app.appLogoImage} alt="logo" height="40" />
-  <img
-  
+  <img onClick={() => navigate(-1)}
+    style={{cursor:"pointer"}}
               src={themeConfig.app.appNameImage}
               className="ms-1"
               alt="Piombo"
