@@ -1,6 +1,7 @@
 // **
-import "@styles/react/libs/flatpickr/flatpickr.scss";
 
+import Flatpickr from "react-flatpickr";
+import "@styles/react/libs/flatpickr/flatpickr.scss";
 // ** Reactstrap Imports
 import {
   ListGroup,
@@ -55,7 +56,41 @@ const ProductDetails = ({ stepper, type }) => {
     { value: "Room", label: "Room" },
     { value: "Other", label: "Other" },
   ];
+  const Products = [
+    { value: "Product1", label: "Product1" },
+    { value: "Product2", label: "Product2" },
+    { value: "Product3", label: "Product3" },
+    { value: "Product4", label: "Product4" },
+  ];
+  const Brand= [
+    { value: "Brand1", label: "Brand1" },
+    { value: "Brand2", label: "Brand2" },
+    { value: "Brand3", label: "Brand3" },
+    { value: "Brand4", label: "Brand4" },
+  ];
+  const [documents,setDocument] =useState([])
+  const [SelectDoc,setSelectDoc] =useState("")
+  const [SelectOtherDoc,setOtherDoc] =useState("")
+  const [Photo,setPhoto] =useState("")
 const [AreaSelect,setAreaSelect] = useState("Select")
+
+const handleDocuments=()=>
+{
+ setDocument(prev=>
+  {
+    if(prev)
+    {
+      const List = [...prev,{Name:(SelectDoc!="Other")? SelectDoc:SelectOtherDoc,File:Photo}]
+      return List
+    }
+    else
+    {
+      const List  =  [{Name:(SelectDoc!="Other")? SelectDoc:SelectOtherDoc,File:Photo},]
+           return List
+    }
+  })
+  console.log("DSHDSD:LSDjjjjjjjjjj")
+}
   return (
     <Fragment>
       <Card className=" p-1">
@@ -66,10 +101,30 @@ const [AreaSelect,setAreaSelect] = useState("Select")
     <div className="row mb-1 mt-2">
        <div className="col-6">
         <Label>Product</Label>
-        <Input type="select" >Select one</Input>
+        <Select
+                    theme={selectThemeColors}
+                    name="Products"
+                 
+                    className="react-select"
+                    classNamePrefix="select"
+                    defaultValue={{label:"Select"}}
+                    options={Products}
+             
+                
+                  />
        </div><div className="col-6">
         <Label>Brand</Label>
-        <Input type="select" >Select one</Input>
+        <Select
+                    theme={selectThemeColors}
+                    name="Brand"
+                 
+                    className="react-select"
+                    classNamePrefix="select"
+                    defaultValue={{label:"Select"}}
+                    options={Brand}
+             
+                
+                  />
        </div>
     </div>
 
@@ -168,7 +223,7 @@ const [AreaSelect,setAreaSelect] = useState("Select")
                     id={`dimension-${type}`}
                     className="react-select"
                     classNamePrefix="select"
-                    defaultValue={{label:"Unit"}}
+                    defaultValue={{label:"Units"}}
                     options={QuantityUnits}
              
                 
@@ -240,6 +295,115 @@ const [AreaSelect,setAreaSelect] = useState("Select")
     </Form>
    
       </Card>   
+
+      <Card className=" p-1">
+    <h3 className="mb-0">Purchase Details</h3>
+     
+      <Form>
+    
+      <div className="row mb-1 mt-2">
+       <div className="col-6">
+        <Label>Date of Purchase</Label>
+        <Flatpickr
+                            value={ "today"}
+                            // disabled={scheduled}
+                            id="date-time-picker"
+                            // className="form-control"
+                            // data-enable-time
+                            // onChange={(date) => {
+                            //   setPicker(date);
+                            // }}
+                            options={{
+                             
+                              altInput: true,
+                              
+                            }}
+                          />
+       </div><div className="col-6">
+        <Label>Purchased from</Label>
+        <Input type="text" placeholder="Supplier Name">Select one</Input>
+       </div>
+    </div>
+
+    <div className="row mb-1">
+      <div className={(SelectDoc==="Other")? "col-6 col-lg-3 mb-1":"col-6 mb-1"}>
+        <Label>Document Type</Label>
+        <Select
+                    theme={selectThemeColors}
+                    name="RoomName"
+                    id=""
+                    className="react-select"
+                    classNamePrefix="select"
+                    defaultValue={{label:"Select"}}
+                    options={[
+                      {value:"Invoice",label:"Invoice"},
+                      {value:"Product Usage Location",label:"Product Usage Location"},
+                    {value:"Floor Plan",label:"Floor Plan"},
+                    {value:"Other",label:"Other"},
+                   ]}
+                    maxMenuHeight={400}
+                    menuPlacement="top"
+                   onChange={e=>setSelectDoc(e.value)}
+                  />
+      </div>
+      { SelectDoc==="Other"&&
+      <div className="col-6 col-lg-3 ">
+        <Label>Document Name</Label>
+        <Input type="text" onChange={e=>setOtherDoc(e.target.value)}></Input>
+      </div>
+
+      }
+     <div className= {(SelectDoc==="Other")? "col-12 col-lg-6 ":"col-6"}>
+     <Label
+                    className="profile-pic-upload-label"
+                    id="profile-pic-upload-label"
+                    for="profile-pic-upload"
+                  >
+                   Document Upload
+                  </Label>
+                  <Input
+                   
+                    type="file"
+                    accept="image/jpeg, image/png"
+                    id="profile-pic-upload"
+                   onChange={e=>setPhoto(URL.createObjectURL(e.target.files[0]))}
+                  />
+     </div>
+    </div>
+    <div className="row mb-5 px-1">
+    <div className=" position-relative"><div className="position-absolute end-0"><Button outline onClick={handleDocuments} ><b>Add Document</b></Button></div></div>
+    </div>
+  
+    {documents.length!=0&& <div className="row mb-1 px-1" >
+    <hr />
+    
+      <h5 className="w-100  d-flex  justify-content-center">Documents Uploaded</h5>
+      <hr />
+     
+      <div className="col-6  d-flex justify-content-center align-items-center"  style={{border:"1px solid lightgray",borderBottom:"2px solid lightgray",borderRadius:"6px 0px 0px 0px",padding:"3px"}}  ><b >Document Name</b></div> 
+      <div className="col-6  d-flex justify-content-center align-items-center"  style={{border:"1px solid lightgray",borderBottom:"2px solid lightgray",borderRadius:"0px 6px 0px 0px",padding:"3px"}}  ><b >File</b></div> 
+   
+    {
+      documents.map((e)=>
+      { 
+        return(
+         <>
+            <div className="col-6 text-center py-1"  style={{border:"1px solid lightgray",borderTop:"0px"}}>{e.Name}</div> 
+            <div className="col-6 text-center py-1"  style={{border:"1px solid lightgray",borderTop:"0px"}}><a href={e.File} target="_blank">View Document</a></div>
+            </>
+        )
+      })
+    }
+    </div>}
+    </Form>
+      </Card>  
+      <div className="row d-flex justify-content-center mb-1">
+      <div className="col-6 col-lg-4 d-flex justify-content-center"> <Button   className="w-100">ADD PRODUCT</Button></div> 
+        
+      {/* <div className="col-3 d-flex justify-content-center"> <Button  color="warning" className="w-100" >Clear All</Button></div>  */}
+        </div>
+
+
       <Row className="d-flex position-relative mt-1">
         <Col md={6}>
         <Button className="position-absolute d-flex start-0"  onClick={()=>stepper.previous()}>Previous</Button>
