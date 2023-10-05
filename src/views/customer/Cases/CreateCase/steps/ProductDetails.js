@@ -27,6 +27,7 @@ import {
   DownloadCloud,
   ArrowLeft,
   ArrowRight,
+  Trash,
 } from "react-feather";
 import { useDropzone } from "react-dropzone";
 
@@ -69,8 +70,9 @@ const ProductDetails = ({ stepper, type }) => {
     { value: "Brand4", label: "Brand4" },
   ];
   const [documents,setDocument] =useState([])
-  const [SelectDoc,setSelectDoc] =useState("")
+  const [SelectDoc,setSelectDoc] =useState("Select")
   const [SelectOtherDoc,setOtherDoc] =useState("")
+  const [clearDoc,setClearDoc] = useState("")
   const [Photo,setPhoto] =useState("")
 const [AreaSelect,setAreaSelect] = useState("Select")
 
@@ -88,9 +90,40 @@ const handleDocuments=()=>
       const List  =  [{Name:(SelectDoc!="Other")? SelectDoc:SelectOtherDoc,File:Photo},]
            return List
     }
-  })
-  console.log("DSHDSD:LSDjjjjjjjjjj")
+  })                    
+    const fileInput =
+      document.getElementById("profile-pic-upload");
+    fileInput.value = ""; // Temporarily change the type to text
+
+    setPhoto(null);
+    setSelectDoc("Select")
+  
 }
+
+const DeleteDoc=(t)=>
+{
+  setDocument( documents.filter(e=>e.Name!=t) )   
+}
+const [AddProducts,setAddProducts] =useState([])
+
+const handleProductsAdded=()=>
+{
+ setAddProducts(prev=>
+  {
+    if(prev)
+    {
+      const List = [...prev,{Name:"Product 1",Brand:"Brand 1"}]
+      return List
+    }
+    else
+    {
+      const List = [{Name:"Product 1",Brand:"Brand 1"}]
+           return List
+    }
+  })
+
+}
+
   return (
     <Fragment>
       <Card className=" p-1">
@@ -296,7 +329,7 @@ const handleDocuments=()=>
    
       </Card>   
 
-      <Card className=" p-1">
+      <Card className=" p-1 mb-1">
     <h3 className="mb-0">Purchase Details</h3>
      
       <Form>
@@ -334,7 +367,8 @@ const handleDocuments=()=>
                     id=""
                     className="react-select"
                     classNamePrefix="select"
-                    defaultValue={{label:"Select"}}
+                    defaultValue={{label:SelectDoc}}
+                    value={{label:SelectDoc}}
                     options={[
                       {value:"Invoice",label:"Invoice"},
                       {value:"Product Usage Location",label:"Product Usage Location"},
@@ -362,47 +396,85 @@ const handleDocuments=()=>
                    Document Upload
                   </Label>
                   <Input
-                   
-                    type="file"
+                    
+                    type= "file"
                     accept="image/jpeg, image/png"
                     id="profile-pic-upload"
-                   onChange={e=>setPhoto(URL.createObjectURL(e.target.files[0]))}
+                   onChange={e=>setPhoto((e.target.files[0]!=null)?URL.createObjectURL(e.target.files[0]):null)}
+                  
                   />
      </div>
     </div>
     <div className="row mb-5 px-1">
-    <div className=" position-relative"><div className="position-absolute end-0"><Button outline onClick={handleDocuments} ><b>Add Document</b></Button></div></div>
+    <div className=" position-relative"><div className="position-absolute end-0">
+      <Button 
+      outline onClick={handleDocuments}
+      disabled={SelectDoc==="Select"||Photo===null}
+      
+      ><b>Add Document</b></Button>
+      </div></div>
     </div>
   
-    {documents.length!=0&& <div className="row mb-1 px-1" >
-    <hr />
+    {documents.length!=0&& <div className="row mb-1 p-1  px-1" >
+
+    <hr  className="mb-1"/>
+<h3 className="mb-1 d-flex justify-content-center">Documents Added</h3>
+   <hr />
+<hr className="mb-0" />
+    <div className="col-6 py-1  d-flex justify-content-center align-items-center " style={{border:"1px solid gray",borderRadius:"6px 0px 0px 0px"}} ><b >Document Name</b></div> 
+    <div className="col-6 py-1 d-flex justify-content-center align-items-center"  style={{border:"1px solid gray",borderRadius:"0px 6px 0px 0px"}}  ><b >Details</b></div> 
+<hr className="mb-0"/>
+  {
+    documents.map((e)=>
+    { 
+      return(
+       <>
+       <hr className="mb-0 mt-0" />
+          <div className="col-6 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
+          <div className="col-6 justify-content-center py-1 position-relative d-flex "  style={{borderLeft:"1px solid gray"}}>
+            <a href={e.File} target="_blank">View File</a> 
+            <div className="position-absolute end-0 me-1"><Trash onClick={()=>DeleteDoc(e.Name+"")}  style={{cursor:"pointer"}} size={18}/></div>
+            </div>
+<hr className="mb-0" />
+          </>
+      )
+    })
+  }
+  </div>}
+    </Form>
+      </Card>  
+      <div className="row d-flex justify-content-center mb-2">
+      <div className="col-6 col-lg-4 d-flex justify-content-center"> <Button onClick={handleProductsAdded}  className="w-100">ADD PRODUCT</Button></div> 
+        
+      {/* <div className="col-3 d-flex justify-content-center"> <Button  color="warning" className="w-100" >Clear All</Button></div>  */}
+        </div>
+  <Card>
+  {AddProducts.length!=0&& <div className="row mb-1 p-1  px-1" >
+
     
-      <h5 className="w-100  d-flex  justify-content-center">Documents Uploaded</h5>
-      <hr />
+  <h3 className="mb-1 d-flex justify-content-center">Products Added</h3>
      
-      <div className="col-6  d-flex justify-content-center align-items-center"  style={{border:"1px solid lightgray",borderBottom:"2px solid lightgray",borderRadius:"6px 0px 0px 0px",padding:"3px"}}  ><b >Document Name</b></div> 
-      <div className="col-6  d-flex justify-content-center align-items-center"  style={{border:"1px solid lightgray",borderBottom:"2px solid lightgray",borderRadius:"0px 6px 0px 0px",padding:"3px"}}  ><b >File</b></div> 
-   
+  <hr className="mb-0" />
+      <div className="col-4 py-1  d-flex justify-content-center align-items-center " style={{border:"1px solid gray",borderRadius:"6px 0px 0px 0px"}} ><b >Product Name</b></div> 
+      <div className="col-4 py-1 d-flex justify-content-center align-items-center"  style={{border:"1px solid gray",borderRight:"1px solid gray"}}  ><b >Brand</b></div> 
+      <div className="col-4 py-1 d-flex justify-content-center align-items-center"  style={{border:"1px solid gray",borderRadius:"0px 6px 0px 0px"}}  ><b >Details</b></div> 
+  <hr className="mb-0"/>
     {
-      documents.map((e)=>
+      AddProducts.map((e)=>
       { 
         return(
          <>
-            <div className="col-6 text-center py-1"  style={{border:"1px solid lightgray",borderTop:"0px"}}>{e.Name}</div> 
-            <div className="col-6 text-center py-1"  style={{border:"1px solid lightgray",borderTop:"0px"}}><a href={e.File} target="_blank">View Document</a></div>
+         <hr className="mb-0 mt-0" />
+            <div className="col-4 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
+            <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray",borderRight:"1px solid gray"}}>{e.Brand}</div>
+            <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray"}}><a href={e.File} target="_blank">View Details</a></div>
+<hr />
             </>
         )
       })
     }
     </div>}
-    </Form>
-      </Card>  
-      <div className="row d-flex justify-content-center mb-1">
-      <div className="col-6 col-lg-4 d-flex justify-content-center"> <Button   className="w-100">ADD PRODUCT</Button></div> 
-        
-      {/* <div className="col-3 d-flex justify-content-center"> <Button  color="warning" className="w-100" >Clear All</Button></div>  */}
-        </div>
-
+  </Card>
 
       <Row className="d-flex position-relative mt-1">
         <Col md={6}>
