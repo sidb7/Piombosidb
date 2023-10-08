@@ -374,7 +374,7 @@ const data = [
       newbuild: {
         skill: [
           {
-            name: "",
+            name: "Complete Door Control",
             subskill: [
               "Door Closer- Surface mounted",
               "Door Closer- Concealed",
@@ -983,68 +983,168 @@ const data = [
 ];
 
 const serviceApplication = [
-  { value: "Timber Door", label: "Timber Door" },
+
+  { value: "Timber Door", 
+    label: "Timber Door",
+    installation:[
+      { value: "Hang the Door", label:"Hang the Door",},
+      {value: "Locksmith", label:"Locksmith", }
+    ],
+    repair:
+    [
+      {value: "Trepairr", label: "Trepairor",},
+      {value: "Treprai", label: "repair",}
+    ],
+    newBuild:
+    [
+      {value: "new", label: "new", },
+      {value: "new", label: "new",},
+      
+      
+    ]
+},
   {
     value: "Timber Door- Fire rated",
     label: "Timber Door- Fire rated",
+    installation:[
+      { value: "Hang the Door", label:"Hang the Door",},
+      {value: "Locksmith", label:"Locksmith", }
+    ],
   },
-  { value: "Metal Door", label: "Metal Door" },
+  { value: "Metal Door", label: "Metal Door",
+  installation:[
+    { value: "Hang the Door", label:"Hang the Door",},
+    {value: "Locksmith", label:"Locksmith", }
+  ], },
   {
     value: "Glass Door- Framed/Frameless",
     label: "Glass Door- Framed/Frameless",
+    installation:[
+      { value: "Hang the Door", label:"Hang the Door",},
+      {value: "Locksmith", label:"Locksmith", }
+    ],
   },
   {
     value: "Door Security - Digital/ Mechanical",
     label: "Door Security - Digital/ Mechanical",
+    installation:[
+      { value: "Hang the Door", label:"Hang the Door",},
+      {value: "Locksmith", label:"Locksmith", }
+    ],
   },
   {
     value: "Door Control - Mechanical",
     label: "Door Control - Mechanical",
+    installation:[
+      { value: "Control the door", label:"Control the door",},
+      
+    ],
   },
   {
     value: "Door Access & Automation",
     label: "Door Access & Automation",
+    installation:[
+      { value: "Accessthe door", label:"Access the door",},
+      
+    ],
   },
   {
     value: "Fixed Partitions - Glass/ Wooden",
     label: "Fixed Partitions - Glass/ Wooden",
+    installation:[
+      { value: "Partitions", label:"Partitions",},
+      
+    ],
   },
-  { value: "Aluminium partitions", label: "Aluminium partitions" },
-  { value: "Movable partitions", label: "Movable partitions" },
+  { value: "Aluminium partitions", label: "Aluminium partitions",
+  installation:[
+    { value: "Partitions", label:"Partitions",},
+    
+  ], },
+  { value: "Movable partitions", label: "Movable partitions",
+  installation:[
+    { value: "Movable Partitions- Wooden or Glass", label: "Movable Partitions- Wooden or Glass",},
+    
+  ], },
+  
   {
     value: "Movable partitions - Acoustic",
     label: "Movable partitions - Acoustic",
+    installation:[
+      { value: "Movable Partitions- Wooden or Glass", label: "Movable Partitions- Wooden or Glass",},
+      
+    ],
   },
   {
     value: "Glass Sliding Systems - Normal/ Feather",
     label: "Glass Sliding Systems - Normal/ Feather",
+    installation:[
+      { value: "Sliding systems", label: "Sliding systems",},
+      
+    ],
   },
   {
     value: "Wooden Sliding Systems - Normal/ Feather",
     label: "Wooden Sliding Systems - Normal/ Feather",
+    installation:[
+      { value: "Sliding systems", label: "Sliding systems",},
+      
+    ],
   },
   {
     value: "Glass Shower and Washroom closet",
     label: "Glass Shower and Washroom closet",
+    installation:[
+      { value: "Cubicles & Enclosures", label:"Cubicles & Enclosures",},
+      {value: "Toilet Partitions", label:"Toilet Partitions", }
+    ],
   },
   {
     value: "Stainless steel pailing",
     label: "Stainless steel pailing",
+    installation:[
+      { value: "Fencing", label: "Fencing",},
+      
+    ],
   },
   {
     value: "Railings - Framed/ Frameless glass",
     label: "Railings - Framed/ Frameless glass",
+    installation:[
+      { value: "Fencing", label: "Fencing",},
+      
+    ],
   },
-  { value: "Kitchen", label: "Kitchen" },
+  { value: "Kitchen", label: "Kitchen",
+  installation:[
+    { value: "Modular Kitchen", label: "Modular Kitchen",},
+    {value:  "Semi-Modular Kitchen", label:"Semi-Modular Kitchen", }
+  ], },
   {
     value: "Wardrobe - Openable & Sliding",
     label: "Wardrobe - Openable & Sliding",
+    installation:[
+      {   value: "Wardrobe - Openable & Sliding",
+      label: "Wardrobe - Openable & Sliding",},
+      
+    ],
+    
   },
   {
     value: "French Windows - Aluminium",
     label: "French Windows - Aluminium",
+    installation:[
+      {  value: "French Windows - Aluminium",
+      label: "French Windows - Aluminium",},
+      
+    ],
+    
   },
-  { value: "French Windows - uPVC", label: "French Windows - uPVC" },
+  { value: "French Windows - uPVC", label: "French Windows - uPVC" ,
+  installation:[
+    {value: "French Windows - uPVC", label: "French Windows - uPVC" ,},
+    
+  ],},
 ];
 
 const skillCopy = [
@@ -1093,26 +1193,27 @@ const skillCopy = [
 ];
 
 const applicationCode = {
-  "Timber Door": 1,
-  "Timber Door- Fire rated": 2,
-  "Metal Door": 3,
-  "Glass Door- Framed/Frameless": 4,
-  "Door Security - Digital/ Mechanical": 5,
-  "Door Control - Mechanical": 6,
-  "Door Access & Automation": 7,
-  "Fixed Partitions - Glass/ Wooden": 8,
-  "Aluminium partitions": 9,
-  "Movable partitions": 10,
-  "Movable partitions - Acoustic": 11,
-  "Glass Sliding Systems - Normal/ Feather": 12,
-  "Wooden Sliding Systems - Normal/ Feather": 13,
-  "Glass Shower and Washroom closet": 14,
-  "Stainless steel pailing": 15,
-  "Railings - Framed/ Frameless glass": 16,
-  Kitchen: 17,
-  "Wardrobe - Openable & Sliding": 18,
-  "French Windows - Aluminium": 19,
-  "French Windows - uPVC": 20,
+  "": 1,
+  "Timber Door": 0,
+  "Timber Door- Fire rated": 1,
+  "Metal Door": 2,
+  "Glass Door- Framed/Frameless": 3,
+  "Door Security - Digital/ Mechanical": 4,
+  "Door Control - Mechanical": 5,
+  "Door Access & Automation": 6,
+  "Fixed Partitions - Glass/ Wooden": 7,
+  "Aluminium partitions": 8,
+  "Movable partitions": 9,
+  "Movable partitions - Acoustic": 10,
+  "Glass Sliding Systems - Normal/ Feather": 11,
+  "Wooden Sliding Systems - Normal/ Feather": 12,
+  "Glass Shower and Washroom closet": 13,
+  "Stainless steel pailing": 14,
+  "Railings - Framed/ Frameless glass": 15,
+  Kitchen: 16,
+  "Wardrobe - Openable & Sliding": 17,
+  "French Windows - Aluminium": 18,
+  "French Windows - uPVC": 19,
 };
 
 const installationSkillCode = {
@@ -1226,6 +1327,364 @@ const serviceTypeCode = {
   "New Build": 3,
 };
 
+const installCategoryData = {
+  "French Windows - Aluminium": [
+    ["French Windows - Aluminium"],
+    [
+      "Sliding Windows",
+      "Casement Windows",
+      "Fixed Windows",
+      "Louvers",
+      "Louvers Sliding",
+      "Pleated mesh",
+      "Mosquito mesh",
+    ],
+  ],
+  "Cubicles & Enclosures": [
+    ["Glass Shower and Washroom closet"],
+    [
+      "Openable Enclosures-Non angular or angular",
+      "Sliding Enclosures- Non Glazed",
+      "Sliding Enclosures- Glazed",
+      "Pivot Operated Enclosures",
+    ],
+  ],
+  Fencing: [
+    ["Stainless steel pailing", "Railings - Framed/ Frameless glass"],
+    ["MS & SS railings", "Glass - frameless or Support"],
+  ],
+  Partitions: [
+    ["Fixed Partitions - Glass/ Wooden", "Aluminium partitions"],
+    [
+      "Aluminium Glazed",
+      "Glass Partitions",
+      "Wooden Partitions",
+      "Glazing & Canopy- Spider fittings",
+    ],
+  ],
+  "Sliding systems": [
+    [
+      "Glass Sliding Systems - Normal/ Feather",
+      "Wooden Sliding Systems - Normal/ Feather",
+    ],
+    [
+      "Mechanical Sliding- Normal or Soft close",
+      "Synchro Systems",
+      "Telescopic Systems",
+      "Hermetic Doors",
+    ],
+  ],
+  "Movable Partitions- Wooden or Glass": [
+    ["Movable partitions", "Movable partitions - Acoustic"],
+    [
+      "Sliding Folding",
+      "Parking Systems- Wooden or Glass",
+      "Acoustic Partitions",
+    ],
+  ],
+  "Toilet Partitions": [
+    ["Glass Shower and Washroom closet"],
+    ["Enclosed - Glass", "Enclosed - HPL"],
+  ],
+  "Hang the Door": [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [],
+  ],
+  "Control the door": [
+    ["Door Control - Mechanical"],
+    ["Door Closer- Surface mounted", "Door Closer- Concealed", "Floor Hinge"],
+  ],
+  Locksmith: [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [
+      "Mechanical Locks-RIM",
+      "Mechanical Locks-Mortise",
+      "Digital Locks-RIM",
+      "Digital Locks-Mortise",
+      "RFID Locks",
+    ],
+  ],
+  "Access the door": [
+    ["Door Access & Automation"],
+    [
+      "Electromagnetic Locks",
+      "Electric RIM Locks",
+      "Automation- Swing Door",
+      "Automation- Sliding Door",
+      "Automation- Sliding Folding",
+      "Automation- Telescopic Door",
+      "Automation- Revolving Door",
+      "Automation- Wicket gate",
+    ],
+  ],
+  "French Windows - uPVC": [
+    ["French Windows - uPVC"],
+    ["Sliding Windows", "Casement Windows", "Fixed Windows"],
+  ],
+  "Wardrobe - Openable & Sliding": [
+    ["Wardrobe - Openable & Sliding"],
+    ["Normal or Soft close", "Top Line", "In Line", "Sliding Folding"],
+  ],
+  "Modular Kitchen": [["Kitchen"], ["Modular Kitchen"]],
+  "Semi-modular kitchen": [["Kitchen"], ["Semi-modular kitchen"]],
+};
+
+const repairCategoryData = {
+  "Repair the Door": [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [],
+  ],
+  Locksmith: [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [
+      "Mechanical Locks-RIM",
+      "Mechanical Locks-Mortise",
+      "Digital Locks-RIM",
+      "Digital Locks-Mortise",
+      "RFID Locks",
+    ],
+  ],
+  "Control systems": [
+    ["Door Control - Mechanical"],
+    ["Door Closer- Surface mounted", "Door Closer- Concealed", "Floor Hinge"],
+  ],
+  "Access and automation": [
+    ["Door Access & Automation"],
+    [
+      "Electromagnetic Locks",
+      "Electric RIM Locks",
+      "Automation- Swing Door",
+      "Automation- Sliding Door",
+      "Automation- Sliding Folding",
+      "Automation- Telescopic Door",
+      "Automation- Revolving Door",
+      "Automation- Wicket gate",
+    ],
+  ],
+  Partitions: [
+    ["Fixed Partitions - Glass/ Wooden", "Aluminium partitions"],
+    [
+      "Aluminium Glazed",
+      "Glass Partitions",
+      "Wooden Partitions",
+      "Glazing & Canopy- Spider",
+    ],
+  ],
+  "Movable partitions- Wooden or Glass": [
+    ["Movable partitions", "Movable partitions - Acoustic"],
+    [
+      "Sliding Folding",
+      "Parking Systems- Wooden or Glass",
+      "Acoustic Partitions",
+    ],
+  ],
+  "Sliding systems": [
+    [
+      "Glass Sliding Systems - Normal/ Feather",
+      "Wooden Sliding Systems - Normal/ Feather",
+    ],
+    [
+      "Mechanical Sliding- Normal or Soft close",
+      "Synchro Systems",
+      "Telescopic Systems",
+      "Hermetic Doors",
+    ],
+  ],
+  "Cubicles & Enclosures": [
+    ["Glass Shower and Washroom closet"],
+    [
+      "Openable Enclosures-Non angular or angular",
+      "Sliding Enclosures- Non Glazed",
+      "Sliding Enclosures- Glazed",
+      "Pivot Operated Enclosures",
+    ],
+  ],
+  "Toilet Partitions": [
+    ["Glass Shower and Washroom closet"],
+    ["Enclosed - Glass", "Enclosed - HPL"],
+  ],
+  Fencing: [
+    ["Stainless steel pailing", "Railings - Framed/ Frameless glass"],
+    ["MS & SS railings", "Glass - frameless or Support"],
+  ],
+  "Modular Kitchen": [["Kitchen"], ["Modular Kitchen"]],
+  "Semi-modular kitchen": [["Kitchen"], ["Semi-modular kitchen"]],
+  "Wardrobe - Openable & Sliding": [
+    ["Wardrobe - Openable & Sliding"],
+    ["Normal or Soft close", "Top Line", "In Line", "Sliding Folding"],
+  ],
+  "French Windows - Aluminium": [
+    ["French Windows - Aluminium"],
+    [
+      "Sliding Windows",
+      "Casement Windows",
+      "Fixed Windows",
+      "Louvers",
+      "Louvers Sliding",
+      "Pleated mesh",
+      "Mosquito mesh",
+    ],
+  ],
+  "French Windows - uPVC": [
+    ["French Windows - uPVC"],
+    ["Sliding Windows", "Casement Windows", "Fixed Windows"],
+  ],
+};
+
+const newbuildCategoryData = {
+  "French Windows - Aluminium": [
+    ["French Windows - Aluminium"],
+    [
+      "Sliding Windows",
+      "Casement Windows",
+      "Fixed Windows",
+      "Louvers",
+      "Louvers Sliding",
+      "Pleated mesh",
+      "Mosquito mesh",
+    ],
+  ],
+  Partitions: [
+    ["Fixed Partitions - Glass/ Wooden", "Aluminium partitions"],
+    [
+      "Aluminium Glazed",
+      "Glass Partitions",
+      "Wooden Partitions",
+      "Glazing & Canopy- Spider",
+    ],
+  ],
+  "Cubicles & Enclosures": [
+    ["Glass Shower and Washroom closet"],
+    [
+      "Openable Enclosures-Non angular or angular",
+      "Sliding Enclosures- Non Glazed",
+      "Sliding Enclosures- Glazed",
+      "Pivot Operated Enclosures",
+    ],
+  ],
+  "Sliding systems": [
+    [
+      "Glass Sliding Systems - Normal/ Feather",
+      "Wooden Sliding Systems - Normal/ Feather",
+    ],
+    [
+      "Mechanical Sliding- Normal or Soft close",
+      "Synchro Systems",
+      "Telescopic Systems",
+      "Hermetic Doors",
+    ],
+  ],
+  "Toilet Partitions": [
+    ["Glass Shower and Washroom closet"],
+    ["Enclosed - Glass", "Enclosed - HPL"],
+  ],
+  "Lock & key with Door- Glass": [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [
+      "Mechanical Locks-RIM",
+      "Mechanical Locks-Mortise",
+      "Digital Locks-RIM",
+      "Digital Locks-Mortise",
+      "RFID Locks",
+    ],
+  ],
+  "Movable Partitions- Wooden or Glass": [
+    ["Movable partitions", "Movable partitions - Acoustic"],
+    [
+      "Sliding Folding",
+      "Parking Systems- Wooden or Glass",
+      "Acoustic Partitions",
+    ],
+  ],
+  Fencing: [
+    ["Stainless steel pailing", "Railings - Framed/ Frameless glass"],
+    ["MS & SS railings", "Glass - frameless or Support"],
+  ],
+  "French Windows - uPVC": [
+    ["French Windows - uPVC"],
+    ["Sliding Windows", "Casement Windows", "Fixed Windows"],
+  ],
+  "Wardrobe - Openable & Sliding": [
+    ["Wardrobe - Openable & Sliding"],
+    ["Normal or Soft close", "Top Line", "In Line", "Sliding Folding"],
+  ],
+  "Modular Kitchen": [["Kitchen"], ["Modular Kitchen"]],
+  "Prepare the Door": [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [],
+  ],
+  "Lock & key with Door- Wooden": [
+    [
+      "Timber Door",
+      "Timber Door- Fire rated",
+      "Metal Door",
+      "Glass Door- Framed/Frameless",
+      "Door Security - Digital/ Mechanical",
+    ],
+    [
+      "Mechanical Locks-RIM",
+      "Mechanical Locks-Mortise",
+      "Digital Locks-RIM",
+      "Digital Locks-Mortise",
+      "RFID Locks",
+    ],
+  ],
+  "Access the door": [
+    ["Door Access & Automation"],
+    [
+      "Electromagnetic Locks",
+      "Electric RIM Locks",
+      "Automation- Swing Door",
+      "Automation- Sliding Door",
+      "Automation- Sliding Folding",
+      "Automation- Telescopic Door",
+      "Automation- Revolving Door",
+      "Automation- Wicket gate",
+    ],
+  ],
+  "Semi-modular kitchen": [["Kitchen"], ["Semi-modular kitchen"]],
+  "Door Control": [
+    ["Door Control - Mechanical"],
+    ["Door Closer- Surface mounted", "Door Closer- Concealed", "Floor Hinge"],
+  ],
+};
+
 export default {
   skillData: data,
   servAppl: serviceApplication,
@@ -1241,4 +1700,7 @@ export default {
     "New Build": newbuildSkillCode,
   },
   subSkillCode: subSkillCode,
+  installCategoryData: installCategoryData,
+  repairCategoryData: repairCategoryData,
+  newbuildCategoryData: newbuildCategoryData,
 };

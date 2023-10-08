@@ -38,7 +38,7 @@ import {
 import { Fragment, useEffect, useState } from "react";
 import Flatpickr from "react-flatpickr";
 
-import skillData from "../../../../skillData";
+import skillData from "../../../../skillData/CreateCaseSkillData";
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
@@ -68,42 +68,8 @@ const CaseDetails = ({ stepper, type }) => {
     { value: "Punjab", label: "Punjab" },
   ];
 
-  const categoryOptions = [
-    { value: "Category - 1", label: "Category - 1" },
-    { value: "Category - 2", label: "Category - 2" },
-    { value: "Category - 3", label: "Category - 3" },
-  ];
 
-  const subCategoryOptions = [
-    {
-      label: "Category - 1",
-      options: [
-        { value: "Sub Category - 1", label: "Sub Category - 1" },
-        { value: "Sub Category - 2", label: "Sub Category - 2" },
-      ],
-    },
-    {
-      label: "Category - 2",
-      options: [
-        { value: "Sub Category - 1", label: "Sub Category - 1" },
-        { value: "Sub Category - 2", label: "Sub Category - 2" },
-      ],
-    },
-    {
-      label: "Category - 3",
-      options: [
-        { value: "Sub Category - 1", label: "Sub Category - 1" },
-        { value: "Sub Category - 2", label: "Sub Category - 2" },
-      ],
-    },
-  ];
 
-  const slotOptions = [
-    { value: "slot-1", label: "slot-1" },
-    { value: "slot-2", label: "slot-2" },
-    { value: "slot-3", label: "slot-3" },
-    { value: "slot-4", label: "slot-4" },
-  ];
   const slotOptions1 = ["Before 10am", "10am - 2pm", "2pm - 6pm", "After 6pm"];
   const [showSite, setShowSite] = useState(true);
   const [showService, setShowService] = useState(true);
@@ -113,7 +79,7 @@ const CaseDetails = ({ stepper, type }) => {
 
 
 
-  const [serviceTypeSelected, setServiceTypeSelected] = useState("NewBuild");
+  const [serviceTypeSelected, setServiceTypeSelected] = useState("");
 
  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -133,6 +99,8 @@ const CaseDetails = ({ stepper, type }) => {
   const [PinCode, setPinCode] = useState("");
   const [ServiceType, setServiceType] = useState("");
   const [ServiceApp, setServiceApp] = useState("");
+  const [ServiceCategory, setServiceCategory] = useState("");
+  const [SubServiceCategory, setSubServiceCategory] = useState("");
   const [ServiceSub, setServiceSub] = useState("");
   const [CaseDesc, setCaseDesc] = useState("");
 
@@ -169,55 +137,15 @@ useEffect(()=>
   Address,Area,AddCity,AddState,PinCode,
   serviceTypeSelected,ServiceApp,ServiceSub,CaseDesc])
 
-
-
-const handleCaseSubmit=()=>
+const HandleServiceType =(type)=>
 {
-  // e.preventDefault();
-
-//   SetCaseData((prev)=>
-//   {
-//       if(Array.isArray(prev))
-//       {
-//           const List =[...prev,arr]
-//           console.log(List)
-//        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
-//          return List; 
-//       }
-//       else
-//       {
-//           const List =[arr]
-//           console.log(List)
-//        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
-//          return List; 
-//       }
-    
-//   })
-
-
-//  setTitle("")
-//  setCity("")
-//  setAddress("")
-//  setAddCity("")
-//  setAddLanmark("")
-//  setAddState("")
-//  setArea("")
-//  setPinCode("")
-//  setArr(
-//   {
-//     date:"",
-//     Title:"",
-//     City:"Select city",
-//     Address:"",
-//     Landmark:"",
-//  ServiceType:"",
-//  ServiceApp:"",
-//  ServiceSub:"",
-//  CaseDescription:""
-//   }
-// );
-stepper.next()
+  setServiceTypeSelected(type)
+  setServiceApp("")
+  setServiceCategory("")
+setSubServiceCategory("")
 }
+
+
   return (
     <div>
  
@@ -414,8 +342,8 @@ stepper.next()
                         type="radio"
                         id="ex1-active"
                         name="ex1"
-                  
-                        onClick={() => setServiceTypeSelected("Installation") }
+                      //  onClick={() => { setServiceTypeSelected("Installation"),setServiceApp(""),setServiceCategory("") }}
+                        onClick={()=>HandleServiceType("Installation")}
                       />
                       <Label className="form-label" for="ex1-active">
                         Installation
@@ -426,8 +354,8 @@ stepper.next()
                         type="radio"
                         id="ex1-active"
                         name="ex1"
-                    
-                        onClick={() => setServiceTypeSelected("Repair")}
+                      
+                        onClick={()=>HandleServiceType("Repair")}
                       />
                       <Label className="form-label" for="ex1-active">
                         Repair/Replacement
@@ -439,7 +367,7 @@ stepper.next()
                         id="ex1-active"
                         name="ex1"
                  
-                        onClick={() =>setServiceTypeSelected("NewBuild")}
+                        onClick={()=>HandleServiceType("NewBuild")}
                       />
                       <Label className="form-label" for="ex1-active">
                         New Build
@@ -447,7 +375,7 @@ stepper.next()
                     </div>
                   </div>
                 </Col>
-                {(serviceTypeSelected!=="NewBuild")&&
+                {(serviceTypeSelected!==""&&serviceTypeSelected!=="NewBuild")&&
                 <Col md="12" sm="12"  lg="6" className="mb-1">
                   <Label className="form-label" for={`city-${type}`}>
                    Sub-service Details
@@ -494,7 +422,9 @@ stepper.next()
                 </Col>
                   }
               </Row>
-              <Row>
+
+
+             {(serviceTypeSelected==="Repair")&&<> <Row>
               <Col md="12" className="mb-1">
                   <Label className="form-label" for={`state-${type}`}>
                     Service Application
@@ -503,11 +433,12 @@ stepper.next()
                     theme={selectThemeColors}
                     isClearable={false}
                     id={`state-${type}`}
+                   
                     isDisabled={serviceTypeSelected === ""}
                     className="react-select"
                     classNamePrefix="select"
                     options={serviceApplication}
-                    onChange={e=>setServiceApp(e.value)}
+                    onChange={e=>{setServiceApp(e.value),setServiceCategory("")}}
                   />
                 </Col>
               </Row>
@@ -519,11 +450,16 @@ stepper.next()
                   <Select
                     theme={selectThemeColors}
                     isClearable={false}
-                    id={`state-${type}`}
-                    isDisabled={serviceTypeSelected === ""}
+                    id="ServiceCategorySelect"
+                    isDisabled={ServiceApp === ""}
                     className="react-select"
                     classNamePrefix="select"
-                    options={categoryOptions}
+                    
+                    options={ 
+                    (serviceTypeSelected==="Repair")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].repair
+                  }
+                  onChange={e=>{setServiceCategory(e.value),setSubServiceCategory("")}}
+           
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -533,14 +469,142 @@ stepper.next()
                   <Select
                     theme={selectThemeColors}
                     isClearable={false}
-                    isDisabled={serviceTypeSelected === ""}
+                    isDisabled={ServiceCategory === ""}
                     id={`state-${type}`}
                     className="react-select"
                     classNamePrefix="select"
-                    options={subCategoryOptions}
+                    options={ (serviceTypeSelected==="Installation")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].installation[skillData.InstallationCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="Repair")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].repair[skillData.RepairCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="NewBuild")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].newBuild
+
+                  }
+                  onChange={e=>setSubServiceCategory(e.value)}
+                  />
+                </Col>
+              </Row> </>}
+{(serviceTypeSelected==="Installation")&&
+<>
+<Row>
+              <Col md="12" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Application
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id={`state-${type}`}
+                   
+                    isDisabled={serviceTypeSelected === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={serviceApplication}
+                    onChange={e=>{setServiceApp(e.value),setServiceCategory("")}}
                   />
                 </Col>
               </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id="ServiceCategorySelect"
+                    isDisabled={ServiceApp === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    
+                    options={ (serviceTypeSelected==="Installation")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].installation
+                    
+                  }
+                  onChange={e=>{setServiceCategory(e.value),setSubServiceCategory("")}}
+           
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Sub-Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    isDisabled={ServiceCategory === ""}
+                    id={`state-${type}`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={ (serviceTypeSelected==="Installation")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].installation[skillData.InstallationCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="Repair")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].repair[skillData.RepairCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="NewBuild")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].newBuild
+
+                  }
+                  onChange={e=>setSubServiceCategory(e.value)}
+                  />
+                </Col>
+              </Row></>}
+
+              {(serviceTypeSelected===""||serviceTypeSelected==="NewBuild")&&<> <Row>
+              <Col md="12" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Application
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id={`state-${type}`}
+                   
+                    isDisabled={serviceTypeSelected === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={serviceApplication}
+                    onChange={e=>{setServiceApp(e.value),setServiceCategory("")}}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id="ServiceCategorySelect"
+                    isDisabled={ServiceApp === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    
+                    options={ 
+                   serviceApplication[skillData.applicationCode[""+ServiceApp]].newBuild
+                  }
+                  onChange={e=>{setServiceCategory(e.value),setSubServiceCategory("")}}
+           
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Sub-Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    isDisabled={ServiceCategory === ""}
+                    id={`state-${type}`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={ 
+                    serviceApplication[skillData.applicationCode[""+ServiceApp]].repair[skillData.NewBuildCategoryCode[""+ServiceCategory]].SubService
+
+                  }
+                  onChange={e=>setSubServiceCategory(e.value)}
+                  />
+                </Col>
+              </Row> </>}
+
               <Row>
                 <Col md="12" className="mb-1">
                   <Label className="form-label" for={`state-${type}`}>
@@ -590,17 +654,10 @@ stepper.next()
         {showSchedule ? (
           <CardBody>
             <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+                    
                   >
                     <Form
-                      style={{
-                        width: "90%",
-                      }}
+                    
                       onSubmit={(e) => e.preventDefault()}
                     >
                       <Row>
@@ -813,7 +870,7 @@ stepper.next()
       <Row className="d-flex position-relative">
       
         <Col md={6}>
-        <Button onClick={handleCaseSubmit}  className="position-absolute d-flex end-0">Next</Button>
+        <Button onClick={()=>stepper.next()}  className="position-absolute d-flex end-0">Next</Button>
         </Col>
       </Row>
     </div>

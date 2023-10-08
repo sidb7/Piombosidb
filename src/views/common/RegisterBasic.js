@@ -902,19 +902,19 @@ const RegisterBasic = () => {
                      tag={Link}
                      to={`/${stakeholder.value}/Profile-Completion`}
                     color="primary"
-                    disabled={
-                      !(
-                        password == confirmPassword &&
-                        password != "" &&
-                        lowerValidated &&
-                        upperValidated &&
-                        lengthValidated &&
-                        numberValidated &&
-                        specialValidated &&
-                        privacyCheckbox 
-                        // (otpEmailVerified || otpMobileVerified)
-                      )
-                    }
+                    // disabled={
+                    //   !(
+                    //     password == confirmPassword &&
+                    //     password != "" &&
+                    //     lowerValidated &&
+                    //     upperValidated &&
+                    //     lengthValidated &&
+                    //     numberValidated &&
+                    //     specialValidated &&
+                    //     privacyCheckbox 
+                    //     // (otpEmailVerified || otpMobileVerified)
+                    //   )
+                    // }
                     block
                     onClick={() => {
                       signUpfunction();
