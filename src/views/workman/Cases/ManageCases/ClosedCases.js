@@ -34,7 +34,7 @@ const ClosedCases = (args) => {
     
   }
   return (
-    <div>
+    <div className="row">
       {
         (Array.isArray(data1)&&data1.length!=0)?
         data1.map((e)=>

@@ -22,7 +22,7 @@ const ClosedCases = (args) => {
   useEffect(()=>
   {
    setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-  
+   window.scrollBy(0,-1000)
   },[])
 
   const handleRemove=(e)=>

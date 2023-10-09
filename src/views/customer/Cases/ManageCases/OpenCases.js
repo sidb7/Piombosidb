@@ -29,7 +29,7 @@ const OpenCases = (args) => {
     setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
     setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
   
-   
+   window.scrollBy(0,-1000)
   },[])
 
  

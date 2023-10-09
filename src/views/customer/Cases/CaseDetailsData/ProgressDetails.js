@@ -117,8 +117,10 @@ class AsNavFor extends Component {
             {items.slice(0).reverse().map((e)=>
             {
                 return (
-                    <div className="d-flex justify-content-center">
-          <img   src={e.src} alt="" />
+                 
+                    <div  >
+         <img className="m-auto"  src={e.src} alt="" />
+          <div className="m-1 p-1 rounded-2" style={{textAlign:"justify",border:"1px solid gray"}}> <h5><b>Description :</b> </h5>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit in officia culpa quod placeat debitis corporis rem suscipit eveniet earum necessitatibus, voluptas beatae laborum dolores. Cupiditate impedit voluptatum sit error.</div>
           </div>
                 )
             })}
@@ -145,11 +147,22 @@ class AsNavFor extends Component {
           {items.slice(0).reverse().map((e)=>
             {
                 return (
+                
                     <div style={{width:"20%",height:"30%"}} className="p-1 d-flex justify-content-center">
           <h3><img  style={{cursor:"pointer"}}  width={"100%"} height={"100%"}  src={e.src} alt="" /></h3>
           </div>
+
+         
                 )
-            })}
+            }
+            
+        
+            
+            )
+            
+          
+            
+            }
          
 
         </Slider>

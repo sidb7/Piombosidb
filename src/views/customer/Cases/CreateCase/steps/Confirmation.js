@@ -70,6 +70,7 @@ import skillData from "../../../../skillData/CreateCaseSkillData";
 import "@styles/react/libs/react-select/_react-select.scss";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import SingleProductDetails from "./SingleProductDetails";
 
 const Confirmation = ({ stepper, type }) => {
   
@@ -202,7 +203,7 @@ const [AddProducts,setAddProducts] =useState([{Name:"Product 1",Brand:"Brand 1"}
   const [SubServiceCategory, setSubServiceCategory] = useState("");
   const [ServiceSub, setServiceSub] = useState("");
   const [CaseDesc, setCaseDesc] = useState("");
-
+  const [SingleProduct,setSingleProduct] =useState(false)
 
   const [arr, setArr] = useState(
     {
@@ -217,6 +218,9 @@ const [AddProducts,setAddProducts] =useState([{Name:"Product 1",Brand:"Brand 1"}
    CaseDescription:""
     }
   );
+
+  
+
 
 useEffect(()=>
 {
@@ -244,53 +248,58 @@ const HandleServiceType =(type)=>
 setSubServiceCategory("")
 }
 
-const handleCaseSubmit=()=>
-{
-  // e.preventDefault();
+// const handleCaseSubmit=()=>
+// {
+//   // e.preventDefault();
 
-   SetCaseData((prev)=>
-   {
-       if(Array.isArray(prev))
-       {
-           const List =[...prev,arr]
-           console.log(List)
-        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
-          return List; 
-       }
-       else
-       {
-           const List =[arr]
-           console.log(List)
-        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
-          return List; 
-       }
+//    SetCaseData((prev)=>
+//    {
+//        if(Array.isArray(prev))
+//        {
+//            const List =[...prev,arr]
+//            console.log(List)
+//         localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+//           return List; 
+//        }
+//        else
+//        {
+//            const List =[arr]
+//            console.log(List)
+//         localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+//           return List; 
+//        }
   
-   })
-  setTitle("")
-  setCity("")
-  setAddress("")
-  setAddCity("")
-  setAddLanmark("")
-  setAddState("")
-  setArea("")
-  setPinCode("")
-  setArr(
-   {
-     date:"",
-     Title:"",
-     City:"Select city",
-     Address:"",
-     Landmark:"",
-  ServiceType:"",
-  ServiceApp:"",
-  ServiceSub:"",
-  CaseDescription:""
-   }
- );
+//    })
+//   setTitle("")
+//   setCity("")
+//   setAddress("")
+//   setAddCity("")
+//   setAddLanmark("")
+//   setAddState("")
+//   setArea("")
+//   setPinCode("")
+//   setArr(
+//    {
+//      date:"",
+//      Title:"",
+//      City:"Select city",
+//      Address:"",
+//      Landmark:"",
+//   ServiceType:"",
+//   ServiceApp:"",
+//   ServiceSub:"",
+//   CaseDescription:""
+//    }
+//  );
 
-}
+// }
+
+
   return (
-    <div>
+    <>
+   
+  
+    { (SingleProduct===false)? <div>
  
       <Card>
      
@@ -873,273 +882,8 @@ const handleCaseSubmit=()=>
        
       </Card>
 
-{/* PRODUCT DETAILSS */}
-      <Card className=" p-1">
-
-<h3 className="mb-0">Basic Details</h3>
-<Form>
-
-<div className="row mb-1 mt-2">
-   <div className="col-6">
-    <Label>Product</Label>
-    <Select
-                theme={selectThemeColors}
-                name="Products"
-             
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Select"}}
-                options={Products}
-         
-            
-              />
-   </div><div className="col-6">
-    <Label>Brand</Label>
-    <Select
-                theme={selectThemeColors}
-                name="Brand"
-             
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Select"}}
-                options={Brand}
-         
-            
-              />
-   </div>
-</div>
-
-<div className="row mb-1">
-   <div className="col-6">
-    <Label>Stock Keeping Unit</Label>
-    <Input type="text" ></Input>
-   </div><div className="col-6">
-    <Label>Design</Label>
-    <Input type="text" >Select one</Input>
-   </div>
-</div>
-
-
-
-</Form>
-
-  </Card>
-
-
-<Card className=" p-1">
-<h3 className="mb-0">Product Dimension & Product Usage details</h3>
  
-  <Form>
-
-<div className="row mb-1  mt-1 ">
- 
-      <div className="col-lg-4 col-12 mt-1">
-      
-      <div className="row px-1">
-      <Label className="ps-0" for={`dimension-${type}`}>Width</Label>
-        <div className="col-8 p-0 " ><Input type="number" placeholder="Width"></Input></div>
-        <div className="col-4 p-0">
-    
-              <Select
-                theme={selectThemeColors}
-                name="Width"
-                id={`dimension-${type}`}
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Units"}}
-                options={DimensionUnits}
-         
-            
-              /></div>
-      </div>
-      </div>
-      <div className="col-lg-4 col-12 mt-1">
-        <div className="row px-1">
-        <Label className="ps-0"  for={`dimension-${type}`}>Height</Label>
-
-        <div className="col-8 p-0 "><Input type="number" placeholder="Height"></Input></div>
-        <div className="col-4 p-0"><Select
-                theme={selectThemeColors}
-                name="Width"
-                id={`dimension-${type}`}
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Units"}}
-                options={DimensionUnits}
-         
-            
-              /></div>
-      </div>
-      </div>
-      <div className="col-lg-4 col-12 mt-1">
-      <div className="row px-1">
-      <Label className="ps-0"  for={`dimension-${type}`}>Thickness</Label>
-
-      <div className="col-8 p-0"><Input type="number" placeholder="Thickness"></Input></div>
-        <div className="col-4 p-0"><Select
-                theme={selectThemeColors}
-                name="Width"
-                id={`dimension-${type}`}
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Units"}}
-                options={DimensionUnits}
-         
-            
-              /></div>
-      </div>
-      </div>
   
-</div>
-
-<div className="row mb-1">
-   <div className="col-8">
-    <Label>Quantity</Label>
-    <Input type="number" ></Input>
-   </div><div className="col-4">
-    <Label>Unit</Label>
-   < Select
-                theme={selectThemeColors}
-                name="Units"
-                id={`dimension-${type}`}
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Units"}}
-                options={QuantityUnits}
-         
-            
-              />
-   </div>
-</div>
-
-
-  
-  <div className="row mb-1">
-   <div className="col-4 ">
-    <Label>Building No.</Label>
-    <Input type="number" ></Input>
-   </div>
-   <div className="col-4">
-    <Label>Floor No.</Label>
-    <Input type="number"  className="w-100">Select one</Input>
-   </div>
-   <div className="col-4">
-    <Label>Flat No.</Label>
-    <Input type="number"  >Select one</Input>
-   </div>
-   </div>
-
-   <div className="row mb-1" >
-<div className="col-6">
-<Label>Area Name</Label>
-<Select
-                theme={selectThemeColors}
-                name="AreaName"
-                id=""
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:AreaSelect}}
-                options={AreaName}
-                maxMenuHeight={400}
-                menuPlacement="top"
-                onChange={e=>setAreaSelect(e.value)}
-              />
-</div>
- { (AreaSelect!=="Room")&&
-<div className="col-6">
-<Label className= {AreaSelect!=="Other"?"text-muted":""}>Other</Label>
-    <Input disabled={AreaSelect!=="Other"} type="text" >Select one</Input>
-</div>}
-{ AreaSelect==="Room"&&
-<div className="col-6">
-<Label>Room Type</Label>
-<Select
-                theme={selectThemeColors}
-                name="RoomName"
-                id=""
-                className="react-select"
-                classNamePrefix="select"
-                defaultValue={{label:"Select"}}
-                options={[{value:"Bedroom",label:"Bedroom"},
-                {value:"Kitchen",label:"Kitchen"},
-                {value:"Guest",label:"Guest"},
-                {value:"GM Office",label:"GM Office"}]}
-                maxMenuHeight={400}
-                menuPlacement="top"
-               
-              />
-</div>}
-   </div>
-
-
-
-</Form>
-
-  </Card>   
-
-  <Card className=" p-1 mb-1">
-<h3 className="mb-0">Purchase Details</h3>
- 
-  <Form>
-
-  <div className="row mb-1 mt-2">
-   <div className="col-6">
-    <Label>Date of Purchase</Label>
-    <Flatpickr
-                        value={ "today"}
-                        // disabled={scheduled}
-                        id="date-time-picker"
-                        // className="form-control"
-                        // data-enable-time
-                        // onChange={(date) => {
-                        //   setPicker(date);
-                        // }}
-                        options={{
-                         
-                          altInput: true,
-                          
-                        }}
-                      />
-   </div><div className="col-6">
-    <Label>Purchased from</Label>
-    <Input type="text" placeholder="Supplier Name">Select one</Input>
-   </div>
-</div>
-
-
-
-
-{documents.length!=0&& <div className="row mb-1 p-1  px-1" >
-
-<hr  className="mb-1"/>
-<h3 className="mb-1 d-flex justify-content-center">Documents Added</h3>
-<hr />
-<hr className="mb-0" />
-<div className="col-6 py-1  d-flex justify-content-center align-items-center " style={{border:"1px solid gray",borderRadius:"6px 0px 0px 0px"}} ><b >Document Name</b></div> 
-<div className="col-6 py-1 d-flex justify-content-center align-items-center"  style={{border:"1px solid gray",borderRadius:"0px 6px 0px 0px"}}  ><b >Details</b></div> 
-<hr className="mb-0"/>
-{
-documents.map((e)=>
-{ 
-  return(
-   <>
-   <hr className="mb-0 mt-0" />
-      <div className="col-6 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
-      <div className="col-6 justify-content-center py-1 position-relative d-flex "  style={{borderLeft:"1px solid gray"}}>
-        <a href={e.File} target="_blank">View File</a> 
-        </div>
-<hr className="mb-0" />
-      </>
-  )
-})
-}
-</div>}
-</Form>
-  </Card>  
-  <div className="row d-flex justify-content-center mb-2">
-    
-  {/* <div className="col-3 d-flex justify-content-center"> <Button  color="warning" className="w-100" >Clear All</Button></div>  */}
-    </div>
 <Card>
 {AddProducts.length!=0&& <div className="row mb-1 p-1  px-1" >
 
@@ -1159,7 +903,7 @@ documents.map((e)=>
      <hr className="mb-0 mt-0" />
         <div className="col-4 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
         <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray",borderRight:"1px solid gray"}}>{e.Brand}</div>
-        <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray"}}><a href={e.File} target="_blank">View Details</a></div>
+        <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray"}}><Button color="" onClick={()=>setSingleProduct(true)} className="text-primary"> View Details</Button></div>
 <hr />
         </>
     )
@@ -1173,12 +917,12 @@ documents.map((e)=>
     <Button className="position-absolute d-flex start-0"  onClick={()=>stepper.previous()}>Previous</Button>
     </Col>
     <Col md={6}>
-    <Button  onClick={handleCaseSubmit} tag={Link} to={"/customer/manageCases"} color="success" className="position-absolute d-flex end-0">Submit</Button>
+    <Button   tag={Link} to={"/customer/manageCases"} color="success" className="position-absolute d-flex end-0">Submit</Button>
     </Col>
   </Row>
 
       
-    </div>
+    </div>:<SingleProductDetails setSingleProduct={setSingleProduct}/>      }</>
   );
 };
 

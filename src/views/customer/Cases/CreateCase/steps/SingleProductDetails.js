@@ -1,5 +1,4 @@
-// **
-
+import React from 'react'
 import Flatpickr from "react-flatpickr";
 import "@styles/react/libs/flatpickr/flatpickr.scss";
 // ** Reactstrap Imports
@@ -20,7 +19,7 @@ import {
   CardSubtitle,
 } from "reactstrap";
 import { selectThemeColors } from "@utils";
-import { Fragment, useState } from "react";
+import { Fragment, useState,useEffect  } from "react";
 import {
   FileText,
   X,
@@ -34,10 +33,16 @@ import { useDropzone } from "react-dropzone";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import Select from "react-select";
-import SingleProductDetails from "./SingleProductDetails";
 
-const ProductDetails = ({ stepper, type }) => {
 
+
+export default function SingleProductDetails({setSingleProduct}) {
+useEffect(()=>
+    {        window.scrollBy(0,-1000)
+    },[])
+
+
+    
   const DimensionUnits = [
     { value: "mm", label: "mm" },
     { value: "cm", label: "cm" },
@@ -70,13 +75,13 @@ const ProductDetails = ({ stepper, type }) => {
     { value: "Brand3", label: "Brand3" },
     { value: "Brand4", label: "Brand4" },
   ];
-  const [documents,setDocument] =useState([])
+  const [documents,setDocument] =useState([{Name:"Floor Plan",File:"/manage"},{Name:"Floor Plan",File:"/manage"},{Name:"Floor Plan",File:"/manage"}])
   const [SelectDoc,setSelectDoc] =useState("Select")
   const [SelectOtherDoc,setOtherDoc] =useState("")
   const [clearDoc,setClearDoc] = useState("")
   const [Photo,setPhoto] =useState("")
 const [AreaSelect,setAreaSelect] = useState("Select")
-const [SingleProduct,setSingleProduct] =useState(false)
+
 const handleDocuments=()=>
 {
  setDocument(prev=>
@@ -105,8 +110,6 @@ const DeleteDoc=(t)=>
 {
   setDocument( documents.filter(e=>e.Name!=t) )   
 }
-
-
 const [AddProducts,setAddProducts] =useState([])
 
 const handleProductsAdded=()=>
@@ -125,13 +128,17 @@ const handleProductsAdded=()=>
     }
   })
 
-  setDocument([])
-
 }
 
   return (
-    <Fragment>
-      {(SingleProduct!=true)?<> <Card className=" p-1">
+    <div>
+        <div className=' m-0'><Button className='border-0 p-0 m-0' color=''><ArrowLeft size={26} style={{cursor:"pointer"}} onClick={()=>setSingleProduct(false)}/></Button>
+       <div className='d-flex  align-items-center justify-content-center w-100'><h2 >BRAND : PRODUCT 1</h2></div> 
+        
+        </div>
+
+
+        <> <Card className=" p-1">
 
     <h3 className="mb-0">Product Details</h3>
     <Form>
@@ -193,14 +200,14 @@ const handleProductsAdded=()=>
           <div className="col-lg-4 col-12 mt-1">
           
           <div className="row px-1">
-          <Label className="ps-0" for={`dimension-${type}`}>Width</Label>
+          <Label className="ps-0" >Width</Label>
             <div className="col-8 p-0 " ><Input type="number" placeholder="Width"></Input></div>
             <div className="col-4 p-0">
         
                   <Select
                     theme={selectThemeColors}
                     name="Width"
-                    id={`dimension-${type}`}
+                    
                     className="react-select"
                     classNamePrefix="select"
                     defaultValue={{label:"Units"}}
@@ -212,13 +219,13 @@ const handleProductsAdded=()=>
           </div>
           <div className="col-lg-4 col-12 mt-1">
             <div className="row px-1">
-            <Label className="ps-0"  for={`dimension-${type}`}>Height</Label>
+            <Label className="ps-0"  >Height</Label>
 
             <div className="col-8 p-0 "><Input type="number" placeholder="Height"></Input></div>
             <div className="col-4 p-0"><Select
                     theme={selectThemeColors}
                     name="Width"
-                    id={`dimension-${type}`}
+                    
                     className="react-select"
                     classNamePrefix="select"
                     defaultValue={{label:"Units"}}
@@ -230,13 +237,13 @@ const handleProductsAdded=()=>
           </div>
           <div className="col-lg-4 col-12 mt-1">
           <div className="row px-1">
-          <Label className="ps-0"  for={`dimension-${type}`}>Thickness</Label>
+          <Label className="ps-0"  >Thickness</Label>
 
           <div className="col-8 p-0"><Input type="number" placeholder="Thickness"></Input></div>
             <div className="col-4 p-0"><Select
                     theme={selectThemeColors}
                     name="Width"
-                    id={`dimension-${type}`}
+                    
                     className="react-select"
                     classNamePrefix="select"
                     defaultValue={{label:"Units"}}
@@ -258,7 +265,7 @@ const handleProductsAdded=()=>
        < Select
                     theme={selectThemeColors}
                     name="Units"
-                    id={`dimension-${type}`}
+                    
                     className="react-select"
                     classNamePrefix="select"
                     defaultValue={{label:"Units"}}
@@ -363,64 +370,12 @@ const handleProductsAdded=()=>
        </div>
     </div>
 
-    <div className="row mb-1">
-      <div className={(SelectDoc==="Other")? "col-6 col-lg-3 mb-1":"col-6 mb-1"}>
-        <Label>Document Type</Label>
-        <Select
-                    theme={selectThemeColors}
-                    name="RoomName"
-                    id=""
-                    className="react-select"
-                    classNamePrefix="select"
-                    defaultValue={{label:SelectDoc}}
-                    value={{label:SelectDoc}}
-                    options={[
-                      {value:"Invoice",label:"Invoice"},
-                      {value:"Product Usage Location",label:"Product Usage Location"},
-                    {value:"Floor Plan",label:"Floor Plan"},
-                    {value:"Other",label:"Other"},
-                   ]}
-                    maxMenuHeight={400}
-                    menuPlacement="top"
-                   onChange={e=>setSelectDoc(e.value)}
-                  />
-      </div>
-      { SelectDoc==="Other"&&
-      <div className="col-6 col-lg-3 ">
-        <Label>Document Name</Label>
-        <Input type="text" onChange={e=>setOtherDoc(e.target.value)}></Input>
-      </div>
-
-      }
-     <div className= {(SelectDoc==="Other")? "col-12 col-lg-6 ":"col-6"}>
-     <Label
-                    className="profile-pic-upload-label"
-                    id="profile-pic-upload-label"
-                    for="profile-pic-upload"
-                  >
-                   Document Upload
-                  </Label>
-                  <Input
-                    
-                    type= "file"
-                    accept="image/jpeg, image/png"
-                    id="profile-pic-upload"
-                   onChange={e=>setPhoto((e.target.files[0]!=null)?URL.createObjectURL(e.target.files[0]):null)}
-                  
-                  />
-     </div>
-    </div>
-    <div className="row mb-5 px-1">
-    <div className=" position-relative"><div className="position-absolute end-0">
-      <Button 
-      outline onClick={handleDocuments}
-      disabled={SelectDoc==="Select"||Photo===null}
-      
-      ><b>Add Document</b></Button>
-      </div></div>
-    </div>
   
-    {documents.length!=0&& <div className="row mb-1 p-1  px-1" >
+    
+    
+    
+  
+     <div className="row mb-1 p-1  px-1" >
 
     <hr  className="mb-1"/>
 <h3 className="mb-1 d-flex justify-content-center">Documents Added</h3>
@@ -438,21 +393,16 @@ const handleProductsAdded=()=>
           <div className="col-6 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
           <div className="col-6 justify-content-center py-1 position-relative d-flex "  style={{borderLeft:"1px solid gray"}}>
             <a href={e.File} target="_blank">View File</a> 
-            <div className="position-absolute end-0 me-1"><Trash onClick={()=>DeleteDoc(e.Name+"")}  style={{cursor:"pointer"}} size={18}/></div>
             </div>
 <hr className="mb-0" />
           </>
       )
     })
   }
-  </div>}
+  </div>
     </Form>
       </Card>  
-      <div className="row d-flex justify-content-center mb-2">
-      <div className="col-6 col-lg-4 d-flex justify-content-center"> <Button onClick={handleProductsAdded}  className="w-100">ADD PRODUCT</Button></div> 
-        
-      {/* <div className="col-3 d-flex justify-content-center"> <Button  color="warning" className="w-100" >Clear All</Button></div>  */}
-        </div>
+     
   <Card>
   {AddProducts.length!=0&& <div className="row mb-1 p-1  px-1" >
 
@@ -472,7 +422,7 @@ const handleProductsAdded=()=>
          <hr className="mb-0 mt-0" />
             <div className="col-4 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
             <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray",borderRight:"1px solid gray"}}>{e.Brand}</div>
-            <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray"}}><Button color="" onClick={()=>setSingleProduct(true)} className="text-primary"> View Details</Button></div>
+            <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray"}}><Button color=""  className="text-primary"> View Details</Button></div>
 <hr />
             </>
         )
@@ -481,20 +431,19 @@ const handleProductsAdded=()=>
     </div>}
   </Card>
 
-      <Row className="d-flex position-relative mt-1">
-        <Col md={6}>
-        <Button className="position-absolute d-flex start-0"  onClick={()=>{stepper.previous()}}>Previous</Button>
-        </Col>
-        <Col md={6}>
-        <Button  className="position-absolute d-flex end-0" onClick={()=>{stepper.next(),window.scrollBy(0,-1000)}}>Next</Button>
-        </Col>
-      </Row>
+     
       </>
-    : <SingleProductDetails setSingleProduct={setSingleProduct} /> }
-    </Fragment>
+         
+          
+         <div className='row'>
+         <div className='col-6'> 
+         <Button onClick={()=>setSingleProduct(false)}  className='border-0 p-0 m-0 d-flex align-items-center' color=''><ArrowLeft size={26} style={{cursor:"pointer"}} />
+         BACK
+         </Button>
+         </div>
+            </div> 
+          
 
-    
-  );
-};
-
-export default ProductDetails;
+</div>
+  )
+}

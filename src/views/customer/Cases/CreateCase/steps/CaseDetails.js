@@ -119,8 +119,55 @@ const CaseDetails = ({ stepper, type }) => {
     }
   );
 
-useEffect(()=>
+  const handleCaseSubmit=()=>
 {
+  // e.preventDefault();
+
+   SetCaseData((prev)=>
+   {
+       if(Array.isArray(prev))
+       {
+           const List =[...prev,arr]
+           console.log(List)
+        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+          return List; 
+       }
+       else
+       {
+           const List =[arr]
+           console.log(List)
+        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+          return List; 
+       }
+  
+   })
+  setTitle("")
+  setCity("")
+  setAddress("")
+  setAddCity("")
+  setAddLanmark("")
+  setAddState("")
+  setArea("")
+  setPinCode("")
+  setArr(
+   {
+     date:"",
+     Title:"",
+     City:"Select city",
+     Address:"",
+     Landmark:"",
+  ServiceType:"",
+  ServiceApp:"",
+  ServiceSub:"",
+  CaseDescription:""
+   }
+ );
+stepper.next()
+window.scrollBy(0,-1000)
+}
+
+useEffect(()=>
+{  window.scrollBy(0,-1000)
   setArr({
     City:city,
     Title: Title,
@@ -132,6 +179,7 @@ useEffect(()=>
    CaseDescription:CaseDesc,
    id: uuidv4(),
    date: moment(new Date()).format('DD MMMM YYYY | HH:mm ')
+  
   })
 },[Title,city,AddLandmark,
   Address,Area,AddCity,AddState,PinCode,
@@ -870,7 +918,7 @@ setSubServiceCategory("")
       <Row className="d-flex position-relative">
       
         <Col md={6}>
-        <Button onClick={()=>stepper.next()}  className="position-absolute d-flex end-0">Next</Button>
+        <Button onClick={handleCaseSubmit}  className="position-absolute d-flex end-0">Next</Button>
         </Col>
       </Row>
     </div>
