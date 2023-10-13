@@ -37,7 +37,7 @@ import "@styles/react/libs/react-select/_react-select.scss";
 import Select from "react-select";
 import SingleProductDetails from "./SingleProductDetails";
 
-const ProductDetails = ({ stepper, type }) => {
+const ProductDetails = ({ stepper, type,ServiceTypeProduct }) => {
   const DimensionUnits = [
     { value: "mm", label: "mm" },
     { value: "cm", label: "cm" },
@@ -165,10 +165,10 @@ const ProductDetails = ({ stepper, type }) => {
   },[AddProducts.length])
 
   return (
-
+  
     <Fragment>
     
-      {SingleProduct != true ? (
+      { (ServiceTypeProduct!="NewBuild")?  (SingleProduct != true) ? (
         <>
           {" "}
           <Card className=" p-1">
@@ -749,9 +749,235 @@ const ProductDetails = ({ stepper, type }) => {
             </Col>
           </Row>
         </>
-      ) : (
+      ) 
+      : 
+      
+      (
         <SingleProductDetails setSingleProduct={setSingleProduct} />
-      )}
+      ) 
+      
+      :
+      
+      <Card className=" p-1">
+            <h3 className="mb-1">Product Usage Details</h3>
+            
+
+<div className="row mb-1">
+  <div className="col-4 col-lg-2 mb-1">
+    <Label>Building No.</Label>
+    <Input type="number"></Input>
+  </div>
+  <div className="col-4 col-lg-2">
+    <Label>Floor No.</Label>
+    <Input type="number" className="w-100">
+      Select one
+    </Input>
+  </div>
+  <div className="col-4 col-lg-2">
+    <Label>Flat No.</Label>
+    <Input type="number">Select one</Input>
+  </div>
+
+  <div className="col-6 col-lg-3">
+    <Label>Area Name</Label>
+    <Select
+      theme={selectThemeColors}
+      name="AreaName"
+      id=""
+      className="react-select"
+      classNamePrefix="select"
+      defaultValue={{ label: AreaSelect }}
+      options={AreaName}
+      maxMenuHeight={400}
+      menuPlacement="top"
+      onChange={(e) => setAreaSelect(e.value)}
+    />
+  </div>
+  {AreaSelect !== "Room" && (
+    <div className="col-6 col-lg-3">
+      <Label
+        className={AreaSelect !== "Other" ? "text-muted" : ""}
+      >
+        Other
+      </Label>
+      <Input disabled={AreaSelect !== "Other"} type="text">
+        Select one
+      </Input>
+    </div>
+  )}
+  {AreaSelect === "Room" && (
+    <div className="col-6 col-lg-3">
+      <Label>Room Type</Label>
+      <Select
+        theme={selectThemeColors}
+        name="RoomName"
+        id=""
+        className="react-select"
+        classNamePrefix="select"
+        defaultValue={{ label: "Select" }}
+        options={[
+          { value: "Bedroom", label: "Bedroom" },
+          { value: "Kitchen", label: "Kitchen" },
+          { value: "Guest", label: "Guest" },
+          { value: "GM Office", label: "GM Office" },
+        ]}
+        maxMenuHeight={400}
+        menuPlacement="top"
+      />
+    </div>
+  )}
+</div>
+
+
+<div className="row mb-1">
+  <div
+    className={
+      SelectDoc === "Other"
+        ? "col-6 col-lg-3 mb-1"
+        : "col-6 col-lg-5"
+    }
+  >
+    <Label>Document Type</Label>
+    <Select
+      theme={selectThemeColors}
+      name="RoomName"
+      id=""
+      className="react-select"
+      classNamePrefix="select"
+      defaultValue={{ label: SelectDoc }}
+      value={{ label: SelectDoc }}
+      options={DocTypeOptions}
+      maxMenuHeight={400}
+      menuPlacement="top"
+      onChange={(e) => setSelectDoc(e.value)}
+    />
+  </div>
+  {SelectDoc === "Other" && (
+    <div className="col-6 col-lg-3 ">
+      <Label className="text-center">Document Name</Label>
+      <Input
+        type="text"
+        onChange={(e) => setOtherDoc(e.target.value)}
+      ></Input>
+    </div>
+  )}
+  <div
+    className={
+      SelectDoc === "Other"
+        ? "col-12 col-lg-4 "
+        : "col-6 col-lg-4"
+    }
+  >
+    <Label
+      className="profile-pic-upload-label"
+      id="profile-pic-upload-label"
+      for="profile-pic-upload"
+    >
+     Document Upload
+    </Label>
+    <Input
+      type="file"
+      accept="image/jpeg, image/png"
+      id="profile-pic-upload"
+      onChange={(e) =>
+        setPhoto(
+          e.target.files[0] != null
+            ? URL.createObjectURL(e.target.files[0])
+            : null
+        )
+      }
+    />
+  </div>
+
+  <div
+    className={
+      SelectDoc === "Other"
+        ? "col-lg-2 col-9  mt-2 mx-auto "
+        : "col-lg-3 col-9  mt-2 mx-auto"
+    }
+  >
+    {" "}
+    <Button
+      outline
+      onClick={handleDocuments}
+      disabled={SelectDoc === "Select" || Photo === null}
+      className="w-100"
+    >
+      <b>Add Document</b>
+    </Button>
+  </div>
+</div>
+
+{documents.length != 0 && (
+  <div className="row p-1  mt-2 px-1">
+    <hr className="mb-1" />
+    <h4 className="mb-1 d-flex justify-content-center">
+      Documents Added
+    </h4>
+    <hr />
+    <hr className="mb-0" />
+    <div
+      className="col-6 text-center  d-flex justify-content-center align-items-center "
+      style={{
+        border: "1px solid gray",
+        borderRadius: "6px 0px 0px 0px",
+        padding: "5px",
+      }}
+    >
+      <b>Document Name</b>
+    </div>
+    <div
+      className="col-6  d-flex justify-content-center align-items-center"
+      style={{
+        border: "1px solid gray",
+        borderRadius: "0px 6px 0px 0px",
+        padding: "5px",
+      }}
+    >
+      <b>Details</b>
+    </div>
+    <hr className="m-0" />
+    {documents.map((e) => {
+      return (
+        <>
+          <hr className="mb-0 mt-0" />
+          <div
+            className="col-6 text-center   d-flex justify-content-center align-items-center "
+            style={{
+              borderRight: "1px solid gray",
+              padding: "3px",
+            }}
+          >
+            {e.Name}
+          </div>
+          <div
+            className="col-6 text-center   d-flex justify-content-center align-items-center"
+            style={{
+              borderLeft: "1px solid gray",
+              padding: "3px",
+            }}
+          >
+            <a href={e.File} target="_blank">
+              View File
+            </a>
+            <div className="position-absolute end-0 me-1">
+              <X
+                onClick={() => DeleteDoc(e.Name + "")}
+                style={{ cursor: "pointer" }}
+                size={17}
+              />
+            </div>
+          </div>
+          <hr className="m-0" />
+        </>
+      );
+    })}
+  </div>
+)}
+      </Card>
+      
+      
+      } 
     </Fragment>
   );
 };

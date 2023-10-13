@@ -44,7 +44,7 @@ import skillData from "../../../../skillData/CreateCaseSkillData";
 import "@styles/react/libs/react-select/_react-select.scss";
 import moment from "moment";
 
-const CaseDetails = ({ stepper, type }) => {
+const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
   const [scheduled, setScheduled] = useState(false);
   const [picker, setPicker] = useState(new Date());
 
@@ -162,6 +162,8 @@ const CaseDetails = ({ stepper, type }) => {
 //   CaseDescription:""
 //    }
 //  );
+
+setServiceTypeProduct(serviceTypeSelected)
 stepper.next()
 window.scrollBy(0,-1000)
 }
