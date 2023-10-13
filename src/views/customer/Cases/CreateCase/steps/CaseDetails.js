@@ -123,51 +123,51 @@ const CaseDetails = ({ stepper, type }) => {
 {
   // e.preventDefault();
 
-   SetCaseData((prev)=>
-   {
-       if(Array.isArray(prev))
-       {
-           const List =[...prev,arr]
-           console.log(List)
-        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
-          return List; 
-       }
-       else
-       {
-           const List =[arr]
-           console.log(List)
-        localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
-          return List; 
-       }
+//    SetCaseData((prev)=>
+//    {
+//        if(Array.isArray(prev))
+//        {
+//            const List =[...prev,arr]
+//            console.log(List)
+//         localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+//           return List; 
+//        }
+//        else
+//        {
+//            const List =[arr]
+//            console.log(List)
+//         localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+//           return List; 
+//        }
   
-   })
-  setTitle("")
-  setCity("")
-  setAddress("")
-  setAddCity("")
-  setAddLanmark("")
-  setAddState("")
-  setArea("")
-  setPinCode("")
-  setArr(
-   {
-     date:"",
-     Title:"",
-     City:"Select city",
-     Address:"",
-     Landmark:"",
-  ServiceType:"",
-  ServiceApp:"",
-  ServiceSub:"",
-  CaseDescription:""
-   }
- );
+//    })
+//   setTitle("")
+//   setCity("")
+//   setAddress("")
+//   setAddCity("")
+//   setAddLanmark("")
+//   setAddState("")
+//   setArea("")
+//   setPinCode("")
+//   setArr(
+//    {
+//      date:"",
+//      Title:"",
+//      City:"Select city",
+//      Address:"",
+//      Landmark:"",
+//   ServiceType:"",
+//   ServiceApp:"",
+//   ServiceSub:"",
+//   CaseDescription:""
+//    }
+//  );
 stepper.next()
 window.scrollBy(0,-1000)
 }
 
 useEffect(()=>
-{  window.scrollBy(0,-1000)
+{  
   setArr({
     City:city,
     Title: Title,
@@ -406,7 +406,7 @@ setSubServiceCategory("")
                         onClick={()=>HandleServiceType("Repair")}
                       />
                       <Label className="form-label" for="ex1-active">
-                        Repair/Replacement
+                        Repair
                       </Label>
                     </div>
                     <div className="form-check">

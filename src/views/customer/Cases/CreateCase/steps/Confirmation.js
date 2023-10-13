@@ -137,12 +137,18 @@ const handleDocuments=()=>
   
 }
 
-const DeleteDoc=(t)=>
-{
-  setDocument( documents.filter(e=>e.Name!=t) )   
-}
-const [AddProducts,setAddProducts] =useState([{Name:"Product 1",Brand:"Brand 1"},
-{Name:"Product 1",Brand:"Brand 1"},{Name:"Product 1",Brand:"Brand 1"},{Name:"Product 1",Brand:"Brand 1"}])
+// const DeleteDoc=(t)=>
+// {
+//   setDocument( documents.filter(e=>e.Name!=t) )   
+// }
+const [AddProducts,setAddProducts] =useState([
+{Name:"Product 1",Brand:"Brand 1",Number:1},
+{Name:"Product 1",Brand:"Brand 1",Number:2},
+{Name:"Product 1",Brand:"Brand 1",Number:3},
+{Name:"Product 1",Brand:"Brand 1",Number:4},
+{Name:"Product 1",Brand:"Brand 1",Number:5},
+{Name:"Product 1",Brand:"Brand 1",Number:6},
+{Name:"Product 1",Brand:"Brand 1",Number:7}])
 
 
   const [scheduled, setScheduled] = useState(false);
@@ -883,38 +889,116 @@ setSubServiceCategory("")
       </Card>
 
  
-  
-<Card>
-{AddProducts.length!=0&& <div className="row mb-1 p-1  px-1" >
+      <Card style={{  overflowX: (window.innerWidth<"550")? "scroll":"visible",}}>
+            {AddProducts.length != 0 && (
+              <>
+                {" "}
+                <h3 className="my-1 d-flex justify-content-center position-sticky top-0">
+                  <b>{AddProducts.length}&nbsp;Products Added</b>
+                </h3>
+                <div
+                  className="row mb-1   px-1"
+                  id="AddProductList"
+                  style={{
+                    height: "auto",
+                    width: (windowWidth<"550")? "500px":"" ,
+                   
+                    maxHeight: "300px",
+                    overflowY: "auto",
+                   
+                  }}
+                >
+                  <hr className="mb-0" />
+                  <div
+                    className="col-1 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      borderRight: "1px solid gray",
+                      borderRadius: "6px 0px 0px 0px",
+                    }}
+                  >
+                    <b>Sr. no.</b>
+                  </div>
 
+                  <div className="col-3 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0">
+                    <b>Product Name</b>
+                  </div>
+                  <div
+                    className="col-4 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      borderRight: "1px solid gray",
+                      borderLeft: "1px solid gray",
+                    }}
+                  >
+                    <b>Brand</b>
+                  </div>
+                  <div
+                    className="col-4 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{ borderRadius: "0px 6px 0px 0px", zIndex: 1 }}
+                  >
+                    <b>Details</b>
+                  </div>
+                  <hr className="mb-0" />
+                  {AddProducts.map((e) => {
+                    return (
+                      <>
+                        <hr className="mb-0 mt-0" />
+                        <div
+                          className="col-1 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{ borderRight: "1px solid gray" }}
+                        >
+                          {e.Number}
+                        </div>
 
-<h3 className="mb-1 d-flex justify-content-center">Products Added</h3>
- 
-<hr className="mb-0" />
-  <div className="col-4 py-1  d-flex justify-content-center align-items-center " style={{border:"1px solid gray",borderRadius:"6px 0px 0px 0px"}} ><b >Product Name</b></div> 
-  <div className="col-4 py-1 d-flex justify-content-center align-items-center"  style={{border:"1px solid gray",borderRight:"1px solid gray"}}  ><b >Brand</b></div> 
-  <div className="col-4 py-1 d-flex justify-content-center align-items-center"  style={{border:"1px solid gray",borderRadius:"0px 6px 0px 0px"}}  ><b >Details</b></div> 
-<hr className="mb-0"/>
-{
-  AddProducts.map((e)=>
-  { 
-    return(
-     <>
-     <hr className="mb-0 mt-0" />
-        <div className="col-4 text-center py-1 "  style={{borderRight:"1px solid gray"}}>{e.Name}</div> 
-        <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray",borderRight:"1px solid gray"}}>{e.Brand}</div>
-        <div className="col-4 text-center py-1 "  style={{borderLeft:"1px solid gray"}}><Button color="" onClick={()=>setSingleProduct(true)} className="text-primary"> View Details</Button></div>
-<hr />
-        </>
-    )
-  })
-}
-</div>}
-</Card>
+                        <div
+                          className="col-3 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                            borderRight: "1px solid gray",
+                          }}
+                        >
+                          {e.Name}
+                        </div>
+                        <div
+                          className="col-4 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                            borderRight: "1px solid gray",
+                          }}
+                        >
+                          {e.Brand}
+                        </div>
+                        <div
+                          className="col-4 text-center py-0 d-flex justify-content-center align-items-center position-relative "
+                          style={{ borderLeft: "1px solid gray" }}
+                        >
+                          <Button
+                            color=""
+                            onClick={() => setSingleProduct(true)}
+                            className="text-primary"
+                          >
+                            {" "}
+                            View Details
+                          </Button>
+                          <div className="position-absolute end-0 me-1">
+                            <X
+                              onClick={() => DeleteProduct(e.Name + "")}
+                              style={{ cursor: "pointer" }}
+                              size={17}
+                            />
+                          </div>
+                        </div>
+                        <hr />
+                      </>
+                    );
+                  })}
+                </div>{" "}
+              </>
+            )}
+          </Card>
 
   <Row className="d-flex position-relative mt-1">
     <Col md={6}>
-    <Button className="position-absolute d-flex start-0"  onClick={()=>stepper.previous()}>Previous</Button>
+    <Button className="position-absolute d-flex start-0"  onClick={()=>{stepper.previous();window.scrollBy(0,-1000)}}>Previous</Button>
     </Col>
     <Col md={6}>
     <Button   tag={Link} to={"/customer/manageCases"} color="success" className="position-absolute d-flex end-0">Submit</Button>
