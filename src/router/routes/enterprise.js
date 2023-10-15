@@ -17,11 +17,13 @@ import { isObjEmpty } from "@utils";
 import Dashboard from "../../views/enterprises/Dashboard";
 import ProfileEdit from "../../views/enterprises/ProfileEdit";
 import ManageCases from "../../views/enterprises/Cases/ManageCases";
-import CreateCases from "../../views/enterprises/Cases/CreateCases";
 
 import EnterpriseAccountSettings from "../../views/enterprises/EnterpriseAccountSettings";
 import EnterpriseProfileCompletion from "../../views/enterprises/EnterpriseProfileCompletion";
 import EnterpriseVerticalLayout from "../../layouts/EnterpriseVerticalLayout";
+import CreateCase from "../../views/enterprises/Cases/CreateCase/CreateCase";
+import CaseDetails from "../../views/enterprises/Cases/CaseDetails";
+import ProgressDetails from "../../views/enterprises/Cases/CaseDetailsData/ProgressDetails";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -87,7 +89,7 @@ const Routes = [
   
   {
     path: "/enterprise/cases",
-    element: <CreateCases />,
+    element: <CreateCase />,
     meta: {
       layout: "enterpriseVertical",
     },
@@ -99,7 +101,21 @@ const Routes = [
       layout: "enterpriseVertical",
     },
   },
-  
+
+  {
+    path: "/enterprise/CasesDetails/:id",
+    element: <CaseDetails/>,
+    meta: {
+      layout: "enterpriseVertical",
+    },
+  },
+  {
+    path: "/enterprise/ProgressDetails/:id",
+    element: <ProgressDetails/>,
+    meta: {
+      layout: "enterpriseVertical",
+    },
+  },
   
   
  

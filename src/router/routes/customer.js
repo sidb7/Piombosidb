@@ -17,7 +17,7 @@ import { isObjEmpty } from "@utils";
 import Dashboard from "../../views/customer/Dashboard";
 import ProfileEdit from "../../views/customer/ProfileEdit";
 import ManageCases from "../../views/customer/Cases/ManageCases";
-import CreateCases from "../../views/customer/Cases/CreateCases";
+
 import CustomerVerticalLayout from "../../layouts/CustomerVericalLayout";
 import CustomerAccountSettings from "../../views/customer/CustomerAccountSettings";
 import SupplierDashboard from "../../views/supplier/SupplierDashboard";

@@ -1,21 +1,28 @@
+
 import React, { useEffect, useState } from "react";
-import {Trash2,CheckSquare} from 'react-feather'
-import { MdOutlinePendingActions } from "react-icons/md";
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button,
-   Modal, ModalHeader, ModalBody, ModalFooter, Toast} from "reactstrap";
+import { X } from "react-feather";
+import { BiCollapse, BiExpand } from "react-icons/bi";
+import { PiHammer } from "react-icons/pi";
+import { LuTimer} from "react-icons/lu";
+import {ImLocation} from "react-icons/im";
+import {AiOutlineBuild} from "react-icons/ai";
+import {FiTool } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress, Button} from "reactstrap";
 
 
-const OpenCases = (args) => {
+const OpenCases = ({setOpenCasesNO}) => {
 
   const [modal, setModal] = useState(false);
-
+  const [WindowWidth, setWindowWidth] = useState("");
+  
   const toggle1 = () => setModal(!modal);
 
 
   let [data1,setData1] =useState([]) 
   const [open, setOpen] = useState('');
   const [closedCaseData,setClosedCaseData] = useState([])
-
+  const [Expand, setExpand] = useState(false);
   const toggle = (id) => {
     if (open === id) {
       setOpen();
@@ -23,12 +30,13 @@ const OpenCases = (args) => {
       setOpen(id);
     }
   };
-
+ 
   useEffect(()=>
   {
-   setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
-   setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-   
+    setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+    setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+  
+   window.scrollBy(0,-1000)
   },[])
 
  
@@ -53,7 +61,7 @@ const OpenCases = (args) => {
 
     //   setData1(Status)
     
-    //   localStorage.setItem("CustomerCaseSet",JSON.stringify(Status));
+    //   localStorage.setItem("WorkmanCaseSet",JSON.stringify(Status));
     
     setClosedCaseData((prev)=>
     {
@@ -64,7 +72,7 @@ const OpenCases = (args) => {
           Title:e.Title,
           Desc:e.Desc,
           Summary:e.Summary,
-          Status:e.Status
+          date:e.date
         }]
         localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
         return list
@@ -76,7 +84,7 @@ const OpenCases = (args) => {
           Title:e.Title,
           Desc:e.Desc,
           Summary:e.Summary,
-          Status:e.Status
+          date:e.date
         },]
         localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
         return list
@@ -86,76 +94,170 @@ const OpenCases = (args) => {
     
   
    
-    const remove = data1.filter(t=>t.id!==e.id)
+    const remove = data1.filter(t=>t.id!==e)
     setData1(remove)
     localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
   
   }
-  
+  useEffect(()=>
+  {
+    setWindowWidth(screen.availWidth)
+    setOpenCasesNO(data1.length)
+  })
   return (
-    <div>
+    <Card style={{  overflowX: (WindowWidth<"550")? "scroll":"visible",}}>
+            {data1.length != 0 && (
+              <>
+                
+              <div className="my-1 d-flex justify-content-center position-sticky top-0 w-100">
+               <div className="position-absolute start-0 ms-1" style={{cursor:"pointer"}}  onClick={()=>{setExpand(!Expand)}} > {Expand!=true?<BiExpand size={20}/>:<BiCollapse size={20}/> } </div>
+                <div><h3>
+                
+                  <b>{data1.length}&nbsp;Open Cases</b>
+                
+                </h3></div></div>
+                <div
+                  className="row mb-1   px-1"
+                  id="AddProductList"
+                  style={{
+                    height: "auto",
+                    width: (WindowWidth<"550")? "1000px":"" ,
+                   
+                    maxHeight: (Expand===true)? "800px":"500px",
+                    overflowY: "auto",
+                   
+                  }}
+                >
+                  <hr className="mb-0" />
+                  <div
+                    className="col-1 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      borderRight: "1px solid gray",
+                      borderRadius: "6px 0px 0px 0px",
+                    }}
+                  >
+                    <b>Id</b>
+                  </div>
 
-      {
-        (Array.isArray(data1)&&data1.length!=0)?
-        data1.map((e)=>
-        { 
-          return (
-            <>
-            
-            <div key={e.id} className="row mt-1 d-flex justify-content-center">
-             <div className="col-11  ">
-            <Accordion flush open={open} toggle={toggle}>
-      <AccordionItem>
-        <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><MdOutlinePendingActions size={25} color="orange"/>&nbsp; &nbsp; <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
-      
-        <AccordionBody style={{boxShadow:"1px 1px 8px rgba(128, 128, 128, 0.577)"}} accordionId={e.id}>
-        <div className="row " style={{color:"gray"}}>
-          <p className="mt-1 col-6 "><h6><b>Descriptions :</b></h6> {e.Desc}</p>
-          <p className="mt-1 col-6"><h6><b>Identification no. :</b></h6>{e.id}</p>
-          </div>
-          <hr />
-          <p style={{color:"gray"}} ><h6><b>Summary :</b></h6> {e.Summary}</p>
-        </AccordionBody>
-      </AccordionItem> </Accordion>
-            
-      </div> 
+                  <div className="col-2 text-center bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0">
+                    <b>Case Title</b>
+                  </div>
+                  <div
+                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      
+                      borderLeft: "1px solid gray",
+                    }}
+                  >
+                       <b>Application</b>
+                  </div>
+                  <div
+                    className="col-3 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      
+                      borderLeft: "1px solid gray",
+                    }}
+                  >
+                    <b>Description</b>
+                  </div>
+                  <div
+                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      borderRight: "1px solid gray",
+                      borderLeft: "1px solid gray",
+                    }}
+                  >
+                    <b>Location</b>
+                  </div>
+                  <div
+                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{ borderRadius: "0px 6px 0px 0px", zIndex: 1 }}
+                  >
+                    <b>Details</b>
+                  </div>
+                  <hr className="mb-0" />
+                  {data1.map((e) => {
+                    return (
+                      <>
+                        <hr className="mb-0 mt-0" />
+                        <div 
+                          className="col-1 text-center p-0  d-flex justify-content-center align-items-center "
+                      
+                        >
+                         <b>{(e.id+"").slice(0,4)}</b>
+                        </div>
 
-            <div className="col-1  d-flex justify-content-center align-items-center">
-            <Button onClick={toggle1} className="d-flex justify-content-center align-items-center"  color="" ><CheckSquare/></Button> 
-            </div>
-
-            </div >
-            
-            <div>
-            
-      <Modal isOpen={modal} toggle={toggle1} {...args}  >
-        <ModalHeader toggle={toggle1}>Confirm</ModalHeader>
-        
-        <ModalBody>
-            Do you want to close this case ?
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={m=>handleRemove(e)}>
-           Yes
-          </Button>{' '}
-          <Button color="secondary" onClick={toggle1}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
-
-
-            
-            </>
-          )
-        })
-        :<h4 className="container-sm">No data found : \</h4>
-      }
-
-
-
-    </div>
+                        <div
+                          className="col-2 text-center py-1  d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                           borderLeftStyle:" dashed"
+                          }}
+                        >
+                         <div className="text-center"><b>{(e.Title+"").charAt(0).toUpperCase()+(e.Title).slice(1)}</b>
+                          {(e.Title=="case 1")&&<p className="text-muted d-flex align-items-center  m-0">
+                            <PiHammer size={16} color="#63B9CD"/>&nbsp;Installation</p>
+                            }
+                             {(e.Title=="case 2")&&<p  className="text-muted d-flex align-items-center  m-0">
+                            <FiTool size={16} color="#f5a002"/>&nbsp;Repair/Replace</p>
+                            }
+                            {(e.Title=="case 3")&&<p className="text-muted d-flex align-items-center  m-0">
+                            <AiOutlineBuild size={17} color="#1dc249"/>&nbsp;New Build</p>
+                            }
+                        </div> 
+                        </div>
+                        <div
+                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                            borderLeftStyle:" dashed"
+                          }}
+                        >
+                         Timber Door
+                        </div>
+                        <div
+                          className="col-3 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                            borderLeftStyle:" dashed"
+                          }}
+                        >
+                       <p className="m-0 p-0 p-1"> Lorem, ipsum dolor sit ametr quae ni non quas vero a rsdaf... <Link>View more</Link></p>
+                        </div>
+                        <div
+                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                            borderLeftStyle:" dashed"
+                          }}
+                        >
+                       <ImLocation size={18} color="#e04604"/>&nbsp;Mumbai
+                        </div>
+                        <div
+                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center position-relative "
+                          style={{ borderLeft: "1px solid gray", borderLeftStyle:" dashed" }}
+                        >
+                          <div >
+                            {" "}
+                           <div className="d-flex align-items-center"><LuTimer color="#999797" size={18}/>&nbsp;14 October 2023</div>
+                            <div><Link to={`/enterprise/CasesDetails/${e.id}`}>View Details</Link></div>
+                          </div>
+                          <div className="position-absolute end-0 me-1">
+                            <X
+                             onClick={()=>handleRemove(e.id)}
+                              style={{ cursor: "pointer" }}
+                              size={17}
+                            />
+                          </div>
+                        </div>
+                        <hr className="mt-0" />
+                      </>
+                    );
+                  })}
+                </div>{" "}
+              </>
+            )}
+          </Card>
   );
 };
 

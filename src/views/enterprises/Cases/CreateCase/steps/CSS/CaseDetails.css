@@ -1,0 +1,21 @@
+
+#ProgressStages:hover
+{
+  
+  scale: 1.05;
+  transition: 100ms all;
+}
+#ProgressStages
+{
+  
+  scale: 1;
+  transition: 100ms all;
+}
+
+#ProgressStages:active
+{
+  
+  scale:1;
+  transition: 100ms all;
+}
+
