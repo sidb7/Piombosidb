@@ -166,36 +166,72 @@ import React, { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import "../../Cases/CreateCase/steps/CSS/CaseDetails.css"
 import { ArrowLeft, ArrowRight, ChevronDown, ChevronRight } from 'react-feather';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardTitle, Progress } from 'reactstrap';
+import { Button, Card, CardBody, CardTitle, Progress, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { HiOutlineChartBar } from 'react-icons/hi2';
-
+import PropTypes from 'prop-types';
 const items = [
-           {
+        {Start: [ {
              src: 'https://picsum.photos/id/123/800/450',
              altText: 'Slide 1',
              caption: 'Slide 1',
              key: 1,
+             Phase:"Stage 1"
            },
            {
              src: 'https://picsum.photos/id/456/800/450',
              altText: 'Slide 2',
              caption: 'Slide 2',
              key: 2,
+             Phase:"Stage 1"
            },
            {
              src: 'https://picsum.photos/id/678/800/450',
              altText: 'Slide 3',
              caption: 'Slide 3',
              key: 3,
+             Phase:"Stage 1"
            },
            {
                src: 'https://picsum.photos/id/648/800/450',
                altText: 'Slide 3',
                caption: 'Slide 3',
                key: 3,
-             },
+               Phase:"Stage 1"
+             },]}
+             
+             ,
+
+         { End: [ {
+              src: 'https://picsum.photos/id/13/800/450',
+              altText: 'Slide 1',
+              caption: 'Slide 1',
+              key: 1,
+              Phase:"Stage 1"
+            },
+            {
+              src: 'https://picsum.photos/id/46/800/450',
+              altText: 'Slide 2',
+              caption: 'Slide 2',
+              key: 2,
+              Phase:"Stage 1"
+            },
+            {
+              src: 'https://picsum.photos/id/68/800/450',
+              altText: 'Slide 3',
+              caption: 'Slide 3',
+              key: 3,
+              Phase:"Stage 1"
+            },
+            {
+                src: 'https://picsum.photos/id/638/800/450',
+                altText: 'Slide 3',
+                caption: 'Slide 3',
+                key: 3,
+                Phase:"Stage 1"
+              },]}
              
          ];
 
@@ -227,25 +263,35 @@ const items = [
            },
         ];
         
-export default function ProgressDetails({id,setStageDetails,StagePhase,StagePhaseColor}) {
+export default function ProgressDetails(props) {
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
   const [ActiveSlides, setActiveSlides] = useState();
+
+  const { className } = props;
+
+  const [modal, setModal] = useState(false);
+  const [Image, setImage] = useState("");
+  const toggle = () => setModal(!modal);
+
+  const closeBtn = (
+    <button className="close" onClick={toggle} type="button">
+      &times;
+    </button>
+  );
     return (
     <div>
        <h2 className="d-flex align-items-center"> 
-       <Button color="" onClick={()=>setStageDetails(false)}   className="p-0 border-0"><ArrowLeft size={28} /></Button>
-       &nbsp;{StagePhase}&nbsp;<ChevronRight/> Progress Details</h2>
+       <Button color="" onClick={()=>props.setStageDetails(false)}   className="p-0 border-0"><ArrowLeft size={28} /></Button>
+       &nbsp;{props.StagePhase}&nbsp;<ChevronRight/> Progress Details</h2>
        <hr />
 
-       <div className="row mx-3 match-height">
+       <div className="row mx-2 match-height">
               <div className="col-lg-12">
                 
-                    
-
                     <div>
                       
-                      <div className="row  gap-lg-3    justify-content-center">
+                      <div className="d-flex flex-row  gap-lg-3 gap-md-2  gap-2  justify-content-center">
                         {(ProgressStages.map(e=>
                           {
                             return(
@@ -253,35 +299,37 @@ export default function ProgressDetails({id,setStageDetails,StagePhase,StagePhas
                           <div
                           // to={`/enterprise/ProgressDetails/${id}`}
                           // onClick={()=>{setStageDetails(true),setStagePhase(e.Phase)}}
-                          // id= {(e.Status!="Pending")? "ProgressStages":""}
+                          id= {(e.Status!="Pending"&&props.StagePhase!=e.Phase)? "ProgressStages":""}
                             style={{
                               border:e.Status!="Pending"?(e.Status!="Completed")?"3px solid orange": "3px solid #63B9CD":"3px solid gray",
                               height: "60px",
                               borderRadius: "5px",
-                              // cursor: e.Status!="Pending"?(e.Status!="Completed")?"pointer": "pointer":""
+                               cursor: e.Status!="Pending"?(e.Status!="Completed")?"pointer": "pointer":""
                               // backgroundColor:e.Status!="Pending"?(e.Status!="Completed")?"orange": "#63B9CD":"gray"
                             }}
                             className=" d-flex align-items-center justify-content-center"
+                            onClick={()=>  {e.Status!="Pending"&& props.setStagePhase(e.Phase),e.Status!="Pending"&&props.setPhaseColor(e.Status!="Pending"?(e.Status!="Completed")?"orange": "#63B9CD":"gray")}}
                           >
                          <b className="fs-5">{e.Title}</b> 
-                          </div>
+                          </div> 
                          
                             <div className="w-100 d-flex justify-content-center">
                             <div className="text-center" id= "ProgressStagesState">
                             <b    className= {e.Status!="Pending"?(e.Status!="Completed")?"text-warning":"text-primary":""}>{e.Status!="Pending"?e.Status:"Pending"}</b>
-                            { (StagePhase===e.Phase)&& <div>  <p className="w-100 d-flex justify-content-center m-0">
-                                14/10/2023
-                              </p></div>}
+                           <p className="w-100 d-flex justify-content-center m-0">
+                           {e.Status!="Pending"?"14/10/2023":"-------" }  
+                              </p>
                             </div>
                           </div>
-                        { (StagePhase===e.Phase)&& <div>   <div className="w-100 d-flex justify-content-center">
+                        { (props.StagePhase===e.Phase)&& <div>   <div className="w-100 d-flex justify-content-center">
                             {" "}
-                            <ChevronDown color={e.Status!="Pending"?(e.Status!="Completed")?"orange":"#63B9CD":"" }/>
+                            <ChevronDown  color={e.Status!="Pending"?(e.Status!="Completed")?"orange":"#63B9CD":"" }/>
                           </div> </div>}
-                        </div>
+                        </div> 
+                  
                             )
                           }))}
-                          </div>
+                          </div> 
                         
                       {/* <Progress
                         className="my-0"
@@ -295,8 +343,8 @@ export default function ProgressDetails({id,setStageDetails,StagePhase,StagePhas
               </div>
             </div>
 
-       <div style={{borderTop:(StagePhaseColor==="orange")?"1px solid orange":"1px solid #63B9CD"}} className='mb-1'></div>
-      <Slider asNavFor={nav2} ref={(slider1) => setNav1(slider1)}
+       <div style={{borderTop:(props.StagePhaseColor==="orange")?"1px solid orange":(props.StagePhaseColor==="#63B9CD")?"1px solid #63B9CD":"gray"}} className='mb-1'></div>
+      {/* <Slider asNavFor={nav2} ref={(slider1) => setNav1(slider1)}
       arrows={false}
       infinite={false}
           dots={true}
@@ -342,7 +390,82 @@ export default function ProgressDetails({id,setStageDetails,StagePhase,StagePhas
            </div>
        
                  )} )}
-      </Slider>
+      </Slider> */}
+
+      <div className='row'>
+      <div className='col-lg-6'>
+      <Card>
+      <h4 className='d-flex  mx-1 mt-1'>Stage Start</h4>
+        <CardBody className='mt-0 pt-0'>
+        <div className='row  '>
+        {items[0].Start.map((e)=>
+             {
+                 return (
+              
+                  <div className="col-6 " style={{height:"200px",padding:"7px" }}>
+                  {(e.Phase===props.StagePhase)&&<img className='m-0 p-0' 
+                  src={e.src} height={"100%"} width={"100%"} alt="" 
+                  style={{cursor:"pointer"}}
+                  onClick={()=>{setModal(!modal),setImage(e.src)}}
+                  />}
+                    </div>
+       
+                 )} )}
+        
+        </div>
+
+        </CardBody>
+      </Card>
+      </div>
+
+      <div className='col-lg-6'>
+      <Card>
+      <h4 className='d-flex  mx-1 mt-1'>Stage Termination</h4>
+        <CardBody className='mt-0 pt-0'>
+        <div className='row  '>
+        {items[1].End.map((e)=>
+             {
+                 return (
+              
+                  <div className="col-6 " style={{height:"200px",padding:"7px" }}>
+                  {(e.Phase===props.StagePhase)&&<img className='m-0 p-0' 
+                  src={e.src} height={"100%"} width={"100%"} alt="" 
+                  style={{cursor:"pointer"}}
+                  onClick={()=>{setModal(!modal),setImage(e.src)}}
+                  />}
+                    </div>
+       
+                 )} )}
+        
+        </div>
+
+        </CardBody>
+      </Card>
+      </div>
+      </div>
+      <div>
+
+            <div className='row'>
+             <div className='col-12'>  <Card>
+                  <CardBody>
+                    <h4>Description:</h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur consequatur voluptatibus, eveniet iste reiciendis nostrum enim ea, natus quia dicta assumenda explicabo porro eaque error delectus odit! Quasi, pariatur porro.</p>
+                  </CardBody>
+                </Card></div> 
+            </div>
+
+<div className='row'>
+     
+      <Modal isOpen={modal} toggle={toggle} className={className} 
+      centered={true} size='lg'>
+        
+        <ModalBody className='m-0 p-0'>
+        <img width={"100%"} height={"100%"}  src={Image} alt="" />
+        </ModalBody>
+        
+      </Modal>
+    </div>
+</div>
     </div>
   );
 }

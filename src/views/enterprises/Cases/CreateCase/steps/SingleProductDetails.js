@@ -36,7 +36,7 @@ import Select from "react-select";
 
 
 
-export default function SingleProductDetails({setSingleProduct}) {
+export default function SingleProductDetails({setSingleProduct,BackOFF}) {
 useEffect(()=>
     {        window.scrollBy(0,-1000)
     },[])
@@ -132,7 +132,7 @@ const handleProductsAdded=()=>
 
   return (
     <div>
-        <div className=' m-0'><Button className='border-0 p-0 m-0' color=''><ArrowLeft size={26} style={{cursor:"pointer"}} onClick={()=>setSingleProduct(false)}/></Button>
+        <div className=' m-0'>{BackOFF!=true &&<Button className='border-0 p-0 m-0' color=''><ArrowLeft size={26} style={{cursor:"pointer"}} onClick={()=>setSingleProduct(false)}/></Button>}
        <div className='d-flex  align-items-center justify-content-center w-100'><h2 >BRAND : PRODUCT 1</h2></div> 
         
         </div>
@@ -436,11 +436,11 @@ const handleProductsAdded=()=>
          
           
          <div className='row'>
-         <div className='col-6'> 
+         {BackOFF!=true &&<div className='col-6'> 
          <Button onClick={()=>setSingleProduct(false)}  className='border-0 p-0 m-0 d-flex align-items-center' color=''><ArrowLeft size={26} style={{cursor:"pointer"}} />
          BACK
          </Button>
-         </div>
+         </div>}
             </div> 
           
 

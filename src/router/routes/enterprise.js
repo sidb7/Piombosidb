@@ -24,6 +24,7 @@ import EnterpriseVerticalLayout from "../../layouts/EnterpriseVerticalLayout";
 import CreateCase from "../../views/enterprises/Cases/CreateCase/CreateCase";
 import CaseDetails from "../../views/enterprises/Cases/CaseDetails";
 import ProgressDetails from "../../views/enterprises/Cases/CaseDetailsData/ProgressDetails";
+import SingleProductDetails from "../../views/enterprises/Cases/CreateCase/steps/SingleProductDetails";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -117,7 +118,13 @@ const Routes = [
     },
   },
   
-  
+  {
+    path: "/enterprise/SingleProductDetails",
+    element: <SingleProductDetails/>,
+    meta: {
+      layout: "enterpriseVertical",
+    },
+  },
  
   {
     path: "/enterprise/account-settings",

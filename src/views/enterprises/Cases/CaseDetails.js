@@ -49,6 +49,7 @@ import ProfitLineChart from "../../ui-elements/cards/statistics/ProfitLineChart"
 import { Col, Row } from "antd";
 import { SubTitle } from "chart.js";
 import ProgressDetails from "./CaseDetailsData/ProgressDetails";
+import SingleProductDetails from "./CreateCase/steps/SingleProductDetails";
 
 const ProgressStages = [
   {
@@ -108,6 +109,7 @@ export default function CaseDetails(args) {
   const [StageDetails, setStageDetails] = useState(false);
   const [StagePhase, setStagePhase] = useState(false);
   const [StagePhaseColor, setPhaseColor] = useState("");
+  const [SingleProduct,setSingleProduct] =useState(false)
   const navigate = useNavigate();
   const next = () => {
     if (animating) return;
@@ -198,11 +200,13 @@ export default function CaseDetails(args) {
     controlSize: 5,
   };
 
- 
+  const [modal1, setModal1] = useState(false);
+
+  const toggle = () => setModal1(!modal1);
   const star = 3;
   return (
     <>
-    {StageDetails!=true? <div>
+     { StageDetails!=true? <div>
       <div>
         {" "}
         <Button
@@ -230,7 +234,7 @@ export default function CaseDetails(args) {
                   className="text-success border-0"
                   style={{ cursor: "default" }}
                 >
-                  Code - 1432
+                OTP - 1432
                 </Button>{" "}
               </div>
               <div className=" position-absolute end-0  d-flex ps-1 ">
@@ -423,14 +427,14 @@ export default function CaseDetails(args) {
 
                     <div>
                       
-                      <div className="row  gap-lg-2    justify-content-center">
+                      <div className="d-flex flex-row   gap-lg-3  gap-md-2 gap-1    justify-content-center">
                         {(ProgressStages.map(e=>
                           {
                             return(
                               <div className="col-2">
                           <div
                           // to={`/enterprise/ProgressDetails/${id}`}
-                          onClick={()=>{setStageDetails(true),
+                          onClick={()=>{setStageDetails((e.Status!="Pending")? true:false),
                             setStagePhase(e.Phase),
                             window.scrollBy(0,-1000),
                             setPhaseColor(e.Status!="Pending"?(e.Status!="Completed")?"orange": "#63B9CD":"gray")
@@ -438,7 +442,7 @@ export default function CaseDetails(args) {
                           id= {(e.Status!="Pending")? "ProgressStages":""}
                             style={{
                               border:e.Status!="Pending"?(e.Status!="Completed")?"3px solid orange": "3px solid #63B9CD":"3px solid gray",
-                              height: "100px",
+                              height: "80px",
                               borderRadius: "5px",
                               cursor: e.Status!="Pending"?(e.Status!="Completed")?"pointer": "pointer":""
                               // backgroundColor:e.Status!="Pending"?(e.Status!="Completed")?"orange": "#63B9CD":"gray"
@@ -449,19 +453,19 @@ export default function CaseDetails(args) {
                           </div>
                           <div className="w-100 d-flex justify-content-center">
                           
-                            <ChevronDown />
+                            <ChevronDown color={e.Status!="Pending"?(e.Status!="Completed")?"orange":"#63B9CD":"" }/>
                           </div>
                           <div className="w-100 d-flex justify-content-center">
-                            <div className="text-center" id= "ProgressStagesState">
+                            <div className="text-center " id= "ProgressStagesState">
                             <b    className= {e.Status!="Pending"?(e.Status!="Completed")?"text-warning":"text-primary":""}>{e.Status!="Pending"?e.Status:"Pending"}</b>
                               <p className="w-100 d-flex justify-content-center m-0">
-                                14/10/2023
+                              {e.Status!="Pending"?"14/10/2023":"-------" }  
                               </p>
                             </div>
                           </div>
                           <div className="w-100 d-flex justify-content-center">
                             {" "}
-                            <ChevronDown />
+                            <ChevronDown color={e.Status!="Pending"?(e.Status!="Completed")?"orange":"#63B9CD":"" } />
                           </div>
                         </div>
                             )
@@ -568,7 +572,9 @@ export default function CaseDetails(args) {
                         >
                           <Button
                             color=""
-                            // onClick={() => setSingleProduct(true)}
+                           onClick={() => {setModal1(!modal1)}}
+                
+                          
                             className="text-primary"
                           >
                             {" "}
@@ -637,7 +643,36 @@ export default function CaseDetails(args) {
             </Modal>
           </div>
         );
-      })}</div> :<ProgressDetails id={id} StagePhaseColor={StagePhaseColor}  StagePhase= {StagePhase} setStageDetails={setStageDetails} />}
+      })}</div> 
+      :
+      
+      <ProgressDetails
+      
+      id={id} StagePhaseColor={StagePhaseColor} 
+      setStagePhase={setStagePhase} 
+      StagePhase= {StagePhase} 
+      setStageDetails={setStageDetails}
+      setPhaseColor={setPhaseColor}
+      /> 
+      
+      
+     }
+
+        
+      
+      
+      
+<div>
+    
+    <Modal isOpen={modal1} toggle={toggle} size="lg">
+      <ModalHeader toggle={toggle}></ModalHeader>
+      <ModalBody>
+      <SingleProductDetails BackOFF={true}/>
+      </ModalBody>
+     
+    </Modal>
+  </div> 
     </>
   );
 }
+{/* <SingleProductDetails setSingleProduct={setSingleProduct}/>  */}
