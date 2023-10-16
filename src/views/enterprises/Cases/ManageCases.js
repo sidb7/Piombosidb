@@ -1,34 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BookOpen,Book } from 'react-feather';
 import {CardTitle,Button, Badge,} from "reactstrap";
 import OpenCases from './ManageCases/OpenCases';
 import ClosedCases from './ManageCases/ClosedCases';
 import {TbClockBolt,TbClockCheck,TbClockExclamation} from 'react-icons/tb'
 import {PiWarningCircleBold} from 'react-icons/pi'
+import Scheduled from './ManageCases/Scheduled';
 
 export default function ManageCases() {
 
     const [Setting, setSetting] =useState("OpenCases")
-  const[OpenCasesNO,setOpenCasesNO] = useState("")
- 
 
+  
+  const[OpenCasesNO,setOpenCasesNO] = useState([])
+  const[ScheduledNO,setScheduledNO] = useState([])
+
+  useEffect(() => {
+   setOpenCasesNO(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+   setScheduledNO(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+  });
   return (
     <div>
        
       
        <div className='row mt-0 ' > 
-        <Button   className='col-lg-3 col-6 fs-5 border-0 position-relative  d-fex align-items-center justify-content-center' 
+        <Button   className='col-lg-3 mb-1 mb-lg-0 col-6 fs-5 border-0 position-relative  d-fex align-items-center justify-content-center' 
         color={(Setting=="OpenCases")?"primary":""} onClick={()=>setSetting("OpenCases")}>
           
         <TbClockExclamation  color={(Setting=="OpenCases")?"":"#f5a002"} size={25}
         />&nbsp; Open&nbsp;&nbsp;
-        <Badge className='position-absolute end-25  text-light' color="danger" pill> {OpenCasesNO}</Badge>
+        <Badge className='position-absolute end-25  text-light' color="danger" pill> {OpenCasesNO.length}</Badge>
         </Button>
 
         <Button   className='col-lg-3 col-6 fs-5 border-0 position-relative d-fex align-items-center justify-content-center' 
         color={(Setting=="ScheduledCases")?"primary":""} onClick={()=>setSetting("ScheduledCases")}><TbClockBolt color={(Setting=="ScheduledCases")?"":"#63B9CD"}  size={25}
         />&nbsp; Scheduled 
-           <Badge className='position-absolute end-25  text-light' color="danger" pill> 2</Badge>
+           <Badge className='position-absolute end-25  text-light' color="danger" pill> {ScheduledNO.length}</Badge>
         </Button>
 
         <Button className='col-lg-3 col-6 fs-5 border-0 position-relative  d-fex align-items-center justify-content-center' 
@@ -47,7 +54,8 @@ export default function ManageCases() {
         </div>
     <hr />
         <div className='mt-2'> 
-            {(Setting=="OpenCases")&& <OpenCases setOpenCasesNO={setOpenCasesNO}/> }
+            {(Setting=="OpenCases")&& <OpenCases /> }
+            {(Setting=="ScheduledCases")&& <Scheduled /> }
             {(Setting=="ClosedCases")&& <ClosedCases/> }
            
         </div>

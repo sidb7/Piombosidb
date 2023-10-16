@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress, Button, Spinner} from "reactstrap";
 
 
-const OpenCases = () => {
+const Scheduled = () => {
 
   const [modal, setModal] = useState(false);
   const [WindowWidth, setWindowWidth] = useState("");
@@ -33,7 +33,7 @@ const OpenCases = () => {
  
   useEffect(()=>
   {
-    setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+    setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
     setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
   
    window.scrollBy(0,-1000)
@@ -63,38 +63,8 @@ const OpenCases = () => {
     
     //   localStorage.setItem("WorkmanCaseSet",JSON.stringify(Status));
     
-    setClosedCaseData((prev)=>
-    {
-      if(Array.isArray(prev))
-      {
-        const list  = [...prev,{
-          id:e.id,
-          Title:e.Title,
-          Desc:e.Desc,
-          Summary:e.Summary,
-          date:e.date
-        }]
-        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
-        return list
-      }
-      else
-      {
-        const list  = [{
-          id:e.id,
-          Title:e.Title,
-          Desc:e.Desc,
-          Summary:e.Summary,
-          date:e.date
-        },]
-        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
-        return list
-      }
-    })
 
-    
-  
-   
-    const remove = data1.filter(t=>t.id!==e.id)
+    const remove = data1.filter(t=>t.id!==e)
     setData1(remove)
     localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
   
@@ -102,8 +72,8 @@ const OpenCases = () => {
   useEffect(()=>
   {
     setWindowWidth(screen.availWidth)
-  
-  })
+    
+  },)
   return (
     <Card style={{  overflowX: (WindowWidth<"850")? "scroll":"visible",}}>
             {data1.length != 0 && (
@@ -242,7 +212,7 @@ const OpenCases = () => {
                             borderLeftStyle:" dashed"
                           }}
                         >
-                         <h5>25%</h5>
+                         <h5 style={{color:"orange"}}>25%</h5>
                         </div>
                         <div
                           className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
@@ -266,7 +236,7 @@ const OpenCases = () => {
                           </div>
                           <div className="position-absolute end-0 me-1">
                             <X
-                             onClick={()=>handleRemove(e)}
+                             onClick={()=>handleRemove(e.id)}
                               style={{ cursor: "pointer" }}
                               size={17}
                             />
@@ -283,4 +253,4 @@ const OpenCases = () => {
   );
 };
 
-export default OpenCases;
+export default Scheduled;

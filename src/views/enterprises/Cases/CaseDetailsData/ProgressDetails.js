@@ -283,7 +283,7 @@ export default function ProgressDetails(props) {
     <div>
        <h2 className="d-flex align-items-center"> 
        <Button color="" onClick={()=>props.setStageDetails(false)}   className="p-0 border-0"><ArrowLeft size={28} /></Button>
-       &nbsp;{props.StagePhase}&nbsp;<ChevronRight/> Progress Details</h2>
+       &nbsp;Case Progress Details <ChevronRight/> {props.StagePhase}</h2>
        <hr />
 
        <div className="row mx-2 match-height">

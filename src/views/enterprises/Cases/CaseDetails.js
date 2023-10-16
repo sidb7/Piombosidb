@@ -575,7 +575,7 @@ export default function CaseDetails(args) {
                            onClick={() => {setModal1(!modal1)}}
                 
                           
-                            className="text-primary"
+                            className="text-primary border-0"
                           >
                             {" "}
                             View Details
