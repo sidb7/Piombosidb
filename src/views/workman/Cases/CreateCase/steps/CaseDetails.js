@@ -2,10 +2,10 @@
 
 // ** Third Party Components
 import Select from "react-select";
-import AsyncSelect from "react-select/async";
+
+import { v4 as uuidv4 } from 'uuid';
 import {
-  ArrowLeft,
-  ArrowRight,
+
   ChevronDown,
   ChevronUp,
   X,
@@ -35,15 +35,16 @@ import {
   Button,
 } from "reactstrap";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Flatpickr from "react-flatpickr";
 
-import skillData from "../../../../skillData";
+import skillData from "../../../../skillData/CreateCaseSkillData";
 
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
+import moment from "moment";
 
-const CaseDetails = ({ stepper, type }) => {
+const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
   const [scheduled, setScheduled] = useState(false);
   const [picker, setPicker] = useState(new Date());
 
@@ -67,100 +68,137 @@ const CaseDetails = ({ stepper, type }) => {
     { value: "Punjab", label: "Punjab" },
   ];
 
-  const categoryOptions = [
-    { value: "Category - 1", label: "Category - 1" },
-    { value: "Category - 2", label: "Category - 2" },
-    { value: "Category - 3", label: "Category - 3" },
-  ];
 
-  const subCategoryOptions = [
-    {
-      label: "Category - 1",
-      options: [
-        { value: "Sub Category - 1", label: "Sub Category - 1" },
-        { value: "Sub Category - 2", label: "Sub Category - 2" },
-      ],
-    },
-    {
-      label: "Category - 2",
-      options: [
-        { value: "Sub Category - 1", label: "Sub Category - 1" },
-        { value: "Sub Category - 2", label: "Sub Category - 2" },
-      ],
-    },
-    {
-      label: "Category - 3",
-      options: [
-        { value: "Sub Category - 1", label: "Sub Category - 1" },
-        { value: "Sub Category - 2", label: "Sub Category - 2" },
-      ],
-    },
-  ];
 
-  const slotOptions = [
-    { value: "slot-1", label: "slot-1" },
-    { value: "slot-2", label: "slot-2" },
-    { value: "slot-3", label: "slot-3" },
-    { value: "slot-4", label: "slot-4" },
-  ];
   const slotOptions1 = ["Before 10am", "10am - 2pm", "2pm - 6pm", "After 6pm"];
   const [showSite, setShowSite] = useState(true);
   const [showService, setShowService] = useState(true);
   const [showSchedule, setShowSchedule] = useState(true);
 
   const serviceApplication = skillData.servAppl;
-  const data = skillData.skillData;
 
-  const [servApplSelected, setServApplSelected] = useState([]);
 
-  const [servCatOpts, setServCatOpts] = useState([]);
-  const [servCatSelected, setServCatSelected] = useState([]);
 
-  const [subServCatOpts, setSubServCatOpts] = useState([]);
-  const [subServCatSelected, setSubServCatSelected] = useState([]);
-
-  const [serviceRecord, setServiceRecord] = useState({});
-
-  const [serviceTypeSelected, setServiceTypeSelected] = useState("NewBuild");
-
-  const handleServApplChange = (e) => {
-    if (servApplSelected.length === 0) {
-      setSubServCatOpts([]);
-      setServCatOpts([]);
-    }
-    setServCatSelected([]);
-    setSubServCatSelected([]);
-
-    setServiceRecord({
-      application: e.value,
-      skill: "",
-      subskill: "",
-    });
-
-    let tmp1 = data.filter((obj1) => {
-      return obj1.application === e.value;
-    })[0];
-    let tmp2 = [];
-    let tmp3 = [];
-    let tmp4 = [];
-
-    if (serviceTypeSelected === "Installation") {
-      tmp4 = tmp1.skillset.installation.skill;
-    } else if (serviceTypeSelected === "Repair") {
-      tmp4 = tmp1.skillset.repair.skill;
-    } else {
-      tmp4 = tmp1.skillset.newbuild.skill;
-    }
-  };
-  const handleServCatChange = (e) => {};
-  const handleSubServCatChange = (e) => {};
+  const [serviceTypeSelected, setServiceTypeSelected] = useState("");
 
  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [slotEnter, setSlotEnter] = useState(-1);
   const [slotValue, setSlotValue] = useState(-1);
+  const [CaseData,SetCaseData] = useState(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+
+
+//  INPUT Fields states
+  const [city, setCity] = useState("Select city");
+  const [Title, setTitle] = useState("");
+  const [Address, setAddress] = useState("");
+  const [Area, setArea] = useState("");
+  const [AddCity, setAddCity] = useState("");
+  const [AddState, setAddState] = useState("");
+  const [AddLandmark, setAddLanmark] = useState("");
+  const [PinCode, setPinCode] = useState("");
+  const [ServiceType, setServiceType] = useState("");
+  const [ServiceApp, setServiceApp] = useState("");
+  const [ServiceCategory, setServiceCategory] = useState("");
+  const [SubServiceCategory, setSubServiceCategory] = useState("");
+  const [ServiceSub, setServiceSub] = useState("");
+  const [CaseDesc, setCaseDesc] = useState("");
+
+
+  const [arr, setArr] = useState(
+    {
+      date:"",
+      Title:"",
+      City:"Select city",
+      Address:"",
+      Landmark:"",
+   ServiceType:"",
+   ServiceApp:"",
+   ServiceSub:"",
+   CaseDescription:""
+    }
+  );
+
+  const handleCaseSubmit=()=>
+{
+  // e.preventDefault();
+
+    SetCaseData((prev)=>
+    {
+        if(Array.isArray(prev))
+        {
+            const List =[...prev,arr]
+            console.log(List)
+         localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+           return List; 
+        }
+        else
+        {
+            const List =[arr]
+            console.log(List)
+         localStorage.setItem("CustomerCaseSet",JSON.stringify(List));
+           return List; 
+        }
+
+    })
+   setTitle("")
+   setCity("")
+   setAddress("")
+   setAddCity("")
+   setAddLanmark("")
+   setAddState("")
+   setArea("")
+   setPinCode("")
+   setArr(
+    {
+      date:"",
+      Title:"",
+      City:"Select city",
+      Address:"",
+      Landmark:"",
+   ServiceType:"",
+   ServiceApp:"",
+   ServiceSub:"",
+   CaseDescription:""
+    }
+  );
+
+setServiceTypeProduct(serviceTypeSelected)
+stepper.next()
+window.scrollBy(0,-1000)
+}
+
+useEffect(()=>
+{  
+  setArr({
+    City:city,
+    Title: Title,
+    Address:  Address  +"," +Area +"," + AddCity +"," +AddState +"-" + PinCode ,
+    Landmark:AddLandmark,
+    ServiceType:serviceTypeSelected,
+   ServiceApp:ServiceApp,
+   ServiceSub:ServiceSub,
+   CaseDescription:CaseDesc,
+   id: uuidv4(),
+   date: moment(new Date()).format('DD MMMM YYYY | HH:mm ')
+  
+  })
+},[Title,city,AddLandmark,
+  Address,Area,AddCity,AddState,PinCode,
+  serviceTypeSelected,ServiceApp,ServiceSub,CaseDesc])
+
+const HandleServiceType =(type)=>
+{
+  setServiceTypeSelected(type)
+  setServiceApp("")
+  setServiceCategory("")
+setSubServiceCategory("")
+}
+
+
   return (
     <div>
+ 
       <Card>
         <CardHeader style={{ display: "block", marginBottom: "-1rem" }}>
           <Row>
@@ -199,6 +237,9 @@ const CaseDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-name"
                     placeholder="site name..."
+                    name="Title"
+                    value={Title}
+                    onChange={e=>setTitle(e.target.value)}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -207,12 +248,13 @@ const CaseDetails = ({ stepper, type }) => {
                   </Label>
                   <Select
                     theme={selectThemeColors}
-                    isClearable={false}
+                    name="City"
                     id={`city-${type}`}
                     className="react-select"
                     classNamePrefix="select"
                     options={cityOptions}
-                    //   onChange={handleChange}
+                  value= {{label:city}}
+                    onChange={e=>setCity(e.value)}
                   />
                 </Col>
               </Row>
@@ -225,7 +267,8 @@ const CaseDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-email"
                     placeholder="john@example.com"
-                    // onChange={(e) => handleEmail(e.target.value)}
+                    value={Address}
+                    onChange={e=>setAddress(e.target.value)}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -236,7 +279,8 @@ const CaseDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-email"
                     placeholder="Munshi Nagar"
-                    // onChange={(e) => handleEmail(e.target.value)}
+                    value={Area}
+                    onChange={e=>setArea(e.target.value)}
                   />
                 </Col>
               </Row>
@@ -252,7 +296,8 @@ const CaseDetails = ({ stepper, type }) => {
                     className="react-select"
                     classNamePrefix="select"
                     options={cityOptions}
-                    defaultValue={cityOptions[0]}
+                    value= {{label:AddCity}}
+                    onChange={e=>setAddCity(e.value)}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -266,6 +311,8 @@ const CaseDetails = ({ stepper, type }) => {
                     className="react-select"
                     classNamePrefix="select"
                     options={stateOptions}
+                    value= {{label:AddState}}
+                    onChange={e=>setAddState(e.value)}
                   />
                 </Col>
               </Row>
@@ -278,7 +325,9 @@ const CaseDetails = ({ stepper, type }) => {
                     type="text"
                     id="register-email"
                     placeholder="Opp. Ganesh Mandir"
-                    // onChange={(e) => handleEmail(e.target.value)}
+                    name="AddLandmark"
+                    value={AddLandmark}
+                    onChange={e=>setAddLanmark(e.target.value)}
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -289,7 +338,8 @@ const CaseDetails = ({ stepper, type }) => {
                     type="Number"
                     id="register-email"
                     placeholder="400071"
-                    // onChange={(e) => handleEmail(e.target.value)}
+                    value={PinCode}
+                    onChange={e=>setPinCode(e.target.value)}
                   />
                 </Col>
               </Row>
@@ -329,7 +379,7 @@ const CaseDetails = ({ stepper, type }) => {
           <CardBody>
             <Form onSubmit={(e) => e.preventDefault()}>
               <Row>
-              <Col md="6" className="mb-1">
+              <Col md="12" sm="12" lg="6" className="mb-1">
                   <Label className="form-label" for={`city-${type}`}>
                     Service Type
                   </Label>
@@ -342,8 +392,8 @@ const CaseDetails = ({ stepper, type }) => {
                         type="radio"
                         id="ex1-active"
                         name="ex1"
-                        onChange={() => {}}
-                        onClick={() =>    setServiceTypeSelected("Installation") }
+                      //  onClick={() => { setServiceTypeSelected("Installation"),setServiceApp(""),setServiceCategory("") }}
+                        onClick={()=>HandleServiceType("Installation")}
                       />
                       <Label className="form-label" for="ex1-active">
                         Installation
@@ -354,11 +404,11 @@ const CaseDetails = ({ stepper, type }) => {
                         type="radio"
                         id="ex1-active"
                         name="ex1"
-                        onChange={() => {}}
-                        onClick={() => setServiceTypeSelected("Repair")}
+                      
+                        onClick={()=>HandleServiceType("Repair")}
                       />
                       <Label className="form-label" for="ex1-active">
-                        Repair/Replacement
+                        Repair
                       </Label>
                     </div>
                     <div className="form-check">
@@ -366,8 +416,8 @@ const CaseDetails = ({ stepper, type }) => {
                         type="radio"
                         id="ex1-active"
                         name="ex1"
-                        onChange={() => {}}
-                        onClick={() =>setServiceTypeSelected("NewBuild")}
+                 
+                        onClick={()=>HandleServiceType("NewBuild")}
                       />
                       <Label className="form-label" for="ex1-active">
                         New Build
@@ -375,8 +425,8 @@ const CaseDetails = ({ stepper, type }) => {
                     </div>
                   </div>
                 </Col>
-                {(serviceTypeSelected!=="NewBuild")&&
-                <Col md="6" className="mb-1">
+                {(serviceTypeSelected!==""&&serviceTypeSelected!=="NewBuild")&&
+                <Col md="12" sm="12"  lg="6" className="mb-1">
                   <Label className="form-label" for={`city-${type}`}>
                    Sub-service Details
                   </Label>
@@ -422,7 +472,9 @@ const CaseDetails = ({ stepper, type }) => {
                 </Col>
                   }
               </Row>
-              <Row>
+
+
+             {(serviceTypeSelected==="Repair")&&<> <Row>
               <Col md="12" className="mb-1">
                   <Label className="form-label" for={`state-${type}`}>
                     Service Application
@@ -431,10 +483,12 @@ const CaseDetails = ({ stepper, type }) => {
                     theme={selectThemeColors}
                     isClearable={false}
                     id={`state-${type}`}
+                   
                     isDisabled={serviceTypeSelected === ""}
                     className="react-select"
                     classNamePrefix="select"
                     options={serviceApplication}
+                    onChange={e=>{setServiceApp(e.value),setServiceCategory("")}}
                   />
                 </Col>
               </Row>
@@ -446,11 +500,16 @@ const CaseDetails = ({ stepper, type }) => {
                   <Select
                     theme={selectThemeColors}
                     isClearable={false}
-                    id={`state-${type}`}
-                    isDisabled={serviceTypeSelected === ""}
+                    id="ServiceCategorySelect"
+                    isDisabled={ServiceApp === ""}
                     className="react-select"
                     classNamePrefix="select"
-                    options={categoryOptions}
+                    
+                    options={ 
+                    (serviceTypeSelected==="Repair")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].repair
+                  }
+                  onChange={e=>{setServiceCategory(e.value),setSubServiceCategory("")}}
+           
                   />
                 </Col>
                 <Col md="6" className="mb-1">
@@ -460,14 +519,142 @@ const CaseDetails = ({ stepper, type }) => {
                   <Select
                     theme={selectThemeColors}
                     isClearable={false}
-                    isDisabled={serviceTypeSelected === ""}
+                    isDisabled={ServiceCategory === ""}
                     id={`state-${type}`}
                     className="react-select"
                     classNamePrefix="select"
-                    options={subCategoryOptions}
+                    options={ (serviceTypeSelected==="Installation")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].installation[skillData.InstallationCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="Repair")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].repair[skillData.RepairCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="NewBuild")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].newBuild
+
+                  }
+                  onChange={e=>setSubServiceCategory(e.value)}
+                  />
+                </Col>
+              </Row> </>}
+{(serviceTypeSelected==="Installation")&&
+<>
+<Row>
+              <Col md="12" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Application
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id={`state-${type}`}
+                   
+                    isDisabled={serviceTypeSelected === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={serviceApplication}
+                    onChange={e=>{setServiceApp(e.value),setServiceCategory("")}}
                   />
                 </Col>
               </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id="ServiceCategorySelect"
+                    isDisabled={ServiceApp === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    
+                    options={ (serviceTypeSelected==="Installation")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].installation
+                    
+                  }
+                  onChange={e=>{setServiceCategory(e.value),setSubServiceCategory("")}}
+           
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Sub-Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    isDisabled={ServiceCategory === ""}
+                    id={`state-${type}`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={ (serviceTypeSelected==="Installation")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].installation[skillData.InstallationCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="Repair")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].repair[skillData.RepairCategoryCode[""+ServiceCategory]].SubService
+                    ||
+                    (serviceTypeSelected==="NewBuild")&&serviceApplication[skillData.applicationCode[""+ServiceApp]].newBuild
+
+                  }
+                  onChange={e=>setSubServiceCategory(e.value)}
+                  />
+                </Col>
+              </Row></>}
+
+              {(serviceTypeSelected===""||serviceTypeSelected==="NewBuild")&&<> <Row>
+              <Col md="12" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Application
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id={`state-${type}`}
+                   
+                    isDisabled={serviceTypeSelected === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={serviceApplication}
+                    onChange={e=>{setServiceApp(e.value),setServiceCategory("")}}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    id="ServiceCategorySelect"
+                    isDisabled={ServiceApp === ""}
+                    className="react-select"
+                    classNamePrefix="select"
+                    
+                    options={ 
+                   serviceApplication[skillData.applicationCode[""+ServiceApp]].newBuild
+                  }
+                  onChange={e=>{setServiceCategory(e.value),setSubServiceCategory("")}}
+           
+                  />
+                </Col>
+                <Col md="6" className="mb-1">
+                  <Label className="form-label" for={`state-${type}`}>
+                    Service Sub-Category
+                  </Label>
+                  <Select
+                    theme={selectThemeColors}
+                    isClearable={false}
+                    isDisabled={ServiceCategory === ""}
+                    id={`state-${type}`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={ 
+                    serviceApplication[skillData.applicationCode[""+ServiceApp]].repair[skillData.NewBuildCategoryCode[""+ServiceCategory]].SubService
+
+                  }
+                  onChange={e=>setSubServiceCategory(e.value)}
+                  />
+                </Col>
+              </Row> </>}
+
               <Row>
                 <Col md="12" className="mb-1">
                   <Label className="form-label" for={`state-${type}`}>
@@ -517,17 +704,10 @@ const CaseDetails = ({ stepper, type }) => {
         {showSchedule ? (
           <CardBody>
             <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+                    
                   >
                     <Form
-                      style={{
-                        width: "90%",
-                      }}
+                    
                       onSubmit={(e) => e.preventDefault()}
                     >
                       <Row>
@@ -737,6 +917,12 @@ const CaseDetails = ({ stepper, type }) => {
           <p />
         )}
       </Card>
+      <Row className="d-flex position-relative">
+      
+        <Col md={6}>
+        <Button onClick={handleCaseSubmit}  className="position-absolute d-flex end-0">Next</Button>
+        </Col>
+      </Row>
     </div>
   );
 };

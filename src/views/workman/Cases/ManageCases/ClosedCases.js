@@ -21,8 +21,8 @@ const ClosedCases = (args) => {
 
   useEffect(()=>
   {
-   setData1(JSON.parse(localStorage.getItem("WorkmanClosedCase")))
-  
+   setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+   window.scrollBy(0,-1000)
   },[])
 
   const handleRemove=(e)=>
@@ -30,11 +30,11 @@ const ClosedCases = (args) => {
     setModal(!modal);
     const remove = data1.filter(t=>t.id!==e.id)
     setData1(remove)
-    localStorage.setItem("WorkmanClosedCase",JSON.stringify(remove));
+    localStorage.setItem("CustomerClosedCase",JSON.stringify(remove));
     
   }
   return (
-    <div className="row">
+    <div>
       {
         (Array.isArray(data1)&&data1.length!=0)?
         data1.map((e)=>
@@ -46,7 +46,7 @@ const ClosedCases = (args) => {
               <div className="col-11 ">
             <Accordion flush open={open} toggle={toggle}>
       <AccordionItem>
-      <AccordionHeader  style={{boxShadow:"1px 1px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><CheckCircle size={25} color="lightgreen"/>&nbsp; &nbsp; <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
+      <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><CheckCircle size={25} color="lightgreen"/>&nbsp; &nbsp;  <span className="fs-4 d-flex align-items-center">{e.Title} </span></AccordionHeader>
         
         <AccordionBody style={{boxShadow:"1px 1px 8px rgba(128, 128, 128, 0.577)"}} accordionId={e.id}>
           <div className="row " style={{color:"gray"}}>
@@ -61,7 +61,7 @@ const ClosedCases = (args) => {
             </div >
            
             <div className="col-1  d-flex justify-content-center align-items-center">
-            <Button  onClick={toggle1}  color="" style={{border:"none"}} className="text-danger" >< Trash2 /></Button> 
+            <Button  onClick={toggle1}  color="" style={{border:"none"}} className="text-danger" ><Trash2/></Button> 
             </div>
             <Modal isOpen={modal} toggle={toggle1} {...args}>
               <ModalHeader toggle={toggle1}>Confirm</ModalHeader>

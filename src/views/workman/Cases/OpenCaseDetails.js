@@ -20,6 +20,7 @@ import {
   Card,
   CardBody,
   CardTitle,
+  Input,
   Modal,
   ModalBody,
   ModalFooter,
@@ -100,7 +101,7 @@ const items = [
     key: 3,
   },
 ];
-export default function CaseDetails(args) {
+export default function OpenCaseDetails(args) {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [arr, setArr] = useState([]);
@@ -111,6 +112,8 @@ export default function CaseDetails(args) {
   const [StagePhase, setStagePhase] = useState(false);
   const [StagePhaseColor, setPhaseColor] = useState("");
   const [SingleProduct,setSingleProduct] =useState(false)
+  const [closedCaseData,setClosedCaseData] = useState([])
+  let [data1,setData1] =useState([]) 
   const navigate = useNavigate();
   const next = () => {
     if (animating) return;
@@ -155,8 +158,16 @@ export default function CaseDetails(args) {
     );
   });
 
+  useEffect(()=>
+  {
+    setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+    setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+  
+   window.scrollBy(0,-1000)
+  },[])
+
   useEffect(() => {
-    setData(JSON.parse(localStorage.getItem("CustomerClosedCase")));
+    setData(JSON.parse(localStorage.getItem("CustomerCaseSet")));
     setArr(data.filter((e) => e.id === id));
   });
 
@@ -187,9 +198,50 @@ export default function CaseDetails(args) {
     const remove = data.filter((t) => t.id !== id);
 
     localStorage.setItem("CustomerCaseSet", JSON.stringify(remove));
-    navigate("/enterprise/manageCases");
+    navigate("/workman-individual/browseCases");
   };
 
+
+
+  const HandleAccept=(e)=>
+  {
+    console.log(e.Title)
+    setClosedCaseData((prev)=>
+    {
+      if(Array.isArray(prev))
+      {
+        const list  = [...prev,{
+          id:e.id,
+          Title:e.Title,
+          Desc:e.Desc,
+          Summary:e.Summary,
+          date:e.date
+        }]
+        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
+        return list
+      }
+      else
+      {
+        const list  = [{
+          id:e.id,
+          Title:e.Title,
+          Desc:e.Desc,
+          Summary:e.Summary,
+          date:e.date
+        },]
+        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
+        return list
+      }
+    })
+
+    
+  
+   
+    const remove = data1.filter(t=>t.id!==e.id)
+    setData1(remove)
+    localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
+    
+  }
   const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
   const defaultProps = {
@@ -214,7 +266,7 @@ export default function CaseDetails(args) {
           color=""
           className="p-0 border-0"
           tag={Link}
-          to={"/workman-Individual/manageCases"}
+          to={"/workman-Individual/browseCases"}
         >
           <ArrowLeft size={27} style={{ cursor: "pointer" }} />{" "}
         </Button>{" "}
@@ -330,6 +382,12 @@ export default function CaseDetails(args) {
                         </div>
                       </div> */}
                     </div>
+
+                    <div className="row mt-1">
+                    <div className="col-6"><Input type="text" placeholder="Enter OTP" style={{border:"2px solid gray"}}  className="w-100" outline color="primary">Accept</Input></div>
+                      <div className="col-3"><Button className="w-100" onClick={()=>HandleAccept(e)} outline color="primary">Accept</Button></div>
+                      <div className="col-3"><Button className="w-100" onClick={toggle1} outline color="danger">Decline</Button></div>
+                    </div>
                   </CardBody>
                 </Card>
               </div>
@@ -348,13 +406,13 @@ export default function CaseDetails(args) {
                     <div className="row gap-1">
                       <div className="col-12">
                         <b>Workman status :</b>{" "}
-                        <span className="text-success">Assigned</span>
+                        <span className="text-danger">Not Assigned</span>
                       </div>
                       <div className="col-12">
-                        <b>Skill :</b> none
+                        <b>Required Skill :</b> Installation
                       </div>
                       <div className="col-12 d-flex align-items-center">
-                        <b>Level :</b>
+                        <b>Required Level :</b>
                         &nbsp;{" "}
                         <AiFillStar
                           color={star >= 1 ? "#fcc80d" : "gray"}
@@ -386,7 +444,7 @@ export default function CaseDetails(args) {
                     <hr />
                     <div className="row gap-1">
                       <div className="col-12">
-                        <b>Workman Location :</b> Andheri
+                        <b>Customer Location :</b> Andheri
                       </div>
                       <div
                         className="col-12"
@@ -486,7 +544,7 @@ export default function CaseDetails(args) {
               </div>
             </div>
 {/* Products LIST */}
-            <div className="row match-height">
+            {/* <div className="row match-height">
              <div className="col-12">
               
              <Card style={{  overflowX: (window.innerWidth<"550")? "scroll":"visible",}}>
@@ -593,7 +651,7 @@ export default function CaseDetails(args) {
           </Card>
 
              </div>
-            </div>
+            </div> */}
 
             <div className="row match-height">
               <div className="col-lg-6">

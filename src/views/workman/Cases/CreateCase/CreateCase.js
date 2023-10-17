@@ -19,28 +19,28 @@ const CreateCase = () => {
 
   // ** State
   const [stepper, setStepper] = useState(null);
-
+  const [ServiceTypeProduct, setServiceTypeProduct] = useState("");
   const steps = [
     {
       id: "case-details",
       title: "Case Details",
       subtitle: "Enter the Details.",
       icon: <User size={18} />,
-      content: <CaseDetails stepper={stepper} type="wizard-modern" />,
+      content: <CaseDetails stepper={stepper} setServiceTypeProduct={setServiceTypeProduct} type="wizard-modern" />,
     },
     {
       id: "product-details",
       title: "Product Details",
       subtitle: "Enter the Details.",
       icon: <FileText size={18} />,
-      content: <ProductDetails stepper={stepper} type="wizard-modern" />,
+      content: <ProductDetails stepper={stepper} ServiceTypeProduct={ServiceTypeProduct} type="wizard-modern" />,
     },
     {
       id: "confirmation",
       title: "Confirmation",
       subtitle: "Case confirmation",
       icon: <FileText size={18} />,
-      content: <Confirmation stepper={stepper} type="wizard-modern" />,
+      content: <Confirmation stepper={stepper} ServiceTypeProduct={ServiceTypeProduct} type="wizard-modern" />,
     },
   ];
 

@@ -1,0 +1,25 @@
+#AddProductList::-webkit-scrollbar {
+ width: 5px;
+
+  }
+
+
+  #AddProductList::-webkit-scrollbar-track {
+    background: #c7c4c4;
+  }
+  
+  /* Handle */
+  #AddProductList::-webkit-scrollbar-thumb {
+    background: #42a1c6;
+    
+  }
+  
+  /* Handle on hover */
+  #AddProductList::-webkit-scrollbar-thumb:hover {
+    background: #3582a0;
+ 
+  }
+
+
+
+  

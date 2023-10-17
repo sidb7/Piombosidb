@@ -232,7 +232,7 @@ const Scheduled = () => {
                           <div >
                             {" "}
                            <div className="d-flex align-items-center"><LuTimer color="#999797" size={18}/>&nbsp;14 October 2023</div>
-                            <div><Link to={`/enterprise/CasesDetails/${e.id}`}>View Details</Link></div>
+                            <div><Link to={`/workman-Individual/CasesDetails/${e.id}`}>View Details</Link></div>
                           </div>
                           <div className="position-absolute end-0 me-1">
                             <X

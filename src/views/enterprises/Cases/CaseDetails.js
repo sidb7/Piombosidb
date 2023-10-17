@@ -316,7 +316,7 @@ export default function CaseDetails(args) {
                           </div>
                         </div>
                       </div>
-                      <div className="d-flex gap-1 position-absolute end-0 bottom-0 mb-1 me-1">
+                      {/* <div className="d-flex gap-1 position-absolute end-0 bottom-0 mb-1 me-1">
                         <div>
                           <Button outline color="primary">
                             Accept
@@ -327,7 +327,7 @@ export default function CaseDetails(args) {
                             Decline
                           </Button>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </CardBody>
                 </Card>

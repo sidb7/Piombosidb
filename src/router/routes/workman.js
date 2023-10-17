@@ -23,6 +23,8 @@ import CaseDetails from "../../views/workman/Cases/CaseDetails";
 import WorkmanEditProf from "../../views/workman/WorkmanEditProf";
 import WorkmanDashProfile from "../../views/workman/WorkmanDashProfile";
 import CreateCase from "../../views/workman/Cases/CreateCase/CreateCase";
+import BrowseCases from "../../views/workman/Cases/BrowseCases";
+import OpenCaseDetails from "../../views/workman/Cases/OpenCaseDetails";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -106,21 +108,30 @@ const Routes = [
     },
   },
   {
-    path: "/workman-Individual/CaseDetails/:id",
+    path: "/workman-Individual/CasesDetails/:id",
     element: <CaseDetails/>,
     meta: {
       layout: "workmanVertical",
     },
   },
- 
-
   {
-    path: "/workman-Individual/browseCases",
-    element: <ManageCases />,
+    path: "/workman-individual/OpenCasesDetails/:id",
+    element: <OpenCaseDetails/>  ,
     meta: {
       layout: "workmanVertical",
     },
   },
+  
+
+  {
+    path: "/workman-Individual/browseCases",
+    element: <BrowseCases />,
+    meta: {
+      layout: "workmanVertical",
+    },
+  },
+
+  
   
   
   {

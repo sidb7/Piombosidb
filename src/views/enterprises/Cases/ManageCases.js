@@ -29,13 +29,13 @@ export default function ManageCases() {
           
         <TbClockExclamation  color={(Setting=="OpenCases")?"":"#f5a002"} size={25}
         />&nbsp; Open&nbsp;&nbsp;
-        <Badge className='position-absolute end-25  text-light' color="danger" pill> {OpenCasesNO.length}</Badge>
+        <Badge className='position-absolute end-25  text-light' color="danger" pill> {(Array.isArray(OpenCasesNO))? OpenCasesNO.length:"0"}</Badge>
         </Button>
 
         <Button   className='col-lg-3 col-6 fs-5 border-0 position-relative d-fex align-items-center justify-content-center' 
         color={(Setting=="ScheduledCases")?"primary":""} onClick={()=>setSetting("ScheduledCases")}><TbClockBolt color={(Setting=="ScheduledCases")?"":"#63B9CD"}  size={25}
         />&nbsp; Scheduled 
-           <Badge className='position-absolute end-25  text-light' color="danger" pill> {ScheduledNO.length}</Badge>
+           <Badge className='position-absolute end-25  text-light' color="danger" pill> {(Array.isArray(ScheduledNO))? ScheduledNO.length:"0"}</Badge>
         </Button>
 
         <Button className='col-lg-3 col-6 fs-5 border-0 position-relative  d-fex align-items-center justify-content-center' 
