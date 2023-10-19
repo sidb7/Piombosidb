@@ -2,17 +2,19 @@ import React, { useState } from "react";
 // import CaseData from "./CaseData";
 import { v4 as uuidv4 } from 'uuid';
 import { Button, Col, Form, FormGroup, FormText, Input, Label } from "reactstrap";
+import moment from "moment";
 const CreateCases = () => {
 
   const [check,setCheck] = useState()
-  const [CaseData,SetCaseData] = useState(JSON.parse(localStorage.getItem("WorkmanFirmCaseSet")))
+  const [CaseData,SetCaseData] = useState(JSON.parse(localStorage.getItem("WorkmanCaseSet")))
   const [CaseSet,setCase] = useState({
     id:"",
     Title:"",
     Desc:"",
     Summary:"",
-   
+    date: ""
   })
+  
   
   const handleChange=(e)=>
   {
@@ -21,8 +23,9 @@ const CreateCases = () => {
     ...CaseSet,
     id:uuidv4(),
     [e.target.name]: value,
-
+    date: moment(new Date()).format('DD MMMM YYYY | HH:mm ')
   });
+ 
   }
 
   const handleCaseSubmit=(e)=>
@@ -34,18 +37,18 @@ const CreateCases = () => {
         if(Array.isArray(prev))
         {
             const List =[...prev,CaseSet]
-            localStorage.setItem("WorkmanFirmCaseSet",JSON.stringify(List));
+            localStorage.setItem("WorkmanCaseSet",JSON.stringify(List));
            return List; 
         }
         else
         {
             const List =[CaseSet]
-            localStorage.setItem("WorkmanFirmCaseSet",JSON.stringify(List));
+            localStorage.setItem("WorkmanCaseSet",JSON.stringify(List));
            return List; 
         }
       
     })
-
+  
     setCheck("")
     setCase({
 
@@ -53,7 +56,7 @@ const CreateCases = () => {
       Title:"",
       Desc:"",
       Summary:"",
-    
+      date:""
     });
   }
  

@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress, Button, Spinner} from "reactstrap";
 
 
-const OpenCases = () => {
+const Scheduled = () => {
 
   const [modal, setModal] = useState(false);
   const [WindowWidth, setWindowWidth] = useState("");
@@ -33,7 +33,7 @@ const OpenCases = () => {
  
   useEffect(()=>
   {
-    setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+    setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
     setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
   
    window.scrollBy(0,-1000)
@@ -63,38 +63,8 @@ const OpenCases = () => {
     
     //   localStorage.setItem("WorkmanCaseSet",JSON.stringify(Status));
     
-    setClosedCaseData((prev)=>
-    {
-      if(Array.isArray(prev))
-      {
-        const list  = [...prev,{
-          id:e.id,
-          Title:e.Title,
-          Desc:e.Desc,
-          Summary:e.Summary,
-          date:e.date
-        }]
-        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
-        return list
-      }
-      else
-      {
-        const list  = [{
-          id:e.id,
-          Title:e.Title,
-          Desc:e.Desc,
-          Summary:e.Summary,
-          date:e.date
-        },]
-        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
-        return list
-      }
-    })
 
-    
-  
-   
-    const remove = data1.filter(t=>t.id!==e.id)
+    const remove = data1.filter(t=>t.id!==e)
     setData1(remove)
     localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
   
@@ -102,11 +72,11 @@ const OpenCases = () => {
   useEffect(()=>
   {
     setWindowWidth(screen.availWidth)
-  
-  })
+    
+  },)
   return (
     <Card style={{  overflowX: (WindowWidth<"850")? "scroll":"visible",}}>
-            {Array.isArray(data1)? (
+            {Array.isArray(data1) && (
               <>
                 
               <div className="my-1 d-flex justify-content-center position-sticky top-0 w-100">
@@ -152,7 +122,7 @@ const OpenCases = () => {
                        <b>Application</b>
                   </div>
                   <div
-                    className="col-3 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
                     style={{
                       
                       borderLeft: "1px solid gray",
@@ -160,7 +130,15 @@ const OpenCases = () => {
                   >
                     <b>Description</b>
                   </div>
-                  
+                  <div
+                    className="col-1 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    style={{
+                      borderRight: "1px solid gray",
+                      borderLeft: "1px solid gray",
+                    }}
+                  >
+                    <b>Progress</b>
+                  </div>
                   <div
                     className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
                     style={{
@@ -218,7 +196,7 @@ const OpenCases = () => {
                          Timber Door
                         </div>
                         <div
-                          className="col-3 text-center py-0 d-flex justify-content-center align-items-center "
+                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
                           style={{
                             borderLeft: "1px solid gray",
                             borderLeftStyle:" dashed"
@@ -227,7 +205,15 @@ const OpenCases = () => {
                        <p className="m-0 p-0" style={{textAlign:"justify"}}> Lorem, ipsum dolor sit fass vero a rsdaf... <Link>View more</Link></p>
                         </div>
 
-                      
+                        <div
+                          className="col-1 text-center py-0 d-flex justify-content-center align-items-center "
+                          style={{
+                            borderLeft: "1px solid gray",
+                            borderLeftStyle:" dashed"
+                          }}
+                        >
+                         <h5 style={{color:"orange"}}>25%</h5>
+                        </div>
                         <div
                           className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
                           style={{
@@ -246,11 +232,11 @@ const OpenCases = () => {
                           <div >
                             {" "}
                            <div className="d-flex align-items-center"><LuTimer color="#999797" size={18}/>&nbsp;14 October 2023</div>
-                            <div><Link to={`/workman-Firm/OpenCasesDetails/${e.id}`}>View Details</Link></div>
+                            <div><Link to={`/workman-Firm/CasesDetails/${e.id}`}>View Details</Link></div>
                           </div>
                           <div className="position-absolute end-0 me-1">
                             <X
-                             onClick={()=>handleRemove(e)}
+                             onClick={()=>handleRemove(e.id)}
                               style={{ cursor: "pointer" }}
                               size={17}
                             />
@@ -262,9 +248,9 @@ const OpenCases = () => {
                   })}
                 </div>{" "}
               </>
-            ): <h3>No Data:/</h3> }
+            )}
           </Card>
   );
 };
 
-export default OpenCases;
+export default Scheduled;

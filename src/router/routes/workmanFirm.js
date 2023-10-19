@@ -24,6 +24,10 @@ import AddWorkmen from "../../views/workmanFirm/WorkmenPanel/AddWorkmen";
 import ManageWorkmen from "../../views/workmanFirm/WorkmenPanel/ManageWorkmen";
 import WorkmanFirmEditProf from "../../views/workmanFirm/WorkmanFirmEditProf";
 import WorkmanFirmDashProfile from "../../views/workmanFirm/WorkmanFirmDashProfile";
+import BrowseCases from "../../views/workmanFirm/Cases/BrowseCases";
+import OpenCaseDetails from "../../views/workmanFirm/Cases/OpenCaseDetails";
+import CaseDetails from "../../views/workmanFirm/Cases/CaseDetails";
+import CreateCase from "../../views/workmanFirm/Cases/CreateCase/CreateCase";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -111,7 +115,7 @@ const Routes = [
 
   {
     path: "/workman-Firm/browseCases",
-    element: <ManageCases />,
+    element: <BrowseCases />,
     meta: {
       layout: "workmanFirmVertical",
     },
@@ -119,7 +123,7 @@ const Routes = [
   
   {
     path: "/workman-Firm/cases",
-    element: <CreateCases />,
+    element: <CreateCase />,
     meta: {
       layout: "workmanFirmVertical",
     },
@@ -127,6 +131,21 @@ const Routes = [
   {
     path: "/workman-Firm/manageCases",
     element: <ManageCases />,
+    meta: {
+      layout: "workmanFirmVertical",
+    },
+  },
+
+  {
+    path: "/workman-Firm/CasesDetails/:id",
+    element: <CaseDetails/>,
+    meta: {
+      layout: "workmanFirmVertical",
+    },
+  },
+  {
+    path: "/workman-Firm/OpenCasesDetails/:id",
+    element: <OpenCaseDetails/>  ,
     meta: {
       layout: "workmanFirmVertical",
     },

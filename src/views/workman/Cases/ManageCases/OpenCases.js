@@ -8,7 +8,7 @@ import {ImLocation} from "react-icons/im";
 import {AiOutlineBuild} from "react-icons/ai";
 import {FiTool } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress, Button, Spinner} from "reactstrap";
+import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress, Button, Spinner, CardHeader} from "reactstrap";
 
 
 const OpenCases = () => {
@@ -40,7 +40,7 @@ const OpenCases = () => {
   },[])
 
  
-  const handleRemove= (e)=>
+  const handleAccept= (e)=>
   { 
     setModal(!modal);
     
@@ -99,171 +99,87 @@ const OpenCases = () => {
     localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
   
   }
+
+  const handleRemove= (e)=>
+  { 
+    setModal(!modal);
+    
+    const remove = data1.filter(t=>t.id!==e.id)
+    setData1(remove)
+    localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
+  
+  }
   useEffect(()=>
   {
     setWindowWidth(screen.availWidth)
   
   })
   return (
-    <Card style={{  overflowX: (WindowWidth<"850")? "scroll":"visible",}}>
+    <>
             {Array.isArray(data1)? (
               <>
                 
-              <div className="my-1 d-flex justify-content-center position-sticky top-0 w-100">
-               <div className="position-absolute start-0 ms-1" style={{cursor:"pointer"}}  onClick={()=>{setExpand(!Expand)}} > {Expand!=true?<BiExpand size={20}/>:<BiCollapse size={20}/> } </div>
-                <div><h3>
-                
-                  <b>{data1.length}&nbsp;Open Cases</b>
-                
-                </h3></div></div>
-                <div
-                  className=" row mb-1   px-1"
-                  id="AddProductList"
-                  style={{
-                    height: "auto",
-                    width: (WindowWidth<"850")? "1000px":"" ,
-                   
-                    maxHeight: (Expand===true)? "800px":"500px",
-                    overflowY: "auto",
-                   
-                  }}
-                >
-                  <hr className="mb-0" />
-                  <div
-                    className="col-1 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
-                    style={{
-                      borderRight: "1px solid gray",
-                      borderRadius: "6px 0px 0px 0px",
-                    }}
-                  >
-                    <b>Id</b>
-                  </div>
-
-                  <div className="col-2 text-center bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0">
-                    <b>Case Title</b>
-                  </div>
-                  <div
-                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
-                    style={{
-                      
-                      borderLeft: "1px solid gray",
-                    }}
-                  >
-                       <b>Application</b>
-                  </div>
-                  <div
-                    className="col-3 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
-                    style={{
-                      
-                      borderLeft: "1px solid gray",
-                    }}
-                  >
-                    <b>Description</b>
-                  </div>
-                  
-                  <div
-                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
-                    style={{
-                      borderRight: "1px solid gray",
-                      borderLeft: "1px solid gray",
-                    }}
-                  >
-                    <b>Location</b>
-                  </div>
-                 
-                  <div
-                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
-                    style={{ borderRadius: "0px 6px 0px 0px", zIndex: 1 }}
-                  >
-                    <b>Details</b>
-                  </div>
-                  <hr className="mb-0" />
+              <div className="row">
                   {data1.map((e) => {
                     return (
                       <>
-                        <hr className="mb-0 mt-0" />
-                        <div 
-                          className="col-1 text-center p-0  d-flex justify-content-center align-items-center "
-                      
-                        >
-                         <b>{(e.id+"").slice(0,4)}</b>
-                        </div>
+                         <div className="col-lg-3 col-md-4 col-12 " key={e.id}>
+            <Card  className="w-100"
+  style={{
+    width: '20rem'
+  }}
+>
+  <CardBody>
+    <CardTitle tag="h2">
+     <b> {(e.Title+"").charAt(0).toUpperCase()+(e.Title+"").substring(1)}</b>
+    </CardTitle>
+    <CardSubtitle
+      className="text-muted w-100"
+      tag="h5"
+    >
+     Id- {(e.id+"").substring(0,13)}
+    </CardSubtitle>
+<hr />
 
-                        <div
-                          className="col-2 text-center py-1  d-flex justify-content-center align-items-center "
-                          style={{
-                            borderLeft: "1px solid gray",
-                           borderLeftStyle:" dashed"
-                          }}
-                        >
-                         <div className="text-center"><b>{(e.Title+"").charAt(0).toUpperCase()+(e.Title).slice(1)}</b>
-                          {(e.Title=="case 1")&&<p className="text-muted d-flex align-items-center  m-0">
-                            <PiHammer size={16} color="#63B9CD"/>&nbsp;Installation</p>
-                            }
-                             {(e.Title=="case 2")&&<p  className="text-muted d-flex align-items-center  m-0">
-                            <FiTool size={16} color="#f5a002"/>&nbsp;Repair/Replace</p>
-                            }
-                            {(e.Title=="case 3")&&<p className="text-muted d-flex align-items-center  m-0">
-                            <AiOutlineBuild size={17} color="#1dc249"/>&nbsp;New Build</p>
-                            }
-                        </div> 
-                        </div>
-                        <div
-                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
-                          style={{
-                            borderLeft: "1px solid gray",
-                            borderLeftStyle:" dashed"
-                          }}
-                        >
-                         Timber Door
-                        </div>
-                        <div
-                          className="col-3 text-center py-0 d-flex justify-content-center align-items-center "
-                          style={{
-                            borderLeft: "1px solid gray",
-                            borderLeftStyle:" dashed"
-                          }}
-                        >
-                       <p className="m-0 p-0" style={{textAlign:"justify"}}> Lorem, ipsum dolor sit fass vero a rsdaf... <Link>View more</Link></p>
-                        </div>
+<div className="row mb-1">
+<div className="col-6"> <b>Service :</b> Installation </div>
+<div className="col-6"> <b>type :</b> none </div>
+</div>
+<div className="row mb-1">
+<div className="col-6"> <b>Worker :</b> none </div>
+<div className="col-6"> <b>Location :</b> Andheri </div>
 
-                      
-                        <div
-                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
-                          style={{
-                            borderLeft: "1px solid gray",
-                            borderLeftStyle:" dashed",
-                         
-                          }}
-                        >
-                       <ImLocation size={18} color="#e04604"/>&nbsp;Mumbai
-                        </div>
-                       
-                        <div
-                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center position-relative "
-                          style={{ borderLeft: "1px solid gray", borderLeftStyle:" dashed" }}
-                        >
-                          <div >
-                            {" "}
-                           <div className="d-flex align-items-center"><LuTimer color="#999797" size={18}/>&nbsp;14 October 2023</div>
-                            <div><Link to={`/workman-individual/OpenCasesDetails/${e.id}`}>View Details</Link></div>
-                          </div>
-                          <div className="position-absolute end-0 me-1">
-                            <X
-                             onClick={()=>handleRemove(e)}
-                              style={{ cursor: "pointer" }}
-                              size={17}
-                            />
-                          </div>
-                        </div>
-                        <hr className="mt-0" />
-                      </>
+</div>
+    <CardText className="mt-2">
+    <h6>Case Description :</h6>
+      Some quick example text to build on the card titleard‘s content.
+    </CardText>
+    
+    
+    <CardText
+      className="text-muted"
+      tag="h6"
+    >
+    {e.date}
+    </CardText>
+    <CardLink tag={Link}   to={`/workman-Individual/OpenCasesDetails/${e.id}`} >
+      View details
+    </CardLink>
+   <div className="row mt-1">
+<div className="col-6 "><Button className="w-100" onClick={()=>handleAccept(e)} color="primary">Accept</Button></div>
+<div className="col-6 "><Button className="w-100" onClick={()=>handleRemove(e)} color="danger">Decline</Button></div>
+   </div>
+  
+  </CardBody>
+</Card>
+</div>
+            </>
                     );
                   })}
-                </div>{" "}
+              </div>
               </>
             ): <h3>No Data:/</h3> }
-          </Card>
+          </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Trash2,CheckCircle} from 'react-feather'
+import {CheckCircle, Trash2} from 'react-feather'
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Button,
   Modal, ModalHeader, ModalBody, ModalFooter, Toast} from "reactstrap";
 const ClosedCases = (args) => {
@@ -21,8 +21,8 @@ const ClosedCases = (args) => {
 
   useEffect(()=>
   {
-   setData1(JSON.parse(localStorage.getItem("WorkmanFirmClosedCase")))
-  
+   setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+   window.scrollBy(0,-1000)
   },[])
 
   const handleRemove=(e)=>
@@ -30,7 +30,7 @@ const ClosedCases = (args) => {
     setModal(!modal);
     const remove = data1.filter(t=>t.id!==e.id)
     setData1(remove)
-    localStorage.setItem("WorkmanFirmClosedCase",JSON.stringify(remove));
+    localStorage.setItem("CustomerClosedCase",JSON.stringify(remove));
     
   }
   return (
@@ -46,7 +46,7 @@ const ClosedCases = (args) => {
               <div className="col-11 ">
             <Accordion flush open={open} toggle={toggle}>
       <AccordionItem>
-      <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><CheckCircle size={25} color="lightgreen"/>&nbsp; &nbsp; <span className="fs-4 d-flex align-items-center"> {e.Title} </span></AccordionHeader>
+      <AccordionHeader  style={{boxShadow:"2px 2px 8px  rgba(128, 128, 128, 0.577)"}} targetId={e.id}><CheckCircle size={25} color="lightgreen"/>&nbsp; &nbsp;  <span className="fs-4 d-flex align-items-center">{e.Title} </span></AccordionHeader>
         
         <AccordionBody style={{boxShadow:"1px 1px 8px rgba(128, 128, 128, 0.577)"}} accordionId={e.id}>
           <div className="row " style={{color:"gray"}}>
