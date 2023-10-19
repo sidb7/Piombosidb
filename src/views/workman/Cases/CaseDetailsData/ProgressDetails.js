@@ -334,7 +334,64 @@ export default function ProgressDetails(props) {
        &nbsp;Case Progress Details <ChevronRight/> {props.StagePhase}</h2>
        <hr />
 
-     
+       <div className="row mx-2 match-height">
+              <div className="col-lg-12">
+                
+                    <div>
+                      
+                      <div className="d-flex flex-row  gap-lg-3 gap-md-2  gap-2  justify-content-center">
+                        {(ProgressStages.map(e=>
+                          {
+                            return(
+                              <div className="col-2">
+                          <div
+                          // to={`/enterprise/ProgressDetails/${id}`}
+                          // onClick={()=>{setStageDetails(true),setStagePhase(e.Phase)}}
+                          id= {(e.Status!="Pending"&&props.StagePhase!=e.Phase)? "ProgressStages":""}
+                            style={{
+                              border:e.Status!="Pending"?(e.Status!="Completed")?"3px solid orange": "3px solid #63B9CD":"3px solid gray",
+                              height: "60px",
+                              borderRadius: "5px",
+                               cursor: e.Status!="Pending"?(e.Status!="Completed")?"pointer": "pointer":""
+                              // backgroundColor:e.Status!="Pending"?(e.Status!="Completed")?"orange": "#63B9CD":"gray"
+                            }}
+                            className=" d-flex align-items-center justify-content-center"
+                            onClick={()=>  {e.Status!="Pending"&& props.setStagePhase(e.Phase),e.Status!="Pending"&&props.setPhaseColor(e.Status!="Pending"?(e.Status!="Completed")?"orange": "#63B9CD":"gray")}}
+                          >
+                         <b className="fs-5">{e.Title}</b> 
+                          </div> 
+                         
+                            <div className="w-100 d-flex justify-content-center">
+                            <div className="text-center" id= "ProgressStagesState">
+                            <b    className= {e.Status!="Pending"?(e.Status!="Completed")?"text-warning":"text-primary":""}>{e.Status!="Pending"?e.Status:"Pending"}</b>
+                           <p className="w-100 d-flex justify-content-center m-0">
+                           {e.Status!="Pending"?"14/10/2023":"-------" }  
+                              </p>
+                            </div>
+                          </div>
+                        { (props.StagePhase===e.Phase)&& <div>   <div className="w-100 d-flex justify-content-center">
+                            {" "}
+                            <ChevronDown  color={e.Status!="Pending"?(e.Status!="Completed")?"orange":"#63B9CD":"" }/>
+                          </div> </div>}
+                        </div> 
+                  
+                            )
+                          }))}
+                          </div> 
+                        
+                      {/* <Progress
+                        className="my-0"
+                        style={{
+                          height: "4px",
+                        }}
+                        value={25}
+                      /> */}
+                    </div>
+                 
+              </div>
+            </div>
+
+       <div style={{borderTop:(props.StagePhaseColor==="orange")?"1px solid orange":(props.StagePhaseColor==="#63B9CD")?"1px solid #63B9CD":"gray"}} className='mb-1'></div>
       {/* <Slider asNavFor={nav2} ref={(slider1) => setNav1(slider1)}
       arrows={false}
       infinite={false}
@@ -477,14 +534,19 @@ export default function ProgressDetails(props) {
              <div className='col-12'>  <Card className='mb-1'>
                   <CardBody>
                     <h4>Redressal:</h4>
-                    <Label>Type : </Label>
+                    <div className='row'>
+                      <div className='col-4'><Label>Type : </Label>
                     <Select
                     theme={selectThemeColors}
                     className="react-select my-1"
                     classNamePrefix="select"
                     options={[{value:"Option1",label:"Option1"},{value:"Option1",label:"Option1"},{value:"Option1",label:"Option1"}]}
-                    />
-                    <Input type='textarea' placeholder='Enter your greviances'></Input>
+                    /></div>
+                      <div className='col-8'> <Label>Type : </Label>
+                      <Input type='textarea' placeholder='Enter your greviances'></Input></div>
+                    </div>
+                    
+                   
                     <Button className='my-1'>Submit</Button>
                   </CardBody>
                 </Card> 
