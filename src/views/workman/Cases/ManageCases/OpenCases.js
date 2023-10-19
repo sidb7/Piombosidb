@@ -152,7 +152,7 @@ const OpenCases = () => {
                        <b>Application</b>
                   </div>
                   <div
-                    className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
+                    className="col-3 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
                     style={{
                       
                       borderLeft: "1px solid gray",
@@ -160,15 +160,7 @@ const OpenCases = () => {
                   >
                     <b>Description</b>
                   </div>
-                  <div
-                    className="col-1 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
-                    style={{
-                      borderRight: "1px solid gray",
-                      borderLeft: "1px solid gray",
-                    }}
-                  >
-                    <b>Progress</b>
-                  </div>
+                  
                   <div
                     className="col-2 bg-primary text-light py-1 d-flex justify-content-center align-items-center position-sticky top-0"
                     style={{
@@ -226,7 +218,7 @@ const OpenCases = () => {
                          Timber Door
                         </div>
                         <div
-                          className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
+                          className="col-3 text-center py-0 d-flex justify-content-center align-items-center "
                           style={{
                             borderLeft: "1px solid gray",
                             borderLeftStyle:" dashed"
@@ -235,15 +227,7 @@ const OpenCases = () => {
                        <p className="m-0 p-0" style={{textAlign:"justify"}}> Lorem, ipsum dolor sit fass vero a rsdaf... <Link>View more</Link></p>
                         </div>
 
-                        <div
-                          className="col-1 text-center py-0 d-flex justify-content-center align-items-center "
-                          style={{
-                            borderLeft: "1px solid gray",
-                            borderLeftStyle:" dashed"
-                          }}
-                        >
-                         <h5>25%</h5>
-                        </div>
+                      
                         <div
                           className="col-2 text-center py-0 d-flex justify-content-center align-items-center "
                           style={{
@@ -278,7 +262,7 @@ const OpenCases = () => {
                   })}
                 </div>{" "}
               </>
-            ):"No Browse Data"}
+            ): <h3>No Data:/</h3> }
           </Card>
   );
 };

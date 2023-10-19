@@ -40,7 +40,7 @@ export default function ManageCases() {
 
         <Button  className='col-lg-3 col-6 fs-5 border-0 position-relative d-fex align-items-center justify-content-center' 
         color={(Setting=="Escalation")?"primary":""} onClick={()=>setSetting("Escalation")}><PiWarningCircleBold color={(Setting=="Escalation")?"":"red"}  size={25}
-        />&nbsp; Escalation
+        />&nbsp; Redressal
         <Badge className='position-absolute end-25  text-light' color="danger" pill> 2</Badge>
         </Button>
          

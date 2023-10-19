@@ -162,18 +162,26 @@
 // export default withParams(AsNavFor);
 
 
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import "../../Cases/CreateCase/steps/CSS/CaseDetails.css"
+
+// REACT DRAW
+
+import { ReactSketchCanvas } from "react-sketch-canvas";
+
 import { selectThemeColors } from "@utils";
 import { ArrowLeft, ArrowRight, ChevronDown, ChevronRight } from 'react-feather';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardTitle, Progress, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label } from 'reactstrap';
+import { Button, Card, CardBody, CardTitle, Progress, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Accordion, AccordionItem, AccordionHeader, AccordionBody } from 'reactstrap';
 import { HiOutlineChartBar } from 'react-icons/hi2';
 import PropTypes from 'prop-types';
 import Select from "react-select";
+import { PiEraserDuotone } from 'react-icons/pi';
+import { LuEraser } from 'react-icons/lu';
+import { BiPencil } from 'react-icons/bi';
 const items = [
         {Start: [ {
              src: 'https://picsum.photos/id/123/800/450',
@@ -271,7 +279,7 @@ export default function ProgressDetails(props) {
   const [ActiveSlides, setActiveSlides] = useState();
 
   const { className } = props;
-
+  const [DrawColor, setDrawColor] = useState("#42f59e");
   const [modal, setModal] = useState(false);
   const [Image, setImage] = useState("");
   const toggle = () => setModal(!modal);
@@ -281,6 +289,44 @@ export default function ProgressDetails(props) {
       &times;
     </button>
   );
+
+  const canvas = useRef(null);
+
+  const exportImage = () => {
+    canvas.current
+      .exportImage("png")
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const ClearAll = () => {
+    canvas.current
+      .clearCanvas()
+      
+  };
+  const EraseMode = () => {
+    canvas.current
+    .eraseMode(true)
+      
+  };
+  const PenMode = () => {
+    canvas.current
+    .eraseMode(false)
+      
+  };
+
+
+  const [open1, setOpen] = useState('');
+  const toggle1 = (id) => {
+    if (open1 === id) {
+      setOpen();
+    } else {
+      setOpen(id);
+    }
+  };
     return (
     <div>
        <h2 className="d-flex align-items-center"> 
@@ -448,7 +494,48 @@ export default function ProgressDetails(props) {
       </div>
       <div>
 
-            <div className='row'>
+        { (props.StagePhase==="Stage 1") &&<div className='row mb-2'>
+        <Accordion flush open={open1} toggle={toggle1}>
+        <AccordionItem>
+          <AccordionHeader targetId="1"> <h4>Questionaire:</h4></AccordionHeader>
+          <AccordionBody accordionId="1">
+          <div className='col-12'> 
+                   
+                   <div className='row p-1'>
+                <div className='col-4'>
+                 <h6>What are good questionnaire questions?</h6>
+                </div>
+                <div className='col-8'>
+                <Input type='text'></Input>
+                </div>
+                   </div>
+                   <div className='row p-1'>
+                <div className='col-4'>
+                 <h6>What are good questionnaire questions?</h6>
+                </div>
+                <div className='col-8'>
+                <Input type='text'></Input>
+                </div>
+                   </div>
+                   <div className='row p-1'>
+                <div className='col-4'>
+                 <h6>What are good questionnaire questions?</h6>
+                </div>
+                <div className='col-8'>
+                <Input type='text'></Input>
+                </div>
+                   </div>
+                   <div className='row p-1'>
+                <div className='col-4'>
+                 <h6>What are good questionnaire questions?</h6>
+                </div>
+                <div className='col-8'>
+                <Input type='text'></Input>
+                </div>
+                   </div>
+                 </div> 
+
+                 <div className='row'>
              <div className='col-12'>  <Card>
                   <CardBody>
                     <h4>Description:</h4>
@@ -456,9 +543,14 @@ export default function ProgressDetails(props) {
                   </CardBody>
                 </Card></div> 
             </div>
+          </AccordionBody>
+        </AccordionItem> </Accordion>
+            </div>}
+
+          
 
             <div className='row'>
-             <div className='col-12'>  <Card>
+             <div className='col-12'>  <Card className='mb-1'>
                   <CardBody>
                     <h4>Redressal:</h4>
                     <Label>Type : </Label>
@@ -473,7 +565,8 @@ export default function ProgressDetails(props) {
                   </CardBody>
                 </Card> 
                 
-                <div className='col-4 mx-auto'><Button color='success' className='w-100'>Save</Button></div></div> 
+                <div className='col-4 mx-auto mb-1'><Button color='success' className='w-100'>Save</Button></div></div> 
+            <img src=" " alt="" />
             </div>
 
 <div className='row'>
@@ -482,7 +575,42 @@ export default function ProgressDetails(props) {
       centered={true} size='lg'>
         
         <ModalBody className='m-0 p-0'>
-        <img width={"100%"} height={"100%"}  src={Image} alt="" />
+        
+           <div className=' w-100 row gap-0 px-1 m-1'>
+            {/* <div className='col-3'>  <Button onClick={exportImage} >Get Image</Button></div>  */}
+            <div className=' col-2 m-0 p-0  '> 
+            <div className='row gap-1'>
+            <div className='col-1' onClick={()=>{setDrawColor("#f54242"),PenMode()}} style={{cursor:"pointer",scale:(DrawColor!="#f54242")?"0.9":"1.2", borderRadius:"30px",height:"20px" ,backgroundColor:"#f54242"}} ></div>
+            <div className='col-1' onClick={()=>{setDrawColor("#42bcf5"),PenMode()}} style={{cursor:"pointer",scale:(DrawColor!="#42bcf5")?"0.9":"1.2", borderRadius:"30px",height:"20px" ,backgroundColor:"#42bcf5"}} ></div>
+            <div className='col-1' onClick={()=>{setDrawColor("#42f59e"),PenMode()}} style={{cursor:"pointer",scale:(DrawColor!="#42f59e")?"0.9":"1.2", borderRadius:"30px",height:"20px" ,backgroundColor:"#42f59e"}} ></div>
+            </div>
+            </div>
+            <div className='col-1'>
+              
+              <div className='row gap-3'> 
+              {/* <div className=' col-2 m-0 p-0  '>  <div  style={{cursor:"pointer"}} className='m-0 p-0 border-0 ' color=''  onClick={PenMode}><BiPencil size={20}/></div></div> */}
+            <div className=' col-1 m-0 p-0  '>  <div  style={{cursor:"pointer"}} className='m-0 p-0 border-0' color=''  onClick={EraseMode}><LuEraser size={20}/></div></div>
+            <div className=' col-1 m-0 p-0 d-flex align-items-center text-center ' onClick={ClearAll} style={{cursor:"pointer"}}> Clear</div>
+              </div>
+               </div>
+           
+
+    
+           </div>
+        
+          <div style={{cursor:"crosshair"}}>
+            <ReactSketchCanvas height='500px' 
+            exportWithBackgroundImage={true} 
+            backgroundImage={Image} 
+            eraserWidth={20}
+            ref={canvas} 
+            strokeWidth={5} strokeColor={DrawColor} />
+            </div>
+        {/* <img style={{cursor:"crosshair"}} width={"100%"} height={"100%"}  src={Image} alt="" /> */}
+        <ModalFooter>
+          <Input type='textarea' placeholder='Remarks'></Input>
+          <Button>Save</Button>
+        </ModalFooter>
         </ModalBody>
         
       </Modal>

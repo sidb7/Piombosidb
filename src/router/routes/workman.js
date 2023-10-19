@@ -26,6 +26,8 @@ import CreateCase from "../../views/workman/Cases/CreateCase/CreateCase";
 import BrowseCases from "../../views/workman/Cases/BrowseCases";
 import OpenCaseDetails from "../../views/workman/Cases/OpenCaseDetails";
 
+import REACTDraw from "../../views/workman/REACTDraw";
+
 const getLayout = {
   blank: <BlankLayout />,
   vertical: <VerticalLayout site="workman-Individual" />,
@@ -131,7 +133,13 @@ const Routes = [
     },
   },
 
-  
+  {
+    path: "/workman-Individual/Canvas",
+    element: <REACTDraw/>,
+    meta: {
+      layout: "workmanVertical",
+    },
+  },
   
   
   {
