@@ -70,6 +70,8 @@ const OpenCases = () => {
         const list  = [...prev,{
           id:e.id,
           Title:e.Title,
+          ServiceType:e.ServiceType,
+          SubServiceType:e.SubServiceType,
           Desc:e.Desc,
           Summary:e.Summary,
           date:e.date
@@ -82,6 +84,8 @@ const OpenCases = () => {
         const list  = [{
           id:e.id,
           Title:e.Title,
+          ServiceType:e.ServiceType,
+          SubServiceType:e.SubServiceType,
           Desc:e.Desc,
           Summary:e.Summary,
           date:e.date
@@ -116,7 +120,7 @@ const OpenCases = () => {
   })
   return (
     <>
-            {Array.isArray(data1)? (
+            {data1.length!=0? (
               <>
                 
               <div className="row">
@@ -142,8 +146,8 @@ const OpenCases = () => {
 <hr />
 
 <div className="row mb-1">
-<div className="col-6"> <b>Service :</b> Installation </div>
-<div className="col-6"> <b>type :</b> none </div>
+<div className="col-6"> <b>Service :</b> {e.ServiceType}</div>
+<div className="col-6"> <b>type :</b> {e.SubServiceType} </div>
 </div>
 <div className="row mb-1">
 <div className="col-6"> <b>Worker :</b> none </div>
@@ -178,7 +182,7 @@ const OpenCases = () => {
                   })}
               </div>
               </>
-            ): <h3>No Data:/</h3> }
+            ): <h3>No Data : /</h3> }
           </>
   );
 };

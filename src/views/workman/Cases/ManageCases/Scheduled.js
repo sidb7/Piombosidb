@@ -175,13 +175,13 @@ const Scheduled = () => {
                           }}
                         >
                          <div className="text-center"><b>{(e.Title+"").charAt(0).toUpperCase()+(e.Title).slice(1)}</b>
-                          {(e.Title=="case 1")&&<p className="text-muted d-flex align-items-center  m-0">
+                          {(e.ServiceType=="Installation")&&<p className="text-muted d-flex align-items-center  m-0">
                             <PiHammer size={16} color="#63B9CD"/>&nbsp;Installation</p>
                             }
-                             {(e.Title=="case 2")&&<p  className="text-muted d-flex align-items-center  m-0">
+                             {(e.ServiceType=="Repair")&&<p  className="text-muted d-flex align-items-center  m-0">
                             <FiTool size={16} color="#f5a002"/>&nbsp;Repair/Replace</p>
                             }
-                            {(e.Title=="case 3")&&<p className="text-muted d-flex align-items-center  m-0">
+                            {(e.ServiceType=="NewBuild")&&<p className="text-muted d-flex align-items-center  m-0">
                             <AiOutlineBuild size={17} color="#1dc249"/>&nbsp;New Build</p>
                             }
                         </div> 

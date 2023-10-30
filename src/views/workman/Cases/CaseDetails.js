@@ -27,7 +27,7 @@ import {
   Progress,
 } from "reactstrap";
 import { ThemeColors } from "@src/utility/context/ThemeColors";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineBuild } from "react-icons/ai";
 import GoogleMapReact from "google-map-react";
 import { HiOutlineChartBar } from "react-icons/hi2";
 import {
@@ -46,39 +46,52 @@ import Earnings from "../../ui-elements/cards/analytics/Earnings";
 import CardTransactions from "../../ui-elements/cards/advance/CardTransactions";
 import OrdersBarChart from "../../ui-elements/cards/statistics/OrdersBarChart";
 import ProfitLineChart from "../../ui-elements/cards/statistics/ProfitLineChart";
-import { Col, Row } from "antd";
-import { SubTitle } from "chart.js";
+
 import ProgressDetails from "./CaseDetailsData/ProgressDetails";
 import SingleProductDetails from "./CreateCase/steps/SingleProductDetails";
 import { PiHammer } from "react-icons/pi";
+import { FiTool } from "react-icons/fi";
 
-const ProgressStages = [
-  {
-   Status:"Completed",
-   Title:"Stage 1",
-   Phase:"Stage 1",
-  },
-  {
-   Status:"Inprogress",
-   Title:"Stage 2",
-   Phase:"Stage 2",
-  },
-  {
-    Status:"Pending",
-    Title:"Stage 3",
-    Phase:"Stage 3",
-   },
-  {
-    Status:"Pending",
-    Title:"Stage 4",
-    Phase:"Stage 4",
-  },
-  {
-    Status:"Pending",
-    Title:"Stage 5",
-    Phase:"Stage 5",
-   },
-];
+const ProgressStages = 
+{
+  Installation:[
+    {
+      Status:"Inprogress",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },
+  ]
+,
+
+ProductToDemo:[
+{
+  Status:"Inprogress",
+  Title:"Site Demo",
+  Phase:"Stage 1",
+ },
+]
+,
+
+  SomeoneToVisit:[
+    {
+      Status:"Inprogress",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },
+     
+  ],
+
+  NewBuild:
+  [
+    {
+      Status:"Pending",
+      Title:"Stage 5",
+      Phase:"Stage 5",
+     },
+  ]
+}
+ 
+
 
 const items = [
   {
@@ -110,7 +123,7 @@ export default function CaseDetails(args) {
   const [StageDetails, setStageDetails] = useState(false);
   const [StagePhase, setStagePhase] = useState(false);
   const [StagePhaseColor, setPhaseColor] = useState("");
-  const [SingleProduct,setSingleProduct] =useState(false)
+  
   const navigate = useNavigate();
   const next = () => {
     if (animating) return;
@@ -271,11 +284,11 @@ export default function CaseDetails(args) {
                         </div>
                         <div className="row mt-1">
                           <div className=" d-flex col-lg-6">
-                            <h6>Service Type : </h6> &nbsp; Installation&nbsp; <PiHammer size={16} color="#63B9CD"/>
+                            <h6>Service Type : </h6> &nbsp; {e.ServiceType}&nbsp; 
+                            {(e.ServiceType==="Installation")?<PiHammer size={16} color="#63B9CD"/>:(e.ServiceType==="Repair")?<FiTool size={16} color="#f5a002"/>: <AiOutlineBuild size={16} color="#1dc249"/>}
                           </div>
                           <div className=" d-flex col-lg-6">
-                            <h6>Subservice Type : </h6> &nbsp; Parts to be
-                            installed
+                            <h6>Subservice Type : </h6> &nbsp; {e.SubServiceType}
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -429,7 +442,7 @@ export default function CaseDetails(args) {
                     <div>
                       
                       <div className="d-flex flex-row   gap-lg-3  gap-md-2 gap-1    justify-content-center">
-                        {(ProgressStages.map(e=>
+                         { (ProgressStages[arr[0].SubServiceType+""].map(e=>
                           {
                             return(
                               <div className="col-2">
@@ -470,7 +483,10 @@ export default function CaseDetails(args) {
                           </div>
                         </div>
                             )
-                          }))}
+                          }
+                          
+                          ))   
+                          }
                           </div>
                         
                       <Progress
@@ -654,6 +670,7 @@ export default function CaseDetails(args) {
       StagePhase= {StagePhase} 
       setStageDetails={setStageDetails}
       setPhaseColor={setPhaseColor}
+      SubServiceType=  {arr[0].SubServiceType}
       /> 
       
       

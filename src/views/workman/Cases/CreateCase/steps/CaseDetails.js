@@ -79,7 +79,8 @@ const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
 
 
 
-  const [serviceTypeSelected, setServiceTypeSelected] = useState("");
+  const [serviceTypeSelected, setServiceTypeSelected] = useState("NewBuild");
+  const [SubServiceTypeSelected,setSubServiceTypeSelected] = useState("NewBuild")
 
  
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -113,6 +114,7 @@ const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
       Address:"",
       Landmark:"",
    ServiceType:"",
+   SubServiceType:"",
    ServiceApp:"",
    ServiceSub:"",
    CaseDescription:""
@@ -157,6 +159,7 @@ const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
       Address:"",
       Landmark:"",
    ServiceType:"",
+   SubServiceType:"",
    ServiceApp:"",
    ServiceSub:"",
    CaseDescription:""
@@ -176,6 +179,7 @@ useEffect(()=>
     Address:  Address  +"," +Area +"," + AddCity +"," +AddState +"-" + PinCode ,
     Landmark:AddLandmark,
     ServiceType:serviceTypeSelected,
+    SubServiceType:SubServiceTypeSelected,
    ServiceApp:ServiceApp,
    ServiceSub:ServiceSub,
    CaseDescription:CaseDesc,
@@ -185,7 +189,7 @@ useEffect(()=>
   })
 },[Title,city,AddLandmark,
   Address,Area,AddCity,AddState,PinCode,
-  serviceTypeSelected,ServiceApp,ServiceSub,CaseDesc])
+  serviceTypeSelected,SubServiceTypeSelected,ServiceApp,ServiceSub,CaseDesc])
 
 const HandleServiceType =(type)=>
 {
@@ -439,7 +443,8 @@ setSubServiceCategory("")
                         type="radio"
                         id="ex1-active1"
                         name="ex11"
-                     
+                        onClick={()=>(setSubServiceTypeSelected((serviceTypeSelected==="Installation")?"SomeoneToVisit":"SomeoneToInspect"))}
+
                       />
                       <Label className="form-label" for="ex1-active1">
                        {(serviceTypeSelected==="Installation")?"Someone to visit":"Someone to inspect"}
@@ -450,7 +455,8 @@ setSubServiceCategory("")
                         type="radio"
                         id="ex1-active1"
                         name="ex11"
-           
+                        onClick={()=>(setSubServiceTypeSelected((serviceTypeSelected==="Installation")?"ProductToDemo":"PartsToBeReplaced"))}
+
                       />
                       <Label className="form-label" for="ex1-active1">
                       {(serviceTypeSelected==="Installation")?"Product to demo":"Parts to be replaced"}
@@ -462,7 +468,8 @@ setSubServiceCategory("")
                         id="ex1-active1"
                         name="ex11"
                         
-                        defaultChecked={serviceTypeSelected==="Installation"||serviceTypeSelected==="Repair"}
+                       
+                        onClick={()=>(setSubServiceTypeSelected((serviceTypeSelected==="Installation")?"Installation":"Repair"))}
                       />
                       <Label className="form-label" for="ex1-active1">
                       {(serviceTypeSelected==="Installation")?"Installation":"Repair"}
