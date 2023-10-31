@@ -18,7 +18,7 @@ export default function ManageCases() {
   useEffect(() => {
    setOpenCasesNO(JSON.parse(localStorage.getItem("CustomerCaseSet")))
    setScheduledNO(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-  });
+  },[]);
   return (
     <div>
        

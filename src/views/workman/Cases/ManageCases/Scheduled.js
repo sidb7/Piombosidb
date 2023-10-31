@@ -73,7 +73,7 @@ const Scheduled = () => {
   {
     setWindowWidth(screen.availWidth)
     
-  },)
+  },[])
   return (
     <Card style={{  overflowX: (WindowWidth<"850")? "scroll":"visible",}}>
             {Array.isArray(data1) && (
@@ -83,7 +83,7 @@ const Scheduled = () => {
                <div className="position-absolute start-0 ms-1" style={{cursor:"pointer"}}  onClick={()=>{setExpand(!Expand)}} > {Expand!=true?<BiExpand size={20}/>:<BiCollapse size={20}/> } </div>
                 <div><h3>
                 
-                  <b>{data1.length}&nbsp;Open Cases</b>
+                  <b>{data1.length}&nbsp;Accepted Cases</b>
                 
                 </h3></div></div>
                 <div
@@ -193,7 +193,16 @@ const Scheduled = () => {
                             borderLeftStyle:" dashed"
                           }}
                         >
-                         Timber Door
+                        <div><div><b>Timber Door</b></div>
+                        <div className="text-muted">
+                        {e.SubServiceType==="Installation"&&"Installation"}
+                        {e.SubServiceType==="Repair"&&"Repair"}
+                          {e.SubServiceType==="ProductToDemo"&&"Product to demo"}
+                          {e.SubServiceType==="PartsToBeReplaced"&&"Parts to be replaced" }
+                          {e.SubServiceType==="SomeoneToVisit"&&"Someone to visit" }
+                          {e.SubServiceType==="SomeoneToInspect"&&"Someone to inspect" }
+                          </div></div>
+                         
                         </div>
                         <div
                           className="col-2 text-center py-0 d-flex justify-content-center align-items-center "

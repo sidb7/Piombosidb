@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../Cases/CreateCase/steps/CSS/CaseDetails.css"
+import "../../Cases/CreateCase/steps/CSS/CaseDetails.css"
 import {
   ArrowLeft,
   ChevronDown,
@@ -20,7 +20,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  Input,
   Modal,
   ModalBody,
   ModalFooter,
@@ -28,7 +27,7 @@ import {
   Progress,
 } from "reactstrap";
 import { ThemeColors } from "@src/utility/context/ThemeColors";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineBuild } from "react-icons/ai";
 import GoogleMapReact from "google-map-react";
 import { HiOutlineChartBar } from "react-icons/hi2";
 import {
@@ -39,47 +38,53 @@ import {
   CarouselCaption,
 } from "reactstrap";
 
-import UserTimeline from "../../ui-elements/cards/advance/CardUserTimeline";
+import UserTimeline from "../../../ui-elements/cards/advance/CardUserTimeline";
 import GoalOverview from "@src/views/ui-elements/cards/analytics/GoalOverview";
-import CardChat from "../../apps/CardChat";
-import Earnings from "../../ui-elements/cards/analytics/Earnings";
+import CardChat from "../../../apps/CardChat";
+import Earnings from "../../../ui-elements/cards/analytics/Earnings";
 
-import CardTransactions from "../../ui-elements/cards/advance/CardTransactions";
-import OrdersBarChart from "../../ui-elements/cards/statistics/OrdersBarChart";
-import ProfitLineChart from "../../ui-elements/cards/statistics/ProfitLineChart";
-import { Col, Row } from "antd";
-import { SubTitle } from "chart.js";
-import ProgressDetails from "./CaseDetailsData/InstallationProgressDetails";
-import SingleProductDetails from "./CreateCase/steps/SingleProductDetails";
+import CardTransactions from "../../../ui-elements/cards/advance/CardTransactions";
+import OrdersBarChart from "../../../ui-elements/cards/statistics/OrdersBarChart";
+import ProfitLineChart from "../../../ui-elements/cards/statistics/ProfitLineChart";
+
+import ProgressDetails from "../CaseDetailsData/InstallationProgressDetails";
+import SingleProductDetails from "../CreateCase/steps/SingleProductDetails";
 import { PiHammer } from "react-icons/pi";
+import { FiTool } from "react-icons/fi";
 
-const ProgressStages = [
-  {
-   Status:"Completed",
-   Title:"Stage 1",
-   Phase:"Stage 1",
-  },
-  {
-   Status:"Inprogress",
-   Title:"Stage 2",
-   Phase:"Stage 2",
-  },
-  {
-    Status:"Pending",
-    Title:"Stage 3",
-    Phase:"Stage 3",
-   },
-  {
-    Status:"Pending",
-    Title:"Stage 4",
-    Phase:"Stage 4",
-  },
-  {
-    Status:"Pending",
-    Title:"Stage 5",
-    Phase:"Stage 5",
-   },
-];
+const ProgressStages = 
+{
+  Installation:[
+    {
+      Status:"Inprogress",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },
+  ]
+,
+
+ProductToDemo:[
+{
+  Status:"Inprogress",
+  Title:"Site Demo",
+  Phase:"Stage 1",
+ },
+]
+,
+
+  SomeoneToVisit:[
+    {
+      Status:"Inprogress",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },
+     
+  ],
+
+ 
+}
+ 
+
 
 const items = [
   {
@@ -101,8 +106,8 @@ const items = [
     key: 3,
   },
 ];
-export default function OpenCaseDetails(args) {
-  const { id } = useParams();
+export default function InsallationCaseDetails({args,id}) {
+  // const { id } = useParams();
   const [data, setData] = useState([]);
   const [arr, setArr] = useState([]);
   const { colors } = useContext(ThemeColors);
@@ -111,9 +116,7 @@ export default function OpenCaseDetails(args) {
   const [StageDetails, setStageDetails] = useState(false);
   const [StagePhase, setStagePhase] = useState(false);
   const [StagePhaseColor, setPhaseColor] = useState("");
-  const [SingleProduct,setSingleProduct] =useState(false)
-  const [closedCaseData,setClosedCaseData] = useState([])
-  let [data1,setData1] =useState([]) 
+  
   const navigate = useNavigate();
   const next = () => {
     if (animating) return;
@@ -158,16 +161,8 @@ export default function OpenCaseDetails(args) {
     );
   });
 
-  useEffect(()=>
-  {
-    setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
-    setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-  
-   window.scrollBy(0,-1000)
-  },[])
-
   useEffect(() => {
-    setData(JSON.parse(localStorage.getItem("CustomerCaseSet")));
+    setData(JSON.parse(localStorage.getItem("CustomerClosedCase")));
     setArr(data.filter((e) => e.id === id));
   });
 
@@ -198,50 +193,9 @@ export default function OpenCaseDetails(args) {
     const remove = data.filter((t) => t.id !== id);
 
     localStorage.setItem("CustomerCaseSet", JSON.stringify(remove));
-    navigate("/workman-individual/browseCases");
+    navigate("/enterprise/manageCases");
   };
 
-
-
-  const HandleAccept=(e)=>
-  {
-    console.log(e.Title)
-    setClosedCaseData((prev)=>
-    {
-      if(Array.isArray(prev))
-      {
-        const list  = [...prev,{
-          id:e.id,
-          Title:e.Title,
-          Desc:e.Desc,
-          Summary:e.Summary,
-          date:e.date
-        }]
-        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
-        return list
-      }
-      else
-      {
-        const list  = [{
-          id:e.id,
-          Title:e.Title,
-          Desc:e.Desc,
-          Summary:e.Summary,
-          date:e.date
-        },]
-        localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
-        return list
-      }
-    })
-
-    
-  
-   
-    const remove = data1.filter(t=>t.id!==e.id)
-    setData1(remove)
-    localStorage.setItem("CustomerCaseSet",JSON.stringify(remove));
-    
-  }
   const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
   const defaultProps = {
@@ -266,7 +220,7 @@ export default function OpenCaseDetails(args) {
           color=""
           className="p-0 border-0"
           tag={Link}
-          to={"/workman-Individual/browseCases"}
+          to={"/workman-Individual/manageCases"}
         >
           <ArrowLeft size={27} style={{ cursor: "pointer" }} />{" "}
         </Button>{" "}
@@ -323,11 +277,11 @@ export default function OpenCaseDetails(args) {
                         </div>
                         <div className="row mt-1">
                           <div className=" d-flex col-lg-6">
-                            <h6>Service Type : </h6> &nbsp; Installation&nbsp; <PiHammer size={16} color="#63B9CD"/>
+                            <h6>Service Type : </h6> &nbsp; {e.ServiceType}&nbsp; 
+                            {(e.ServiceType==="Installation")?<PiHammer size={16} color="#63B9CD"/>:(e.ServiceType==="Repair")?<FiTool size={16} color="#f5a002"/>: <AiOutlineBuild size={16} color="#1dc249"/>}
                           </div>
                           <div className=" d-flex col-lg-6">
-                            <h6>Subservice Type : </h6> &nbsp; Parts to be
-                            installed
+                            <h6>Subservice Type : </h6> &nbsp; {e.SubServiceType}
                           </div>
                         </div>
                         <div className="row mt-1">
@@ -382,12 +336,6 @@ export default function OpenCaseDetails(args) {
                         </div>
                       </div> */}
                     </div>
-
-                    <div className="row mt-1">
-                    <div className="col-6"><Input type="text" placeholder="Enter OTP" style={{border:"2px solid gray"}}  className="w-100" outline color="primary">Accept</Input></div>
-                      <div className="col-3"><Button className="w-100" onClick={()=>HandleAccept(e)} outline color="primary">Accept</Button></div>
-                      <div className="col-3"><Button className="w-100" onClick={toggle1} outline color="danger">Decline</Button></div>
-                    </div>
                   </CardBody>
                 </Card>
               </div>
@@ -406,13 +354,13 @@ export default function OpenCaseDetails(args) {
                     <div className="row gap-1">
                       <div className="col-12">
                         <b>Workman status :</b>{" "}
-                        <span className="text-danger">Not Assigned</span>
+                        <span className="text-success">Assigned</span>
                       </div>
                       <div className="col-12">
-                        <b>Required Skill :</b> Installation
+                        <b>Skill :</b> none
                       </div>
                       <div className="col-12 d-flex align-items-center">
-                        <b>Required Level :</b>
+                        <b>Level :</b>
                         &nbsp;{" "}
                         <AiFillStar
                           color={star >= 1 ? "#fcc80d" : "gray"}
@@ -444,7 +392,7 @@ export default function OpenCaseDetails(args) {
                     <hr />
                     <div className="row gap-1">
                       <div className="col-12">
-                        <b>Customer Location :</b> Andheri
+                        <b>Workman Location :</b> Andheri
                       </div>
                       <div
                         className="col-12"
@@ -487,7 +435,7 @@ export default function OpenCaseDetails(args) {
                     <div>
                       
                       <div className="d-flex flex-row   gap-lg-3  gap-md-2 gap-1    justify-content-center">
-                        {(ProgressStages.map(e=>
+                         { (ProgressStages[arr[0].SubServiceType+""].map(e=>
                           {
                             return(
                               <div className="col-2">
@@ -528,7 +476,10 @@ export default function OpenCaseDetails(args) {
                           </div>
                         </div>
                             )
-                          }))}
+                          }
+                          
+                          ))   
+                          }
                           </div>
                         
                       <Progress
@@ -544,7 +495,7 @@ export default function OpenCaseDetails(args) {
               </div>
             </div>
 {/* Products LIST */}
-            {/* <div className="row match-height">
+            <div className="row match-height">
              <div className="col-12">
               
              <Card style={{  overflowX: (window.innerWidth<"550")? "scroll":"visible",}}>
@@ -651,7 +602,7 @@ export default function OpenCaseDetails(args) {
           </Card>
 
              </div>
-            </div> */}
+            </div>
 
             <div className="row match-height">
               <div className="col-lg-6">
@@ -712,6 +663,7 @@ export default function OpenCaseDetails(args) {
       StagePhase= {StagePhase} 
       setStageDetails={setStageDetails}
       setPhaseColor={setPhaseColor}
+      SubServiceType=  {arr[0].SubServiceType}
       /> 
       
       

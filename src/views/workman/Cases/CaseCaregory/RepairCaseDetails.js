@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import "../Cases/CreateCase/steps/CSS/CaseDetails.css"
+import "../../Cases/CreateCase/steps/CSS/CaseDetails.css"
 import {
   ArrowLeft,
   ChevronDown,
@@ -38,23 +38,24 @@ import {
   CarouselCaption,
 } from "reactstrap";
 
-import UserTimeline from "../../ui-elements/cards/advance/CardUserTimeline";
+import UserTimeline from "../../../ui-elements/cards/advance/CardUserTimeline";
 import GoalOverview from "@src/views/ui-elements/cards/analytics/GoalOverview";
-import CardChat from "../../apps/CardChat";
-import Earnings from "../../ui-elements/cards/analytics/Earnings";
+import CardChat from "../../../apps/CardChat";
+import Earnings from "../../../ui-elements/cards/analytics/Earnings";
 
-import CardTransactions from "../../ui-elements/cards/advance/CardTransactions";
-import OrdersBarChart from "../../ui-elements/cards/statistics/OrdersBarChart";
-import ProfitLineChart from "../../ui-elements/cards/statistics/ProfitLineChart";
+import CardTransactions from "../../../ui-elements/cards/advance/CardTransactions";
+import OrdersBarChart from "../../../ui-elements/cards/statistics/OrdersBarChart";
+import ProfitLineChart from "../../../ui-elements/cards/statistics/ProfitLineChart";
 
-import ProgressDetails from "./CaseDetailsData/ProgressDetails";
-import SingleProductDetails from "./CreateCase/steps/SingleProductDetails";
+import ProgressDetails from "../CaseDetailsData/InstallationProgressDetails";
+import SingleProductDetails from "../CreateCase/steps/SingleProductDetails";
 import { PiHammer } from "react-icons/pi";
 import { FiTool } from "react-icons/fi";
+import RepairProgressDetails from "../CaseDetailsData/RepairProgressDetails";
 
 const ProgressStages = 
 {
-  Installation:[
+  Repair:[
     {
       Status:"Inprogress",
       Title:"Site Visit",
@@ -63,7 +64,7 @@ const ProgressStages =
   ]
 ,
 
-ProductToDemo:[
+PartsToBeReplaced:[
 {
   Status:"Inprogress",
   Title:"Site Demo",
@@ -72,7 +73,7 @@ ProductToDemo:[
 ]
 ,
 
-  SomeoneToVisit:[
+  SomeoneToInspect:[
     {
       Status:"Inprogress",
       Title:"Site Visit",
@@ -81,14 +82,7 @@ ProductToDemo:[
      
   ],
 
-  NewBuild:
-  [
-    {
-      Status:"Pending",
-      Title:"Stage 5",
-      Phase:"Stage 5",
-     },
-  ]
+ 
 }
  
 
@@ -113,8 +107,8 @@ const items = [
     key: 3,
   },
 ];
-export default function CaseDetails(args) {
-  const { id } = useParams();
+export default function RepairCaseDetails({args,id}) {
+  // const { id } = useParams();
   const [data, setData] = useState([]);
   const [arr, setArr] = useState([]);
   const { colors } = useContext(ThemeColors);
@@ -663,7 +657,7 @@ export default function CaseDetails(args) {
       })}</div> 
       :
       
-      <ProgressDetails
+      <RepairProgressDetails
       
       id={id} StagePhaseColor={StagePhaseColor} 
       setStagePhase={setStagePhase} 

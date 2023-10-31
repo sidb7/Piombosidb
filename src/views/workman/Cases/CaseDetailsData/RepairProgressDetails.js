@@ -264,40 +264,9 @@ const items = [
   },
 ];
 
-const ProgressStages = {
-  Installation: [
-    {
-      Status: "Inprogress",
-      Title: "Site Visit",
-      Phase: "Stage 1",
-    },
-  ],
-  ProductToDemo: [
-    {
-      Status: "Inprogress",
-      Title: "Site Demo",
-      Phase: "Stage 1",
-    },
-  ],
-  SomeoneToVisit:[
-    {
-      Status:"Inprogress",
-      Title:"Site Visit",
-      Phase:"Stage 1",
-     },
-     
-  ],  
 
-  NewBuild: [
-    {
-      Status: "Pending",
-      Title: "Stage 5",
-      Phase: "Stage 5",
-    },
-  ],
-};
 
-export default function ProgressDetails(props) {
+export default function RepairProgressDetails(props) {
   const [nav1, setNav1] = useState();
   const [nav2, setNav2] = useState();
   const [ActiveSlides, setActiveSlides] = useState();
@@ -312,6 +281,39 @@ export default function ProgressDetails(props) {
   const [ClosureBox, setClosureBox] = useState(false);
   const [PaymentEnable, setPaymentEnable] = useState(false);
   const toggle = () => setModal(!modal);
+
+  const [ProgressStages,setProgressStages] = useState(
+
+    {
+        Repair:[
+            {
+              Status:"Inprogress",
+              Title:"Site Visit",
+              Phase:"Stage 1",
+             },
+          ]
+        ,
+        
+        PartsToBeReplaced:[
+        {
+          Status:"Inprogress",
+          Title:"Site Demo",
+          Phase:"Stage 1",
+         },
+        ]
+        ,
+        
+          SomeoneToInspect:[
+            {
+              Status:"Inprogress",
+              Title:"Site Visit",
+              Phase:"Stage 1",
+             },
+             
+          ],
+    }
+  )
+
 
   const closeBtn = (
     <button className="close" onClick={toggle} type="button">
@@ -368,6 +370,8 @@ export default function ProgressDetails(props) {
     toggle2();
     setFeedback(true);
   };
+
+
 
   return (
     <>
@@ -544,7 +548,7 @@ export default function ProgressDetails(props) {
                  )} )}
       </Slider> */}
 
-      {props.SubServiceType==="Installation"&&
+      {props.SubServiceType==="Repair"&&
 
   <div>
           {props.StagePhase === "Stage 1" && (
@@ -808,11 +812,11 @@ export default function ProgressDetails(props) {
             <div className="col-2  mb-1">
                   <Button
                     onClick={SiteReady && toggle2}
-                    color={ClosureBox ? "danger" : "success"}
+                    color={ClosureBox ? "danger" : SiteReady?  "success" :"warning"}
                     className="w-100"
                   >
                     {" "}
-                    {ClosureBox ? "Close Case" : "Save"}
+                    {ClosureBox ? "Close Case" : SiteReady?  "Save" :"Rechedule"}
                   </Button></div>
                 {ClosureBox &&      
                   <div className="col-2">
@@ -822,7 +826,7 @@ export default function ProgressDetails(props) {
 
  </div>}
 
-{(props.SubServiceType==="ProductToDemo"||props.SubServiceType==="SomeoneToVisit") &&
+{(props.SubServiceType==="PartsToBeReplaced"||props.SubServiceType==="SomeoneToInspect") &&
 <div><div className="row">
               <div className="col-12">
                 {PaymentEnable ? (
