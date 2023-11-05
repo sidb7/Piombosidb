@@ -51,9 +51,37 @@ import ProgressDetails from "../CaseDetailsData/InstallationProgressDetails";
 import SingleProductDetails from "../CreateCase/steps/SingleProductDetails";
 import { PiHammer } from "react-icons/pi";
 import { FiTool } from "react-icons/fi";
-import RepairProgressDetails from "../CaseDetailsData/RepairProgressDetails";
+
+const ProgressStages = 
+{
+  NewBuild:[
+    {
+      Status:"Inprogress",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },
+     {
+        Status:"Pending",
+        Title:"Site Evaluation",
+        Phase:"Stage 1",
+       },
+       {
+        Status:"Pending",
+        Title:"Working",
+        Phase:"Stage 1",
+       },
+       {
+        Status:"Pending",
+        Title:"Closure",
+        Phase:"Stage 1",
+       },
+  ]
+,
 
 
+ 
+}
+ 
 
 
 const items = [
@@ -76,7 +104,7 @@ const items = [
     key: 3,
   },
 ];
-export default function RepairCaseDetails({args,id}) {
+export default function NewBuildCaseDetails({args,id}) {
   // const { id } = useParams();
   const [data, setData] = useState([]);
   const [arr, setArr] = useState([]);
@@ -85,76 +113,7 @@ export default function RepairCaseDetails({args,id}) {
   const [animating, setAnimating] = useState(false);
   const [StageDetails, setStageDetails] = useState(false);
   const [StagePhase, setStagePhase] = useState(false);
-  const [Status, setStatus] = useState("Not Started");
   const [StagePhaseColor, setPhaseColor] = useState("");
-  const [ProgressStages,setProgressStages] = useState(
-
-    {
-      Repair:[
-        {
-          Status:"Inprogress",
-          Title:"Site Visit",
-          Phase:"Stage 1",
-         },
-      ]
-    ,
-    
-    PartsToBeReplaced:[
-    {
-      Status:"Inprogress",
-      Title:"Site Demo",
-      Phase:"Stage 1",
-     },
-    ]
-    ,
-    
-      SomeoneToInspect:[
-        {
-          Status:"Inprogress",
-          Title:"Site Visit",
-          Phase:"Stage 1",
-         },
-         
-      ],
-    
-     
-    }
-  )
-
-  
-   
-
-  useEffect(()=>
-  {
-      setProgressStages({
-        ...ProgressStages,
-     
-        Repair:[{
-        Status:Status,
-        Title:"Site Visit",
-        Phase:"Stage 1",
-       },
-     ],
-     PartsToBeReplaced:[
-      {
-        Status:Status,
-        Title:"Site Demo",
-        Phase:"Stage 1",
-       },
-      ]
-      ,
-      
-        SomeoneToInspect:[
-          {
-            Status:Status,
-            Title:"Site Visit",
-            Phase:"Stage 1",
-           },
-           
-        ],
-   
-      })
-  })
   
   const navigate = useNavigate();
   const next = () => {
@@ -467,14 +426,14 @@ export default function RepairCaseDetails({args,id}) {
                       <HiOutlineChartBar size={23} />
                       &nbsp;&nbsp;&nbsp;
                       <h4>
-                        Case Progress <b className="text-primary">{Status!="Completed"?Status!="Inprogress"?"0%":"60%":"100%"}  </b>
+                        Case Progress <b className="text-primary">25%</b>
                       </h4>{" "}
                     </CardTitle>
 
                     <div>
                       
-                      <div className="d-flex flex-row   gap-lg-3  gap-md-2 gap-1    justify-content-center">
-                         { (ProgressStages[arr[0].SubServiceType+""].map(e=>
+                      <div className="d-flex flex-row   gap-lg-5  gap-md-3 gap-1    justify-content-center">
+                         { (ProgressStages["NewBuild"].map(e=>
                           {
                             return(
                               <div className="col-2">
@@ -526,7 +485,7 @@ export default function RepairCaseDetails({args,id}) {
                         style={{
                           height: "4px",
                         }}
-                        value={Status!="Completed"?Status!="Inprogress"?1:67:100}
+                        value={25}
                       />
                     </div>
                   </CardBody>
@@ -695,7 +654,7 @@ export default function RepairCaseDetails({args,id}) {
       })}</div> 
       :
       
-      <RepairProgressDetails
+      <ProgressDetails
       
       id={id} StagePhaseColor={StagePhaseColor} 
       setStagePhase={setStagePhase} 
@@ -703,7 +662,6 @@ export default function RepairCaseDetails({args,id}) {
       setStageDetails={setStageDetails}
       setPhaseColor={setPhaseColor}
       SubServiceType=  {arr[0].SubServiceType}
-      setStatus={setStatus}
       /> 
       
       

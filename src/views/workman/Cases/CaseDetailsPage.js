@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import InsallationCaseDetails from './CaseCaregory/InstallationCaseDetails';
 import RepairCaseDetails from './CaseCaregory/RepairCaseDetails';
+import NewBuildCaseDetails from './CaseCaregory/NewBuildCaseDetails';
 
 export default function CaseDetailsPage() {
     const { id } = useParams();
@@ -23,6 +24,11 @@ export default function CaseDetailsPage() {
     {
     arr[0].ServiceType==="Repair"&&
     <div><RepairCaseDetails id ={id}/></div>
+   } 
+
+{
+    arr[0].ServiceType==="NewBuild"&&
+    <div><NewBuildCaseDetails id ={id}/></div>
    } 
 
     </>

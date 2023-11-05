@@ -267,12 +267,11 @@ const items = [
 
 
 export default function ProgressDetails(props) {
-  const [nav1, setNav1] = useState();
-  const [nav2, setNav2] = useState();
-  const [ActiveSlides, setActiveSlides] = useState();
+
+
   const [SiteReady, setSiteReady] = useState(false);
   const [Reschedule, setReschedule] = useState(true);
-  const [OTPEnable, setOTPEnable] = useState(false);
+  
   const { className } = props;
   const [DrawColor, setDrawColor] = useState("#42f59e");
   const [modal, setModal] = useState(false);

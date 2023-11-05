@@ -287,10 +287,11 @@ export default function RepairProgressDetails(props) {
     {
         Repair:[
             {
-              Status:"Inprogress",
+              Status:"Not Started",
               Title:"Site Visit",
               Phase:"Stage 1",
              },
+             
           ]
         ,
         
@@ -314,6 +315,7 @@ export default function RepairProgressDetails(props) {
     }
   )
 
+  
 
   const closeBtn = (
     <button className="close" onClick={toggle} type="button">
@@ -364,11 +366,70 @@ export default function RepairProgressDetails(props) {
     toggle2();
     setClosureBox(true);
     setPaymentEnable(true);
+
+    setProgressStages({
+      ...ProgressStages,
+   
+      Repair:[{
+      Status:"Inprogress",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },],
+      
+     PartsToBeReplaced:[
+      {
+        Status:"Inprogress",
+        Title:"Site Demo",
+        Phase:"Stage 1",
+       },
+      ]
+      ,
+      
+        SomeoneToInspect:[
+          {
+            Status:"Inprogress",
+            Title:"Site Visit",
+            Phase:"Stage 1",
+           },
+           
+        ],
+    })
+    props.setStatus("Inprogress")
+
   };
   const OTPCloseSuccessfull = () => {
     toast.success("OTP Verified successfully");
     toggle2();
     setFeedback(true);
+    setProgressStages({
+      ...ProgressStages,
+   
+      Repair:[{
+      Status:"Completed",
+      Title:"Site Visit",
+      Phase:"Stage 1",
+     },],
+
+      
+     PartsToBeReplaced:[
+      {
+        Status:"Completed",
+        Title:"Site Demo",
+        Phase:"Stage 1",
+       },
+      ]
+      ,
+      
+        SomeoneToInspect:[
+          {
+            Status:"Completed",
+            Title:"Site Visit",
+            Phase:"Stage 1",
+           },
+           
+        ],
+    })
+    props.setStatus("Completed")
   };
 
 
@@ -563,7 +624,7 @@ export default function RepairProgressDetails(props) {
                     <div className="row">
                       <div className="col-6">
                         <div className="mb-1 ">
-                          <h6>Is the site Ready ?</h6>
+                          <h6>Is the site repairable ?</h6>
                           <Input
                             type="radio"
                             checked={SiteReady}
@@ -579,7 +640,7 @@ export default function RepairProgressDetails(props) {
                         </div>
                         <div className="mb-1 ">
                           <h6>
-                            Do you want to opt for Product Demo ? (optional)
+                            Do you want to opt for Part Replacement ? (optional)
                           </h6>
                           <Input
                             type="radio"
