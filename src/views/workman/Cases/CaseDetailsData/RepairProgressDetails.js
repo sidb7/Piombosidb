@@ -288,7 +288,7 @@ export default function RepairProgressDetails(props) {
         Repair:[
             {
               Status:"Not Started",
-              Title:"Site Visit",
+              Title:"Site Inspection",
               Phase:"Stage 1",
              },
              
@@ -298,7 +298,7 @@ export default function RepairProgressDetails(props) {
         PartsToBeReplaced:[
         {
           Status:"Inprogress",
-          Title:"Site Demo",
+          Title:"Part Replacement",
           Phase:"Stage 1",
          },
         ]
@@ -307,7 +307,7 @@ export default function RepairProgressDetails(props) {
           SomeoneToInspect:[
             {
               Status:"Inprogress",
-              Title:"Site Visit",
+              Title:"Site Inspection",
               Phase:"Stage 1",
              },
              
@@ -372,14 +372,14 @@ export default function RepairProgressDetails(props) {
    
       Repair:[{
       Status:"Inprogress",
-      Title:"Site Visit",
+      Title:"Site Inspection",
       Phase:"Stage 1",
      },],
       
      PartsToBeReplaced:[
       {
         Status:"Inprogress",
-        Title:"Site Demo",
+        Title:"Part Replacement",
         Phase:"Stage 1",
        },
       ]
@@ -388,7 +388,7 @@ export default function RepairProgressDetails(props) {
         SomeoneToInspect:[
           {
             Status:"Inprogress",
-            Title:"Site Visit",
+            Title:"Site Inspection",
             Phase:"Stage 1",
            },
            
@@ -406,7 +406,7 @@ export default function RepairProgressDetails(props) {
    
       Repair:[{
       Status:"Completed",
-      Title:"Site Visit",
+      Title:"Site Inspection",
       Phase:"Stage 1",
      },],
 
@@ -414,7 +414,7 @@ export default function RepairProgressDetails(props) {
      PartsToBeReplaced:[
       {
         Status:"Completed",
-        Title:"Site Demo",
+        Title:"Part Replacement",
         Phase:"Stage 1",
        },
       ]
@@ -423,7 +423,7 @@ export default function RepairProgressDetails(props) {
         SomeoneToInspect:[
           {
             Status:"Completed",
-            Title:"Site Visit",
+            Title:"Site Inspection",
             Phase:"Stage 1",
            },
            

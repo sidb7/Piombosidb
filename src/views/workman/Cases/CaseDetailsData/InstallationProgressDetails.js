@@ -660,11 +660,11 @@ export default function ProgressDetails(props) {
                 </Card>
               </div>
 
-              <div className="col-lg-6">
-                <Card>
+              <div  className="col-lg-6">
+                <Card >
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
                     Stage Termination{" "}
-                    <Button className="position-absolute end-0">
+                    <Button disabled={!ClosureBox} className="position-absolute end-0">
                       Add Images +
                     </Button>{" "}
                   </h4>

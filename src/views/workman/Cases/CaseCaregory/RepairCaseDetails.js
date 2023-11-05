@@ -93,7 +93,7 @@ export default function RepairCaseDetails({args,id}) {
       Repair:[
         {
           Status:"Inprogress",
-          Title:"Site Visit",
+          Title:"Site Inspection",
           Phase:"Stage 1",
          },
       ]
@@ -102,7 +102,7 @@ export default function RepairCaseDetails({args,id}) {
     PartsToBeReplaced:[
     {
       Status:"Inprogress",
-      Title:"Site Demo",
+      Title:"Part Replacement",
       Phase:"Stage 1",
      },
     ]
@@ -111,7 +111,7 @@ export default function RepairCaseDetails({args,id}) {
       SomeoneToInspect:[
         {
           Status:"Inprogress",
-          Title:"Site Visit",
+          Title:"Site Inspection",
           Phase:"Stage 1",
          },
          
@@ -131,14 +131,14 @@ export default function RepairCaseDetails({args,id}) {
      
         Repair:[{
         Status:Status,
-        Title:"Site Visit",
+        Title:"Site Inspection",
         Phase:"Stage 1",
        },
      ],
      PartsToBeReplaced:[
       {
         Status:Status,
-        Title:"Site Demo",
+        Title:"Part Replacement",
         Phase:"Stage 1",
        },
       ]
@@ -147,7 +147,7 @@ export default function RepairCaseDetails({args,id}) {
         SomeoneToInspect:[
           {
             Status:Status,
-            Title:"Site Visit",
+            Title:"Site Inspection",
             Phase:"Stage 1",
            },
            
