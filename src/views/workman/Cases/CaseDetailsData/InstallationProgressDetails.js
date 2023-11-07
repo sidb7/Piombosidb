@@ -620,12 +620,6 @@ const pushhh=(e)=>
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
                     Stage Start Pictures{" "}
                    <div  className="position-absolute end-0 "> 
-                   <Button className="p-0 m-0">
-                    <label 
-                   style={{width:"2.6rem",height:"2.2rem",cursor:"pointer"}} 
-                   className="text-center d-flex align-items-center justify-content-center text-light" 
-                   for="Start-ImageSelect" ><Plus/></label></Button>
-                 
                   <Input  id="Start-ImageSelect" type="file" onChange={e=>pushhh(URL.createObjectURL(e.target.files[0]))}/>
                    {" "}
               
@@ -634,6 +628,7 @@ const pushhh=(e)=>
                   </h4>
                   <CardBody className="mt-1 pt-0">
                     <div className="row ">
+                     
                       {Array.isArray(items["Start"]) &&
                         items["Start"].map((e) => {
                           return (
@@ -654,12 +649,24 @@ const pushhh=(e)=>
                                       setModal(!modal), setImage(e.src);
                                     }}
                                   />
-                              <Button  color="" style={{border:"1px solid gray"}} className="p-0 m-0 bg-light position-absolute top-0 end-0" onClick={()=>HandleRemoveStartImage(e.src)}><X size={18}/></Button>
+                             
+                             
+                       <Button   color="" style={{border:"1px solid gray"}} className="p-0 m-0 bg-light position-absolute top-0 end-0" onClick={()=>HandleRemoveStartImage(e.src)}><X size={18}/></Button>
                                 </div>
                               )}
+                              
                             </>
                           );
                         })}
+
+                        {items["Start"].length!=4&& <div 
+                         className=" col-lg-3 col-6 d-flex justify-content-center align-items-center " 
+                         >
+                          <div id="NewImageUpload" style={{width:"100%" ,height:"13.5rem"}} ><label 
+                   style={{width:"100%",height:"100%",cursor:"pointer"}} 
+                   className="text-center d-flex align-items-center justify-content-center text-light" 
+                   for="Start-ImageSelect" ><Plus color="gray" size={45}/></label>
+                         </div></div>}
                     </div>
                   </CardBody>
                 </Card>
