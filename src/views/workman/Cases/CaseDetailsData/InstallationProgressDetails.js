@@ -216,35 +216,7 @@ export default function ProgressDetails(props) {
     
  
         End: [
-          {
-            src: "https://picsum.photos/id/13/800/450",
-            altText: "Slide 1",
-            caption: "Slide 1",
-            key: 1,
-            Phase: "Stage 1",
-          },
-          {
-            src: "https://picsum.photos/id/46/800/450",
-            altText: "Slide 2",
-            caption: "Slide 2",
-            key: 2,
-            Phase: "Stage 1",
-          },
-          {
-            src: "https://picsum.photos/id/68/800/450",
-            altText: "Slide 3",
-            caption: "Slide 3",
-            key: 3,
-            Phase: "Stage 1",
-          },
-          {
-            src: "https://picsum.photos/id/638/800/450",
-            altText: "Slide 3",
-            caption: "Slide 3",
-            key: 3,
-            Phase: "Stage 1",
-          },
-        ],
+        ]
       }
 
   )
@@ -296,7 +268,7 @@ export default function ProgressDetails(props) {
     }
   )
 
-const pushhh=(e)=>
+const pushhhStart=(e)=>
 {
   items["Start"].push(
     {
@@ -308,7 +280,21 @@ const pushhh=(e)=>
     
     },
   )
-  console.log(items)
+  
+}
+const pushhhEnd=(e)=>
+{
+  items["End"].push(
+    {
+      src: e+"",
+      altText: "Slide 1",
+      caption: "Slide 1",
+      key: 1,
+      Phase: "Stage 1",
+    
+    },
+  )
+  
 }
 
   const closeBtn = (
@@ -369,7 +355,11 @@ const pushhh=(e)=>
 
  const HandleRemoveStartImage=(e)=>
  {  const item = items["Start"].filter(t=>t.src!=e)
-   setItems({items,Start:item})
+   setItems({Start:item,End:items["End"]})
+ }
+ const HandleRemoveEndImage=(e)=>
+ {  const item = items["End"].filter(t=>t.src!=e)
+   setItems({Start:items["Start"],End:item})
  }
 
   return (
@@ -620,7 +610,7 @@ const pushhh=(e)=>
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
                     Stage Start Pictures{" "}
                    <div  className="position-absolute end-0 "> 
-                  <Input  id="Start-ImageSelect" type="file" onChange={e=>pushhh(URL.createObjectURL(e.target.files[0]))}/>
+                  <Input  id="Start-ImageSelect" type="file" onChange={e=>pushhhStart(URL.createObjectURL(e.target.files[0]))}/>
                    {" "}
               
                    {/* <Button  className="p-0 m-0" color="" onClick={()=>items["Start"].pop()}  ><Trash2  style={{width:"2.6rem",height:"2.2rem",cursor:"pointer"}} /></Button> */}
@@ -659,7 +649,7 @@ const pushhh=(e)=>
                           );
                         })}
 
-                        {items["Start"].length!=4&& <div 
+                        {(Array.isArray(items["Start"])&&items["Start"].length<4)&& <div 
                          className=" col-lg-3 col-6 d-flex justify-content-center align-items-center " 
                          >
                           <div id="NewImageUpload" style={{width:"100%" ,height:"13.5rem"}} ><label 
@@ -672,46 +662,62 @@ const pushhh=(e)=>
                 </Card>
               </div>
 
-             {ClosureBox&&  <div  className="col-lg-12 col-12">
-                <Card >
+             {ClosureBox&&  <div className="col-lg-12 col-12">
+                <Card>
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
-                    Stage Termination{" "}
-                    <Button  className="position-absolute end-0">
-                      Add Images +
-                    </Button>{" "}
+                    Stage End Pictures{" "}
+                   <div  className="position-absolute end-0 "> 
+                  <Input  id="Start-ImageSelect1" type="file" onChange={e=>pushhhEnd(URL.createObjectURL(e.target.files[0]))}/>
+                   {" "}
+              
+                   {/* <Button  className="p-0 m-0" color="" onClick={()=>items["Start"].pop()}  ><Trash2  style={{width:"2.6rem",height:"2.2rem",cursor:"pointer"}} /></Button> */}
+                   </div>
                   </h4>
-
                   <CardBody className="mt-1 pt-0">
-                    <div className="row  ">
-                      {items[1].End.map((e) => {
-                        return (
-                          <>
-                            {" "}
-                            {e.Phase === props.StagePhase && (
-                              <div
-                                className="col-lg-3 col-6"
-                                style={{ height: "200px", padding: "7px" }}
-                              >
-                                <img
-                                  className="m-0 p-0"
-                                  src={e.src}
-                                  height={"100%"}
-                                  width={"100%"}
-                                  alt=""
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    setModal(!modal), setImage(e.src);
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </>
-                        );
-                      })}
+                    <div className="row ">
+                     
+                      {Array.isArray(items["End"]) &&
+                        items["End"].map((e) => {
+                          return (
+                            <>
+                              {e.Phase === props.StagePhase && (
+                                <div
+                                  className="col-lg-3 col-6 position-relative "
+                                  style={{ height: "200px", padding: "7px" }}
+                                >
+                                  <img
+                                    className="m-0 p-0"
+                                    src={e.src}
+                                    height={"100%"}
+                                    width={"100%"}
+                                    alt=""
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      setModal(!modal), setImage(e.src);
+                                    }}
+                                  />
+                             
+                             
+                       <Button   color="" style={{border:"1px solid gray"}} className="p-0 m-0 bg-light position-absolute top-0 end-0" onClick={()=>HandleRemoveEndImage(e.src)}><X size={18}/></Button>
+                                </div>
+                              )}
+                              
+                            </>
+                          );
+                        })}
+
+                        {(Array.isArray(items["End"])&&items["End"].length<4) && <div 
+                         className=" col-lg-3 col-6 d-flex justify-content-center align-items-center " 
+                         >
+                          <div id="NewImageUpload1" style={{width:"100%" ,height:"13.5rem"}} ><label 
+                   style={{width:"100%",height:"100%",cursor:"pointer"}} 
+                   className="text-center d-flex align-items-center justify-content-center text-light" 
+                   for="Start-ImageSelect1" ><Plus color="gray" size={45}/></label>
+                         </div></div>}
                     </div>
                   </CardBody>
                 </Card>
-              </div> }
+              </div>}
             </div>
           ) : (
             <div className="row">
