@@ -151,7 +151,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../Cases/CreateCase/steps/CSS/CaseDetails.css";
-
+import "./DotsStyle.css"
 // REACT DRAW
 
 import { ReactSketchCanvas } from "react-sketch-canvas";
@@ -163,6 +163,9 @@ import {
   ArrowRight,
   ChevronDown,
   ChevronRight,
+  Plus,
+  Trash2,
+  X,
 } from "react-feather";
 import { Link } from "react-router-dom";
 import {
@@ -196,79 +199,55 @@ import toast from "react-hot-toast";
 import "@styles/react/libs/flatpickr/flatpickr.scss";
 import Flatpickr from "react-flatpickr";
 import FeedbackForm from "./FeedbackForm";
-const items = [
-  {
-    Start: [
-      {
-        src: "https://picsum.photos/id/123/800/450",
-        altText: "Slide 1",
-        caption: "Slide 1",
-        key: 1,
-        Phase: "Stage 1",
-      },
-      {
-        src: "https://picsum.photos/id/456/800/450",
-        altText: "Slide 2",
-        caption: "Slide 2",
-        key: 2,
-        Phase: "Stage 1",
-      },
-      {
-        src: "https://picsum.photos/id/678/800/450",
-        altText: "Slide 3",
-        caption: "Slide 3",
-        key: 3,
-        Phase: "Stage 1",
-      },
-      {
-        src: "https://picsum.photos/id/648/800/450",
-        altText: "Slide 3",
-        caption: "Slide 3",
-        key: 3,
-        Phase: "Stage 1",
-      },
-    ],
-  },
 
-  {
-    End: [
-      {
-        src: "https://picsum.photos/id/13/800/450",
-        altText: "Slide 1",
-        caption: "Slide 1",
-        key: 1,
-        Phase: "Stage 1",
-      },
-      {
-        src: "https://picsum.photos/id/46/800/450",
-        altText: "Slide 2",
-        caption: "Slide 2",
-        key: 2,
-        Phase: "Stage 1",
-      },
-      {
-        src: "https://picsum.photos/id/68/800/450",
-        altText: "Slide 3",
-        caption: "Slide 3",
-        key: 3,
-        Phase: "Stage 1",
-      },
-      {
-        src: "https://picsum.photos/id/638/800/450",
-        altText: "Slide 3",
-        caption: "Slide 3",
-        key: 3,
-        Phase: "Stage 1",
-      },
-    ],
-  },
-];
 
 
 
 export default function ProgressDetails(props) {
 
+  const [items,setItems] =  useState(
+ 
+      {
+        Start: [
+         
+        
+        ],
+     
+    
+ 
+        End: [
+          {
+            src: "https://picsum.photos/id/13/800/450",
+            altText: "Slide 1",
+            caption: "Slide 1",
+            key: 1,
+            Phase: "Stage 1",
+          },
+          {
+            src: "https://picsum.photos/id/46/800/450",
+            altText: "Slide 2",
+            caption: "Slide 2",
+            key: 2,
+            Phase: "Stage 1",
+          },
+          {
+            src: "https://picsum.photos/id/68/800/450",
+            altText: "Slide 3",
+            caption: "Slide 3",
+            key: 3,
+            Phase: "Stage 1",
+          },
+          {
+            src: "https://picsum.photos/id/638/800/450",
+            altText: "Slide 3",
+            caption: "Slide 3",
+            key: 3,
+            Phase: "Stage 1",
+          },
+        ],
+      }
 
+  )
   const [SiteReady, setSiteReady] = useState(false);
   const [Reschedule, setReschedule] = useState(true);
   
@@ -317,7 +296,20 @@ export default function ProgressDetails(props) {
     }
   )
 
-
+const pushhh=(e)=>
+{
+  items["Start"].push(
+    {
+      src: e+"",
+      altText: "Slide 1",
+      caption: "Slide 1",
+      key: 1,
+      Phase: "Stage 1",
+    
+    },
+  )
+  console.log(items)
+}
 
   const closeBtn = (
     <button className="close" onClick={toggle} type="button">
@@ -375,7 +367,10 @@ export default function ProgressDetails(props) {
     setFeedback(true);
   };
 
-
+ const HandleRemoveStartImage=(e)=>
+ {  const item = items["Start"].filter(t=>t.src!=e)
+   setItems({items,Start:item})
+ }
 
   return (
     <>
@@ -620,23 +615,32 @@ export default function ProgressDetails(props) {
 
           {SiteReady ? (
             <div className="row">
-              <div className="col-lg-6">
+              <div className="col-lg-12 col-12">
                 <Card>
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
-                    Stage Start{" "}
-                    <Button className="position-absolute end-0">
-                      Add Images +
-                    </Button>{" "}
+                    Stage Start Pictures{" "}
+                   <div  className="position-absolute end-0 "> 
+                   <Button className="p-0 m-0">
+                    <label 
+                   style={{width:"2.6rem",height:"2.2rem",cursor:"pointer"}} 
+                   className="text-center d-flex align-items-center justify-content-center text-light" 
+                   for="Start-ImageSelect" ><Plus/></label></Button>
+                 
+                  <Input  id="Start-ImageSelect" type="file" onChange={e=>pushhh(URL.createObjectURL(e.target.files[0]))}/>
+                   {" "}
+              
+                   {/* <Button  className="p-0 m-0" color="" onClick={()=>items["Start"].pop()}  ><Trash2  style={{width:"2.6rem",height:"2.2rem",cursor:"pointer"}} /></Button> */}
+                   </div>
                   </h4>
                   <CardBody className="mt-1 pt-0">
                     <div className="row ">
-                      {Array.isArray(items[0].Start) &&
-                        items[0].Start.map((e) => {
+                      {Array.isArray(items["Start"]) &&
+                        items["Start"].map((e) => {
                           return (
                             <>
                               {e.Phase === props.StagePhase && (
                                 <div
-                                  className="col-6 "
+                                  className="col-lg-3 col-6 position-relative "
                                   style={{ height: "200px", padding: "7px" }}
                                 >
                                   <img
@@ -650,6 +654,7 @@ export default function ProgressDetails(props) {
                                       setModal(!modal), setImage(e.src);
                                     }}
                                   />
+                              <Button  color="" style={{border:"1px solid gray"}} className="p-0 m-0 bg-light position-absolute top-0 end-0" onClick={()=>HandleRemoveStartImage(e.src)}><X size={18}/></Button>
                                 </div>
                               )}
                             </>
@@ -660,11 +665,11 @@ export default function ProgressDetails(props) {
                 </Card>
               </div>
 
-              <div  className="col-lg-6">
+             {ClosureBox&&  <div  className="col-lg-12 col-12">
                 <Card >
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
                     Stage Termination{" "}
-                    <Button disabled={!ClosureBox} className="position-absolute end-0">
+                    <Button  className="position-absolute end-0">
                       Add Images +
                     </Button>{" "}
                   </h4>
@@ -677,7 +682,7 @@ export default function ProgressDetails(props) {
                             {" "}
                             {e.Phase === props.StagePhase && (
                               <div
-                                className="col-6 "
+                                className="col-lg-3 col-6"
                                 style={{ height: "200px", padding: "7px" }}
                               >
                                 <img
@@ -699,7 +704,7 @@ export default function ProgressDetails(props) {
                     </div>
                   </CardBody>
                 </Card>
-              </div>
+              </div> }
             </div>
           ) : (
             <div className="row">

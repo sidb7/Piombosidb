@@ -164,7 +164,7 @@ export default function InsallationCaseDetails({args,id}) {
   useEffect(() => {
     setData(JSON.parse(localStorage.getItem("CustomerClosedCase")));
     setArr(data.filter((e) => e.id === id));
-  });
+  },[data]);
 
   const [modal, setModal] = useState(false);
   const toggle1 = () => setModal(!modal);
