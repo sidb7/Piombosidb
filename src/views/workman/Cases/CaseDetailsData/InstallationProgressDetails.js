@@ -309,7 +309,8 @@ const pushhhEnd=(e)=>
     canvas.current
       .exportImage("png")
       .then((data) => {
-        console.log(data);
+        console.log(data );
+        
       })
       .catch((e) => {
         console.log(e);
@@ -934,7 +935,7 @@ const pushhhEnd=(e)=>
               >
                 <ModalBody className="m-0 p-0">
                   <div className=" w-100 row gap-0 px-1 m-1">
-                    {/* <div className='col-3'>  <Button onClick={exportImage} >Get Image</Button></div>  */}
+                  <div className='col-3'>  <Button onClick={exportImage} >Get Image</Button></div>  
                     <div className=" col-2 m-0 p-0  ">
                       <div className="row gap-1">
                         <div
@@ -1007,9 +1008,10 @@ const pushhhEnd=(e)=>
                   <div style={{ cursor: "crosshair" }}>
                     <ReactSketchCanvas
                       height="500px"
+                      width="100%"
                       exportWithBackgroundImage={true}
                       backgroundImage={Image}
-                      preserveBackgroundImageAspectRatio
+                          
                       eraserWidth={20}
                       ref={canvas}
                       strokeWidth={5}
