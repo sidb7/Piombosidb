@@ -208,31 +208,37 @@ export default function ProgressDetails(props) {
   const [items,setItems] =  useState(
  
       {
-        Start: [
-         
-        
-        ],
+        Start: [],
      
-    
- 
-        End: [
-        ]
+        End: []
       }
 
   )
+
+  const [Editeditems,setEditedItems] =  useState(
+ 
+    {
+      StartEdited: [],
+   
+      EndEdited: []
+    }
+
+)
   const [SiteReady, setSiteReady] = useState(false);
   const [Reschedule, setReschedule] = useState(true);
   
   const { className } = props;
   const [DrawColor, setDrawColor] = useState("#42f59e");
   const [modal, setModal] = useState(false);
-  const [Image, setImage] = useState("");
+  const [Image1, setImage] = useState("");
   const [StartOTP, setStartOTP] = useState("");
   const [ClosureBox, setClosureBox] = useState(false);
   const [PaymentEnable, setPaymentEnable] = useState(false);
   const toggle = () => setModal(!modal);
-
+  const [imageDimensions, setImageDimensions] = useState({height:"",width:""});
+  const [picture1,setpicture1] = useState()
   const [ProgressStages,setProgressStages] = useState(
+
 
     {
       Installation: [
@@ -268,25 +274,64 @@ export default function ProgressDetails(props) {
     }
   )
 
-const pushhhStart=(e)=>
-{
-  items["Start"].push(
-    {
-      src: e+"",
-      altText: "Slide 1",
-      caption: "Slide 1",
-      key: 1,
-      Phase: "Stage 1",
-    
-    },
-  )
+
+  // const loadImage = (setImageDimensions, imageUrl) => {
+  //   const img = new Image();
+  //   img.src = imageUrl;
+  
+  //   img.onload = () => {
+  //     setImageDimensions({
+  //       height: img.height,
+  //       width: img.width
+  //     });
+        
+     
+  //   };
+  //   img.onerror = (err) => {
+  //     console.log("img error");
+  //     console.error(err);
+  //   };
+  // };
+  const [Base64Image,setBase64Image] = useState()
+const pushhhStart= (e)=>
+{ 
+  const base64data = new FileReader()
+  base64data.addEventListener('load',()=>{
+    console.log(base64data.result)
+    setBase64Image(base64data.result)
+  })
+  base64data.readAsDataURL(e)
+
+ 
+
+  const imageUrl = URL.createObjectURL(e)+"";
+  // loadImage(setImageDimensions, imageUrl);
+
+  
   
 }
+
+useEffect(()=>
+  {
+    if(Base64Image!=null)
+    items["Start"].push(
+      {
+        src: Base64Image,
+        altText: "Slide 1",
+        caption: "Slide 1",
+        key: 1,
+        Phase: "Stage 1",
+      
+      },
+    )
+  },[Base64Image])
+
 const pushhhEnd=(e)=>
 {
   items["End"].push(
     {
       src: e+"",
+  
       altText: "Slide 1",
       caption: "Slide 1",
       key: 1,
@@ -305,12 +350,18 @@ const pushhhEnd=(e)=>
 
   const canvas = useRef(null);
 
-  const exportImage = () => {
+  const exportImage1 = () => {
     canvas.current
-      .exportImage("png")
+      .exportSvg()
       .then((data) => {
         console.log(data );
-        
+        console.log(Base64Image );
+        setpicture1(data)
+        Editeditems["StartEdited"].push(
+          {
+            src: data
+          }
+        )
       })
       .catch((e) => {
         console.log(e);
@@ -363,6 +414,7 @@ const pushhhEnd=(e)=>
    setItems({Start:items["Start"],End:item})
  }
 
+ 
   return (
     <>
       {
@@ -611,7 +663,7 @@ const pushhhEnd=(e)=>
                   <h4 className="d-flex  mx-1 mt-1 position-relative">
                     Stage Start Pictures{" "}
                    <div  className="position-absolute end-0 "> 
-                  <Input  id="Start-ImageSelect" type="file" onChange={e=>pushhhStart(URL.createObjectURL(e.target.files[0]))}/>
+                  <Input value={""}  id="Start-ImageSelect" accept="image/x-png,image/jpeg" type="file" onChange={e=>{pushhhStart(e.target.files[0])}}/>
                    {" "}
               
                    {/* <Button  className="p-0 m-0" color="" onClick={()=>items["Start"].pop()}  ><Trash2  style={{width:"2.6rem",height:"2.2rem",cursor:"pointer"}} /></Button> */}
@@ -778,6 +830,48 @@ const pushhhEnd=(e)=>
               </div>
             </div>
           )}
+          {/* EDITED Pictures section */}
+          <div className="row">
+            <div className="col-12">
+                    <Card>
+                      <CardBody>
+                      <div className="row ">
+                     
+                     {Array.isArray(Editeditems["StartEdited"]) &&
+                       Editeditems["StartEdited"].map((e) => {
+                         return (
+                           <>
+                            {
+                            // (Editeditems["StartEdited"].length<5)&&
+                               <div
+                                 className="col-lg-3 col-6 position-relative "
+                                 style={{ height: "200px", padding: "7px" }}
+                               >
+                                 <img
+                                   className="m-0 p-0"
+                                   src={`data:image/svg+xml;utf8,${encodeURIComponent(e.src)}`}
+                                   height={"100%"}
+                                   width={"100%"}
+                                   alt=""
+                                   
+                                  
+                                 />
+                            
+                            
+                      {/* <Button   color="" style={{border:"1px solid gray"}} className="p-0 m-0 bg-light position-absolute top-0 end-0" onClick={()=>HandleRemoveStartImage(e.src)}><X size={18}/></Button> */}
+                               </div>}
+                          
+                             
+                           </>
+                         );
+                       })}
+
+                   </div>
+                      </CardBody>
+                    </Card>
+
+            </div>
+          </div>
 
           <div>
             <div className="row">
@@ -841,6 +935,15 @@ const pushhhEnd=(e)=>
                     {" "}
                     {ClosureBox ? "Close Case" : SiteReady?  "Save" :"Rechedule"}
                   </Button></div>
+                 
+                 
+                  {/* <div  style={{border:"2px solid red"}}>
+                    
+                    <img height="100%" width="100%" src={`data:image/svg+xml;utf8,${encodeURIComponent(picture1)}`}/>
+                    
+                  </div>   */}
+                 
+
                 {ClosureBox &&      
                   <div className="col-2">
                             <Button  className="w-100" color="warning">Reschedule Case</Button>
@@ -848,6 +951,7 @@ const pushhhEnd=(e)=>
                 </div>
 
  </div>}
+ 
 
 {(props.SubServiceType==="ProductToDemo"||props.SubServiceType==="SomeoneToVisit") &&
 <div><div className="row">
@@ -935,7 +1039,7 @@ const pushhhEnd=(e)=>
               >
                 <ModalBody className="m-0 p-0">
                   <div className=" w-100 row gap-0 px-1 m-1">
-                  <div className='col-3'>  <Button onClick={exportImage} >Get Image</Button></div>  
+                
                     <div className=" col-2 m-0 p-0  ">
                       <div className="row gap-1">
                         <div
@@ -988,9 +1092,9 @@ const pushhhEnd=(e)=>
                             style={{ cursor: "pointer" }}
                             className="m-0 p-0 border-0"
                             color=""
-                            onClick={EraseMode}
+                            onClick={()=>{EraseMode(),setDrawColor("eraser")}}
                           >
-                            <LuEraser size={20} />
+                            <LuEraser size= {20} style={{scale: DrawColor != "eraser" ? "0.9" : "1.2",}}  />
                           </div>
                         </div>
                         <div
@@ -1007,11 +1111,11 @@ const pushhhEnd=(e)=>
 
                   <div style={{ cursor: "crosshair" }}>
                     <ReactSketchCanvas
-                      height="500px"
-                      width="100%"
+                        height="500px"
+                        width="100%"
                       exportWithBackgroundImage={true}
-                      backgroundImage={Image}
-                          
+                      backgroundImage={Image1}
+                       preserveBackgroundImageAspectRatio=""
                       eraserWidth={20}
                       ref={canvas}
                       strokeWidth={5}
@@ -1021,7 +1125,7 @@ const pushhhEnd=(e)=>
                   {/* <img style={{cursor:"crosshair"}} width={"100%"} height={"100%"}  src={Image} alt="" /> */}
                   <ModalFooter>
                     <Input type="textarea" placeholder="Remarks"></Input>
-                    <Button>Save</Button>
+                    <Button onClick={exportImage1}>Save</Button>
                   </ModalFooter>
                 </ModalBody>
               </Modal>
@@ -1115,7 +1219,7 @@ const pushhhEnd=(e)=>
                         >
                           Cancel
                         </Button>
-                        <Button color="primary">Submit</Button>
+                        <Button color="primary" onClick={() => setFeedback(false)}>Submit</Button>
                       </ModalFooter>
                     </>
                   }

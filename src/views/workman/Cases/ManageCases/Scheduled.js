@@ -33,10 +33,12 @@ const Scheduled = () => {
  
   useEffect(()=>
   {
-    setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+    
+    setInterval(() => {
+      setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
     setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-  
-   window.scrollBy(0,-1000)
+    },200);
+   
   },[])
 
  

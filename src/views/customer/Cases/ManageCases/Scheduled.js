@@ -1,18 +1,18 @@
 
 import React, { useEffect, useState } from "react";
-import { FaUserXmark } from "react-icons/fa6";
+
 import { Link } from "react-router-dom";
 import {  Card, CardBody, CardTitle, CardSubtitle, CardText, CardLink, Progress, Badge} from "reactstrap";
+import { FaUserCheck } from "react-icons/fa6";
 
-
-const OpenCases = (args) => {
+const Scheduled = (args) => {
 
   const [modal, setModal] = useState(false);
 
   const toggle1 = () => setModal(!modal);
 
 
-  const [data1,setData1] =useState(JSON.parse(localStorage.getItem("CustomerCaseSet"))) 
+  const [data1,setData1] =useState(JSON.parse(localStorage.getItem("CustomerClosedCase"))) 
   const [open, setOpen] = useState('');
   const [closedCaseData,setClosedCaseData] = useState(JSON.parse(localStorage.getItem("CustomerClosedCase")))
 
@@ -26,15 +26,13 @@ const OpenCases = (args) => {
  
   useEffect(()=>
   {
- 
-    setInterval(() => {
-      setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
-      setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-    }, 1000);
     
-  },[
-100
-  ])
+    setInterval(() => {
+      setData1(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+    setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
+    }, 1000);
+   
+  },[])
 
  
   const handleRemove= (e)=>
@@ -106,17 +104,21 @@ const OpenCases = (args) => {
         { 
           return (
             <>
-            <div className="col-lg-3 col-md-4 col-12 " key={e.id}>
+            
+            <div className="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 " key={e.id}>
+              
             <Card  className="w-100"
+            
   style={{
     width: '20rem'
   }}
 >
-  <CardBody>
-    <CardTitle tag="h2">
-    <div className="position-relative d-flex"> <b> {(e.Title+"").charAt(0).toUpperCase()+(e.Title+"").substring(1)}</b>
-    <div className="position-absolute end-0 d-flex align-items-center"><FaUserXmark size={18} color="#DE4459" /></div>
 
+  <CardBody >
+    <CardTitle tag="h2">
+    <div className="position-relative d-flex"> 
+    <b> {(e.Title+"").charAt(0).toUpperCase()+(e.Title+"").substring(1)}</b>
+    <div className="position-absolute end-0 d-flex align-items-end"><span  style={{fontSize:"11px",color:"#1abd46"}}>Worker assigned&nbsp;&nbsp;</span><FaUserCheck size={16} color="#1abd46" /></div>
       </div>
     </CardTitle>
     <CardSubtitle
@@ -125,7 +127,7 @@ const OpenCases = (args) => {
     >
      Id- {(e.id+"").substring(0,13)}
     </CardSubtitle>
-<hr />
+   <hr />
 
 <div className="row mb-1">
 <div className="col-6"> <b>Service :</b> sample </div>
@@ -135,10 +137,19 @@ const OpenCases = (args) => {
     <h6>Case Description :</h6>
       Some quick example text to build on the card titleard‘s content.
     </CardText>
+
+    <div >
+    <div  style={{lineHeight:"2rem"}} >
+   <b > Progress - 5% </b> </div>
+
+   <div > <Progress
+    className="mb-1"
+    style={{
+      height: '5px'
+    }}
+    value={5}
     
-    <hr className="mb-0" />
-<div className="text-center text-danger fs-5 fw-bolder p-0 m-0">Worker unassigned</div>
-<hr className="mt-0"/>
+  > </Progress> </div> </div>
     <CardText
       className="text-muted"
       tag="h6"
@@ -165,4 +176,4 @@ const OpenCases = (args) => {
   );
 };
 
-export default OpenCases;
+export default Scheduled;

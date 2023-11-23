@@ -232,16 +232,7 @@ export default function NewBuildCaseDetails({args,id}) {
                 {(e.Title + "").charAt(0).toUpperCase() +
                   (e.Title + "").substring(1)}{" "}
               </h2>
-              <div className=" position-absolute start-0  d-flex ps-1 ">
-                {" "}
-                <Button
-                  color=""
-                  className="text-success border-0"
-                  style={{ cursor: "default" }}
-                >
-                OTP - 1432
-                </Button>{" "}
-              </div>
+            
               <div className=" position-absolute end-0  d-flex ps-1 ">
                 {" "}
                 <Button color="primary" className=" border-0">

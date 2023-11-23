@@ -19,9 +19,9 @@ const OpenCases = () => {
   const toggle1 = () => setModal(!modal);
 
 
-  let [data1,setData1] =useState([]) 
+  const [data1,setData1] =useState(JSON.parse(localStorage.getItem("CustomerCaseSet"))) 
   const [open, setOpen] = useState('');
-  const [closedCaseData,setClosedCaseData] = useState([])
+  const [closedCaseData,setClosedCaseData] = useState(JSON.parse(localStorage.getItem("CustomerClosedCase")))
   const [Expand, setExpand] = useState(false);
   const toggle = (id) => {
     if (open === id) {
@@ -33,10 +33,11 @@ const OpenCases = () => {
  
   useEffect(()=>
   {
-    setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
+    
+    setInterval(() => {
+      setData1(JSON.parse(localStorage.getItem("CustomerCaseSet")))
     setClosedCaseData(JSON.parse(localStorage.getItem("CustomerClosedCase")))
-  
-   window.scrollBy(0,-1000)
+    }, 1000);
   },[])
 
  
@@ -74,7 +75,8 @@ const OpenCases = () => {
           SubServiceType:e.SubServiceType,
           Desc:e.Desc,
           Summary:e.Summary,
-          date:e.date
+          date:e.date,
+          Assigned:e.Assigned
         }]
         localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
         return list
@@ -88,7 +90,8 @@ const OpenCases = () => {
           SubServiceType:e.SubServiceType,
           Desc:e.Desc,
           Summary:e.Summary,
-          date:e.date
+          date:e.date,
+          Assigned:e.Assigned
         },]
         localStorage.setItem("CustomerClosedCase",JSON.stringify(list));
         return list

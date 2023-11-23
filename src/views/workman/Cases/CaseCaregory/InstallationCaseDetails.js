@@ -108,8 +108,8 @@ const items = [
 ];
 export default function InsallationCaseDetails({args,id}) {
   // const { id } = useParams();
-  const [data, setData] = useState([]);
-  const [arr, setArr] = useState([]);
+  const [data, setData] = useState(JSON.parse(localStorage.getItem("CustomerClosedCase")));
+  const [arr, setArr] = useState(data.filter((e) => e.id === id));
   const { colors } = useContext(ThemeColors);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
@@ -161,10 +161,7 @@ export default function InsallationCaseDetails({args,id}) {
     );
   });
 
-  useEffect(() => {
-    setData(JSON.parse(localStorage.getItem("CustomerClosedCase")));
-    setArr(data.filter((e) => e.id === id));
-  },[data]);
+  
 
   const [modal, setModal] = useState(false);
   const toggle1 = () => setModal(!modal);
@@ -234,16 +231,7 @@ export default function InsallationCaseDetails({args,id}) {
                 {(e.Title + "").charAt(0).toUpperCase() +
                   (e.Title + "").substring(1)}{" "}
               </h2>
-              <div className=" position-absolute start-0  d-flex ps-1 ">
-                {" "}
-                <Button
-                  color=""
-                  className="text-success border-0"
-                  style={{ cursor: "default" }}
-                >
-                OTP - 1432
-                </Button>{" "}
-              </div>
+             
               <div className=" position-absolute end-0  d-flex ps-1 ">
                 {" "}
                 <Button color="primary" className=" border-0">

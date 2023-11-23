@@ -6,13 +6,15 @@ import NewBuildCaseDetails from './CaseCaregory/NewBuildCaseDetails';
 
 export default function CaseDetailsPage() {
     const { id } = useParams();
-    const [data, setData] = useState([]);
-    const [arr, setArr] = useState([]);
+    const [data, setData] = useState(JSON.parse(localStorage.getItem("CustomerClosedCase")));
+    const [arr, setArr] = useState(data.filter((e) => e.id === id));
     useEffect(() => {
-        setData(JSON.parse(localStorage.getItem("CustomerClosedCase")));
-        setArr(data.filter((e) => e.id === id));
-     
-      },[arr]);
+       
+        setInterval(() => {
+          setData(JSON.parse(localStorage.getItem("CustomerClosedCase")));
+          setArr(data.filter((e) => e.id === id));
+        }, 1000);
+      },[]);
   return (
     arr.length!=0&&
     <>

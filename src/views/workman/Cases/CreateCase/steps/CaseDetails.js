@@ -117,7 +117,8 @@ const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
    SubServiceType:"",
    ServiceApp:"",
    ServiceSub:"",
-   CaseDescription:""
+   CaseDescription:"",
+   Assigned:""
     }
   );
 
@@ -162,7 +163,8 @@ const CaseDetails = ({ stepper, type,setServiceTypeProduct }) => {
    SubServiceType:"",
    ServiceApp:"",
    ServiceSub:"",
-   CaseDescription:""
+   CaseDescription:"",
+   Assigned:"false"
     }
   );
 
@@ -184,8 +186,8 @@ useEffect(()=>
    ServiceSub:ServiceSub,
    CaseDescription:CaseDesc,
    id: uuidv4(),
-   date: moment(new Date()).format('DD MMMM YYYY | HH:mm ')
-  
+   date: moment(new Date()).format('DD MMMM YYYY | HH:mm '),
+   Assigned:"false"
   })
 },[Title,city,AddLandmark,
   Address,Area,AddCity,AddState,PinCode,
